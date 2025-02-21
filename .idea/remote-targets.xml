@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="test" type="ssh/sftp" uuid="93ea6dfe-12e6-494f-9825-41b4876a2295">
+        <config>
+          <option name="projectRootOnTarget" value="/home/dsad/demo" />
+          <option name="serverName" value="test" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config />
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

