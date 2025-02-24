@@ -74,20 +74,20 @@ func (s *Container) Stop() error {
 func (s *Container) Close() error {
 	err := s.Stop()
 	if err == nil {
-		err = cli.ContainerRemove(context.Background(), s.Id, container.RemoveOptions{})
+		err = cli.ContainerRemove(context.Background(), s.Id, types.ContainerRemoveOptions{})
 	}
 	return err
 }
 
 // Run 启动容器，并附加标准输出流
 func (s *Container) Run() error {
-	err := cli.ContainerStart(context.Background(), s.Id, container.StartOptions{})
+	err := cli.ContainerStart(context.Background(), s.Id, types.ContainerStartOptions{})
 	if err != nil {
 		return err
 	}
 
 	// 获取容器的标准输出流，并在主机上显示
-	hresp, err := cli.ContainerAttach(context.Background(), s.Id, container.AttachOptions{Stream: true, Stdout: true, Stderr: true})
+	hresp, err := cli.ContainerAttach(context.Background(), s.Id, types.ContainerAttachOptions{Stream: true, Stdout: true, Stderr: true})
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ func ListRunningContainers() ([]types.Container, error) {
 	}
 
 	// 获取所有运行中的容器
-	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: false})
+	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
 	if err != nil {
 		return nil, fmt.Errorf("获取容器列表失败: %v", err)
 	}

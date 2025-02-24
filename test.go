@@ -1,7 +1,7 @@
 package main
 
 import (
-	"demo/utils"
+	"Container_runtime_scanner/utils"
 	"fmt"
 	"log"
 	"regexp"
