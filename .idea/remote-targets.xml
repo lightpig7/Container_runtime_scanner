@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="dsad@192.168.52.138:22" type="ssh/sftp" uuid="1666b1cc-45fb-4c08-99af-265da3bd5e98">
+        <config>
+          <option name="projectRootOnTarget" value="/home/dsad/Container_runtime_scanner" />
+          <option name="serverName" value="dsad@192.168.52.138:22 password" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config />
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

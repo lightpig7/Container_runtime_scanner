@@ -1,14 +1,15 @@
 package main
 
 import (
-	"Container_runtime_scanner/utils"
+	"Container_runtime_scanner/DataController"
+	"Container_runtime_scanner/DockerController"
 	"fmt"
 	"log"
 	"regexp"
 )
 
-func VerifyVul(cont *utils.Container) {
-	pocs, err := utils.ReadFile("./database.json")
+func VerifyVul(cont *DockerController.Container) {
+	pocs, err := DataController.ReadFile("./database.json")
 	if err != nil {
 		log.Fatalf("读取失败：%v", err)
 	}
@@ -21,7 +22,6 @@ func VerifyVul(cont *utils.Container) {
 		re, err := regexp.Compile(poc.ExpectedResult)
 		if err != nil {
 			log.Fatal(err)
-
 		}
 		fmt.Println("output:\n", output)
 
@@ -30,12 +30,13 @@ func VerifyVul(cont *utils.Container) {
 		if found {
 			fmt.Println("该漏洞可能存在")
 			for _, step := range poc.ExploitationSteps {
-				fmt.Println("执行命令： ", step)
+				fmt.Println("执行命令: ", step)
 				respone = cont.Exec("sh", "-c", step)
 				fmt.Println(respone)
 			}
 			if respone != cont.Exec("sh", "-c", "cat /etc/passwd") {
-				fmt.Println("成功发现漏洞，成功逃逸")
+				fmt.Println(cont.Exec("sh", "-c", "cat /etc/passwd"))
+				fmt.Println("成功发现漏洞，并且逃逸成功")
 			} else {
 				fmt.Println("未发现该漏洞")
 			}
@@ -45,7 +46,7 @@ func VerifyVul(cont *utils.Container) {
 
 }
 func main() {
-	cont, err := utils.NewContainerWithLink("my_container", "/docker/path", "/host/path")
+	cont, err := DockerController.NewContainerWithLink("my_container", "/docker/path", "/host/path")
 	if err != nil {
 		log.Fatalf("创建容器失败: %v", err)
 	}
