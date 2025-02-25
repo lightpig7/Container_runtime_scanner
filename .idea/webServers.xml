@@ -2,10 +2,10 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="c1747962-0b3b-4d11-b099-f2e3a17b21fb" name="containner_test">
-        <fileTransfer accessType="SFTP" host="192.168.52.138" port="22" sshConfigId="5695301e-3268-4b7c-80ff-32831cdb4e6a" sshConfig="dsad@192.168.52.138:22 password">
+      <webServer id="f4697d7c-1d47-47a3-a4ec-4915709d06cd" name="Containner_test">
+        <fileTransfer accessType="SFTP" host="192.168.52.140" port="22" sshConfigId="ad1f246f-50fc-4516-932f-dd0a2070d4ac" sshConfig="Containner_test">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

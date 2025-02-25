@@ -5,48 +5,41 @@ import (
 	"Container_runtime_scanner/DockerController"
 	"fmt"
 	"log"
-	"regexp"
 )
 
 func VerifyVul(cont *DockerController.Container) {
-	pocs, err := DataController.ReadFile("./database.json")
-	if err != nil {
-		log.Fatalf("读取失败：%v", err)
+	if !cont.IsDocker() {
+		log.Fatalf("该系统不是容器")
 	}
+	pocs := DataController.ReadFile("./DataController/database.json")
 	for _, poc := range pocs {
-
 		fmt.Println("----------------------")
 		fmt.Printf("POC: %s\nCVE ID: %s\n描述: %s\n", poc.PocName, poc.CveID, poc.Description)
 		output := cont.Exec("sh", "-c", poc.TestCmd)
 		fmt.Println("\npoc.TestCmd:\n", poc.TestCmd)
-		re, err := regexp.Compile(poc.ExpectedResult)
-		if err != nil {
-			log.Fatal(err)
-		}
 		fmt.Println("output:\n", output)
 
-		found := re.MatchString(output)
-		var respone string
-		if found {
+		if DataController.RegexGetBool(poc.ExpectedOutput, output) {
 			fmt.Println("该漏洞可能存在")
-			for _, step := range poc.ExploitationSteps {
-				fmt.Println("执行命令: ", step)
-				respone = cont.Exec("sh", "-c", step)
-				fmt.Println(respone)
-			}
-			if respone != cont.Exec("sh", "-c", "cat /etc/passwd") {
-				fmt.Println(cont.Exec("sh", "-c", "cat /etc/passwd"))
-				fmt.Println("成功发现漏洞，并且逃逸成功")
+			cont.ExecStep(poc.ExploitationSteps)
+			verify_respone := cont.ExecStep(poc.VerifySteps)
+			if DataController.RegexGetBool(poc.VerifyOutput, verify_respone) {
+				fmt.Println("验证漏洞成功，并成功逃逸·")
 			} else {
-				fmt.Println("未发现该漏洞")
+				fmt.Println("逃逸失败")
 			}
+			fmt.Println("删除测试记录")
+			cont.ExecStep(poc.LastStep)
+		} else {
+			fmt.Println("该漏洞不存在")
 		}
+
 		fmt.Println("----------------------")
 	}
-
 }
+
 func main() {
-	cont, err := DockerController.NewContainerWithLink("my_container", "/docker/path", "/host/path")
+	cont, err := DockerController.NewContainerWithLink("my_container", "/var/run/docker.sock", "/var/run/docker.sock")
 	if err != nil {
 		log.Fatalf("创建容器失败: %v", err)
 	}
@@ -70,4 +63,5 @@ func main() {
 	} else {
 		fmt.Println("容器已删除")
 	}
+
 }
