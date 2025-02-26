@@ -9,7 +9,6 @@ import (
 type Poc struct {
 	PocName           string   `json:"name"`
 	VulType           string   `json:"type"`
-	CveID             string   `json:"cve"`
 	Description       string   `json:"description"`
 	AffectedVersions  []string `json:"versions_affected"`
 	Severity          string   `json:"severity"`
