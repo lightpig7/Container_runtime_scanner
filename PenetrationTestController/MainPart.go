@@ -1,0 +1,76 @@
+package PenetrationTestController
+
+import (
+	"Container_runtime_scanner/DataController"
+	"Container_runtime_scanner/DockerController"
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+)
+
+func VerifyVul(cont *DockerController.Container) {
+	if !cont.IsDocker() {
+		log.Fatalf("该系统不是容器")
+	}
+	pocs := DataController.ReadFile("./DataController/database.json")
+	for _, poc := range pocs {
+		fmt.Println("----------------------")
+		fmt.Printf("POC: %s\n描述: %s\n", poc.PocName, poc.Description)
+		output := cont.Exec("sh", "-c", poc.TestCmd)
+		fmt.Println("\npoc.TestCmd:\n", poc.TestCmd)
+		fmt.Println("output:\n", output)
+
+		if DataController.RegexGetBool(poc.ExpectedOutput, output) {
+			fmt.Println("该漏洞可能存在")
+			cont.ExecStep(poc.ExploitationSteps)
+			verify_respone := cont.ExecStep(poc.VerifySteps)
+			if DataController.RegexGetBool(poc.VerifyOutput, verify_respone) {
+				fmt.Println("验证漏洞成功，并成功逃逸·")
+			} else {
+				fmt.Println("逃逸失败")
+			}
+			fmt.Println("删除测试记录")
+			cont.ExecStep(poc.LastStep)
+		} else {
+			fmt.Println("该漏洞不存在")
+		}
+
+		fmt.Println("----------------------")
+	}
+}
+
+func start() {
+	tmpDir := os.TempDir()
+	filePath := filepath.Join(tmpDir, "Container_runtime_scanner")
+	file, err := os.Create(filePath)
+	if err != nil {
+		log.Fatalf("文件创建失败: %v", err)
+	}
+	_, err = file.WriteString("Container_runtime_scanner_123456")
+	if err != nil {
+		log.Fatalf("文件写入失败: %v", err)
+	}
+	err1 := file.Close()
+	if err1 != nil {
+		return
+	}
+
+	fmt.Printf("文件已创建: %s\n", filePath)
+}
+func end() {
+	tmpDir := os.TempDir()
+	filePath := filepath.Join(tmpDir, "Container_runtime_scanner")
+	if err := os.Remove(filePath); err != nil {
+		log.Fatalf("文件删除失败: %v", err)
+	}
+	fmt.Printf("文件已删除: %s\n", filePath)
+}
+func Run() {
+	start()
+	containers := DockerController.ListRunningContainers()
+	for _, cont := range containers {
+		VerifyVul(cont)
+	}
+	end()
+}

@@ -20,7 +20,7 @@ var cli *client.Client
 // init 初始化 Docker 客户端
 func init() {
 	var err error
-	cli, err = client.NewClientWithOpts(client.WithVersion("1.45"), client.WithAPIVersionNegotiation())
+	cli, err = client.NewClientWithOpts(client.WithVersion("1.42"), client.WithAPIVersionNegotiation())
 	if err != nil {
 		log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
 	}
@@ -142,20 +142,17 @@ func (s *Container) Exec(cmd string, args ...string) string {
 }
 
 // ListRunningContainers 获取所有正在运行的容器
-func ListRunningContainers() ([]types.Container, error) {
-	// 初始化 Docker 客户端`sra
-	cli, err := client.NewClientWithOpts(client.WithVersion("1.47"), client.WithAPIVersionNegotiation())
-	if err != nil {
-		return nil, fmt.Errorf("初始化 Docker 客户端失败: %v", err)
-	}
-
+func ListRunningContainers() []*Container {
 	// 获取所有运行中的容器
 	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
 	if err != nil {
-		return nil, fmt.Errorf("获取容器列表失败: %v", err)
+		log.Fatalf("获取容器列表失败: %v", err)
 	}
-
-	return containers, nil
+	result := make([]*Container, 0, len(containers))
+	for _, container := range containers {
+		result = append(result, &Container{Id: container.ID})
+	}
+	return result
 }
 
 // 主函数，示例如何使用上述函数

