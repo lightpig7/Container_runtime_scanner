@@ -1,7 +1,7 @@
-package DockerController
+package docker
 
 import (
-	"Container_runtime_scanner/DataController"
+	"Container_runtime_scanner/internal/data"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,7 +12,7 @@ import (
 
 func (s *Container) IsDocker() bool {
 	respone := s.Exec("ls /.dockerenv")
-	if !DataController.RegexGetBool("No such file or directory", respone) {
+	if !data.RegexGetBool("No such file or directory", respone) {
 		return true
 	} else {
 		return false
@@ -27,7 +27,7 @@ func (s *Container) ExecStep(steps []string) string {
 		if NextStepFlag {
 			step = strings.Replace(step, "_", extractedValue, -1)
 		}
-		if DataController.RegexGetBool(" --->test1", step) {
+		if data.RegexGetBool(" --->test1", step) {
 			step = strings.Trim(step, " --->test1")
 
 			fmt.Println("执行命令: ", step)

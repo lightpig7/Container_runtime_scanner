@@ -1,4 +1,4 @@
-package DockerController
+package docker
 
 import (
 	"bufio"

@@ -1,4 +1,4 @@
-package DataController
+package data
 
 import (
 	"log"

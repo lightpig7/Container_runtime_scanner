@@ -1,8 +1,8 @@
-package WebController
+package web
 
 import (
-	"Container_runtime_scanner/DockerController"
-	"Container_runtime_scanner/PenetrationTestController"
+	"Container_runtime_scanner/internal/docker"
+	"Container_runtime_scanner/internal/pentest"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -36,14 +36,17 @@ func Create() {
 	})
 
 	r.POST("/DockerGet", func(c *gin.Context) {
-		containers := DockerController.ListRunningContainersInfo()
+		containers := docker.ListRunningContainersInfo()
 		//result := DockerController.ConvertToString(containers)
 		success(c, containers)
 
 	})
 
-	r.POST("/penetrate", func(c *gin.Context) {
-		PenetrationTestController.Run()
+	r.POST("/Penetrate", func(c *gin.Context) {
+		pentest.Run()
+	})
+	r.POST("/PenetrateLog", func(c *gin.Context) {
+
 	})
 	err := r.Run(":8080")
 	if err != nil {

@@ -1,6 +1,8 @@
 package main
 
-import "Container_runtime_scanner/WebController"
+import (
+	"Container_runtime_scanner/internal/web"
+)
 
 func main() {
 	//cont, err := DockerController.NewContainerWithLink("my_container", "/var/run/docker.sock", "/var/run/docker.sock")
@@ -28,5 +30,5 @@ func main() {
 	//	fmt.Println("容器已删除")
 	//}
 	//PenetrationTestController.Run()
-	WebController.Create()
+	web.Create()
 }
