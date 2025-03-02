@@ -8,9 +8,11 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
+	"github.com/docker/go-connections/nat"
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -152,6 +154,54 @@ func ListRunningContainers() []*Container {
 	for _, container := range containers {
 		result = append(result, &Container{Id: container.ID})
 	}
+	return result
+}
+
+type ContainerInfo struct {
+	Id     string
+	Name   string
+	Image  string
+	Status string
+	Ports  []types.Port
+	Mounts []types.MountPoint
+}
+
+func ListRunningContainersInfo() []*ContainerInfo {
+	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
+	if err != nil {
+		log.Fatalf("获取容器列表失败: %v", err)
+	}
+
+	result := make([]*ContainerInfo, 0, len(containers))
+	for _, c := range containers {
+		// 获取单个容器的详细信息
+		detailedInfo, err := cli.ContainerInspect(context.Background(), c.ID)
+		if err != nil {
+			log.Printf("获取容器 %s 的详细信息失败: %v", c.ID, err)
+			continue
+		}
+		var portList []types.Port
+		for portKey, bindings := range detailedInfo.NetworkSettings.Ports {
+			containerPort, _ := nat.ParsePort(portKey.Port())
+			for _, binding := range bindings {
+				publicPort, _ := strconv.Atoi(binding.HostPort)
+				portList = append(portList, types.Port{
+					PrivatePort: uint16(containerPort),
+					PublicPort:  uint16(publicPort),
+					Type:        portKey.Proto(),
+				})
+			}
+		}
+		result = append(result, &ContainerInfo{
+			Id:     detailedInfo.ID,
+			Name:   detailedInfo.Name,
+			Image:  detailedInfo.Config.Image,
+			Status: detailedInfo.State.Status,
+			Ports:  portList,
+			Mounts: detailedInfo.Mounts,
+		})
+	}
+	fmt.Println(result)
 	return result
 }
 

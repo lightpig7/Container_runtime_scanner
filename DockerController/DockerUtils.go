@@ -2,7 +2,9 @@ package DockerController
 
 import (
 	"Container_runtime_scanner/DataController"
+	"encoding/json"
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -48,11 +50,21 @@ func (s *Container) ExecStep(steps []string) string {
 func ExtractMaxNumber(output string) string {
 	re := regexp.MustCompile(`sda(\d+)`)
 	matches := re.FindAllStringSubmatch(output, -1)
-	max := -1
+	max_1 := -1
 	for _, match := range matches {
-		if num, err := strconv.Atoi(match[1]); err == nil && num > max {
-			max = num
+		if num, err := strconv.Atoi(match[1]); err == nil && num > max_1 {
+			max_1 = num
 		}
 	}
-	return strconv.Itoa(max)
+	return strconv.Itoa(max_1)
+}
+
+func ConvertToString(result []*ContainerInfo) string {
+	// 带缩进的美化输出
+	data, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		log.Printf("序列化失败: %v", err)
+		return ""
+	}
+	return string(data)
 }
