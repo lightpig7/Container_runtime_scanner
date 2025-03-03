@@ -1,8 +1,10 @@
 package web
 
 import (
+	"Container_runtime_scanner/internal/data"
 	"Container_runtime_scanner/internal/docker"
 	"Container_runtime_scanner/internal/pentest"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -29,26 +31,47 @@ func fail(c *gin.Context, code int, message string) {
 	})
 }
 func Create() {
-	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
+	r.Use(gin.Logger()) // 启用日志中间件
+	r.Use(gin.Recovery())
+	r.Static("/assets", "./internal/web/static/assets")               // 让 Gin 服务器正确加载前端资源
+	r.StaticFile("/favicon.ico", "./internal/web/static/favicon.ico") // 让 favicon 正常加载
+
+	r.StaticFS("/static", http.Dir("internal/web/static"))
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Hello Gin!"})
+		c.File("internal/web/static/index.html")
 	})
 
 	r.POST("/DockerGet", func(c *gin.Context) {
-		containers := docker.ListRunningContainersInfo()
-		//result := DockerController.ConvertToString(containers)
+		fmt.Println("docker.ListRunningContainers()")
+		containers := docker.ListRunningContainers()
 		success(c, containers)
 
 	})
 
 	r.POST("/Penetrate", func(c *gin.Context) {
+		fmt.Println("pentest.Run()")
 		pentest.Run()
 	})
 	r.POST("/PenetrateLog", func(c *gin.Context) {
+		containerName := c.PostForm("container")
+		fmt.Println("Received container parameter:", containerName)
+		if containerName == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "缺少 container 参数"})
+			return
+		}
 
+		// 读取日志
+		logContent, err := data.ReadLog(containerName)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		// 以 JSON 格式返回日志内容
+		c.JSON(http.StatusOK, gin.H{"log": logContent})
 	})
-	err := r.Run(":8080")
+	err := r.Run("0.0.0.0:8080")
 	if err != nil {
 		return
 	}

@@ -30,7 +30,12 @@ func init() {
 
 // Container 结构体，封装了容器的相关操作
 type Container struct {
-	Id string // 容器 ID
+	Id     string
+	Name   string
+	Image  string
+	Status string
+	Ports  []types.Port
+	Mounts []types.MountPoint
 }
 
 // NewContainerWithLink 创建一个 Docker 容器，并挂载主机目录到容器
@@ -145,34 +150,12 @@ func (s *Container) Exec(cmd string, args ...string) string {
 
 // ListRunningContainers 获取所有正在运行的容器
 func ListRunningContainers() []*Container {
-	// 获取所有运行中的容器
 	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
 	if err != nil {
 		log.Fatalf("获取容器列表失败: %v", err)
 	}
+
 	result := make([]*Container, 0, len(containers))
-	for _, container := range containers {
-		result = append(result, &Container{Id: container.ID})
-	}
-	return result
-}
-
-type ContainerInfo struct {
-	Id     string
-	Name   string
-	Image  string
-	Status string
-	Ports  []types.Port
-	Mounts []types.MountPoint
-}
-
-func ListRunningContainersInfo() []*ContainerInfo {
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
-	if err != nil {
-		log.Fatalf("获取容器列表失败: %v", err)
-	}
-
-	result := make([]*ContainerInfo, 0, len(containers))
 	for _, c := range containers {
 		// 获取单个容器的详细信息
 		detailedInfo, err := cli.ContainerInspect(context.Background(), c.ID)
@@ -192,7 +175,7 @@ func ListRunningContainersInfo() []*ContainerInfo {
 				})
 			}
 		}
-		result = append(result, &ContainerInfo{
+		result = append(result, &Container{
 			Id:     detailedInfo.ID,
 			Name:   detailedInfo.Name,
 			Image:  detailedInfo.Config.Image,
@@ -205,7 +188,6 @@ func ListRunningContainersInfo() []*ContainerInfo {
 	return result
 }
 
-// 主函数，示例如何使用上述函数
 func main() {
 	// 1. 创建容器，并挂载主机目录到容器
 	cont, err := NewContainerWithLink("my_container", "/docker/path", "/host/path")

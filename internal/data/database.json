@@ -84,7 +84,7 @@
       "mitigation": "禁止docker.socket挂载",
       "references": [
         "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
-        "https://exploit-db.com/exploits/xxxx"
+        "https://github.com/V0WKeep3r/CVE-2024-21626-runcPOC"
       ]
     }
   ]

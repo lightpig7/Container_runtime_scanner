@@ -59,7 +59,7 @@ func ExtractMaxNumber(output string) string {
 	return strconv.Itoa(max_1)
 }
 
-func ConvertToString(result []*ContainerInfo) string {
+func ConvertToString(result []*Container) string {
 	// 带缩进的美化输出
 	data, err := json.MarshalIndent(result, "", "  ")
 	if err != nil {

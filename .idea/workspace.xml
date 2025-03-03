@@ -5,17 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DPhpuK9S.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DiddN2dV.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/DataUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/EXP/get_docker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/EXP/get_docker.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/VulDatabase.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/vul_database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/database.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DockerController/DockerController.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/contoller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DockerController/DockerUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PenetrationTestController/MainPart.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebController/Route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/base.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TheWelcome.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/WelcomeItem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconCommunity.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconDocumentation.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconEcosystem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconSupport.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconTooling.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/database.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/docker/contoller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/contoller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pentest/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/route.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,34 +68,38 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2tRvET5xQRpdF0Cq42qH8oaEx6i" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "Go Build.go build Container_runtime_scanner (1).executor": "Run",
-    "Go Build.go build Container_runtime_scanner.executor": "Run",
-    "Go Build.go build main.go (1).executor": "Run",
-    "Go Build.go build main.go.executor": "Run",
-    "Go Build.go build test.go.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "C:/Users/soul",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go Build.go build Container_runtime_scanner (1).executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build Container_runtime_scanner.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build main.go (1).executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build main.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build test.go.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/soul&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.deploy.options&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\code\GO\Container_runtime_scanner" />
@@ -145,6 +172,20 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="VgoProject">
     <environment>
