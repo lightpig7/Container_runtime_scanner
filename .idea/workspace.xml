@@ -5,41 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DPhpuK9S.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DiddN2dV.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/web/static/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/web/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-BsmsD73t.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DMn9vC4M.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/base.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TheWelcome.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/WelcomeItem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconCommunity.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconDocumentation.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconEcosystem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconSupport.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconTooling.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/database.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/docker/contoller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/contoller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/pentest/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/web/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-DPhpuK9S.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-DiddN2dV.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/static/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,9 +121,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build main.go (1)" />
-      <item itemvalue="Go Build.go build Route.go" />
       <item itemvalue="Go Build.go build Container_runtime_scanner" />
+      <item itemvalue="Go Build.go build Route.go" />
+      <item itemvalue="Go Build.go build main.go (1)" />
       <item itemvalue="Go Build.go build main.go" />
     </list>
     <recent_temporary>

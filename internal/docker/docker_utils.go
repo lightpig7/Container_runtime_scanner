@@ -41,7 +41,6 @@ func (s *Container) ExecStep(steps []string) string {
 			response = s.Exec("sh", "-c", step)
 			fmt.Println(response)
 		}
-
 	}
 	return response
 }
