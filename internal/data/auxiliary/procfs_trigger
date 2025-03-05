@@ -1,0 +1,10 @@
+cat > /tmp/1.sh << 'EOF'
+#!/bin/sh
+
+trigger_segfault_with_kill() {\
+
+    kill -SIGSEGV $$
+
+}
+trigger_segfault_with_kill
+EOF

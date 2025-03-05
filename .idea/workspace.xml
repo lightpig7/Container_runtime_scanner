@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/cve_2024_21626.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_privileged.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_sock.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/pentest/pen_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/EXP/get_docker.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/database.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/vul_database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/vul_database.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pentest/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,9 +81,9 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\code\GO\Container_runtime_scanner\internal\pentest" />
       <recent name="F:\code\GO\Container_runtime_scanner" />
       <recent name="F:\code\GO\Container_runtime_scanner\internal\web" />
-      <recent name="F:\code\GO\Container_runtime_scanner\internal\pentest" />
       <recent name="F:\code\GO\Container_runtime_scanner\internal\docker" />
       <recent name="F:\code\GO\Container_runtime_scanner\internal\data" />
     </key>
@@ -95,6 +108,15 @@
       <filePath value="$PROJECT_DIR$/WebController/Route.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build docker_privileged.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="Container_runtime_scanner" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="Container_runtime_scanner" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/internal/pentest/exp/docker_privileged.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="Container_runtime_scanner" />
       <working_directory value="$PROJECT_DIR$" />
@@ -114,6 +136,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Go Build.go build docker_privileged.go" />
       <item itemvalue="Go Build.go build Container_runtime_scanner" />
       <item itemvalue="Go Build.go build Route.go" />
       <item itemvalue="Go Build.go build main.go (1)" />
@@ -122,6 +145,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build Container_runtime_scanner" />
+        <item itemvalue="Go Build.go build docker_privileged.go" />
         <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Build.go build Route.go" />
         <item itemvalue="Go Build.go build main.go" />

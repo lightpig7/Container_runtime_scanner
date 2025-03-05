@@ -1,6 +1,7 @@
 {
   "vuls": [
     {
+      "id": 1,
       "name": "Docker 高危启动参数 - 特权模式启动容器",
       "type": "Docker escape",
       "description": "特权模式逃逸是一种最简单有效的逃逸方法。使用特权模式启动的容器时，docker管理员可通过mount命令将外部宿主机磁盘设备挂载进容器内部，获取对宿主机的文件读写权限，进而可能通过chroot切换根目录，写入ssh公钥或计划任务等手段进行getshell。",
@@ -32,6 +33,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "挂载Docker Socket逃逸",
       "type": "Docker escape",
       "description": "Docker Socket（也称为Docker API Socket）是Docker引擎的UNIX套接字文件，用于与Docker守护进程（Docker daemon）进行通信。Docker守护进程是Docker引擎的核心组件，负责管理和执行容器。Docker Socket允许用户通过基于RESTful API的请求与Docker守护进程进行通信，以便执行各种操作，例如创建、运行和停止容器，构建和推送镜像，查看和管理容器的日志等。",
@@ -40,8 +42,8 @@
       ],
       "severity": "Critical",
       "cvss_score": 0,
-      "test_command": "ls -lah /var/run/docker.sock",
-      "expected_output": "-.*/var/run/docker.sock.*",
+      "test_command": "ls /var/run/ | grep -qi docker.sock && echo \"Docker Socket is mounted.\" || echo \"Docker Socket is not mounted.\"",
+      "expected_output": "Docker Socket is mounted.",
       "steps_to_exploit": [
         "apt-get update",
         "apt-get install curl -y",
@@ -64,6 +66,32 @@
       ]
     },
     {
+      "id": 3,
+      "name": "挂载宿主机 procfs 逃逸",
+      "type": "Docker escape",
+      "description": "procfs是一个伪文件系统，它动态反映着系统内进程及其他组件的状态，其中有许多十分敏感重要的文件。因此，将宿主机的procfs挂载到不受控的容器中也是十分危险的，尤其是在该容器内默认启用root权限，且没有开启User Namespace时。 Docker默认情况下不会为容器开启 User Namespace 从 2.6.19 内核版本开始，Linux 支持在 /proc/sys/kernel/core_pattern 中使用新语法。如果该文件中的首个字符是管道符 | ，那么该行的剩余内容将被当作用户空间程序或脚本解释并执行。",
+      "versions_affected": [
+        "无"
+      ],
+      "severity": "Critical",
+      "cvss_score": 0,
+      "test_command": "find / -name core_pattern 2>/dev/null | wc -l | grep -q 2 && echo \"Procfs is mounted.\" || echo \"Procfs is not mounted.\"",
+      "expected_output": "Procfs is mounted.",
+      "steps_to_exploit": [
+      ],
+      "steps_to_verify": [
+      ],
+      "verify_output":"No such file or directory",
+      "last_step": [
+      ],
+      "mitigation": "禁止特权模式启动Docker",
+      "references": [
+        "https://example.com/cve-2024-xxxx",
+        "https://exploit-db.com/exploits/xxxx"
+      ]
+    },
+    {
+      "id": 4,
       "name": "CVE-2024-21626",
       "type": "Docker escape",
       "description": "从公告讲就是 runc run 或者 runc exec 的过程中有存在没有及时关闭的 fd ，导致文件描述符泄漏在容器环境中，用户可以通过这个文件描述来进行容器逃逸。",

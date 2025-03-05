@@ -7,6 +7,7 @@ import (
 )
 
 type Poc struct {
+	Id                int      `json:"id"`
 	PocName           string   `json:"name"`
 	VulType           string   `json:"type"`
 	Description       string   `json:"description"`
