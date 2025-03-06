@@ -27,7 +27,7 @@ func ReadLog(containerName string) (string, error) {
 	return string(data), nil
 }
 
-func Readfile(containerName string) (string, error) {
+func ReadAuxFile(containerName string) (string, error) {
 	logFilePath := fmt.Sprintf("./internal/data/auxiliary/%s", containerName)
 
 	// 读取日志文件内容

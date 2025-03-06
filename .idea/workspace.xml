@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/cve_2024_21626.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_privileged.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_sock.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/pentest/pen_utils.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_exp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/data/EXP/get_docker.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/data/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/database.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/data/vul_database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/vul_database.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pentest/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

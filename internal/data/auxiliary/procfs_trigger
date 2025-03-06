@@ -1,4 +1,3 @@
-cat > /tmp/1.sh << 'EOF'
 #!/bin/sh
 
 trigger_segfault_with_kill() {\
@@ -7,4 +6,6 @@ trigger_segfault_with_kill() {\
 
 }
 trigger_segfault_with_kill
-EOF
+
+
+
