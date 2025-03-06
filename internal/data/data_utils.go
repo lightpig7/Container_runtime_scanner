@@ -3,8 +3,10 @@ package data
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"regexp"
+	"time"
 )
 
 func RegexGetBool(expected_output string, output string) bool {
@@ -37,4 +39,21 @@ func ReadAuxFile(containerName string) (string, error) {
 	}
 
 	return string(data), nil
+}
+func GenerateRandomString(length int) string {
+	// 定义可能的字符集
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+	// 创建一个有种子的随机数生成器
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// 创建一个长度为 length 的字节数组
+	result := make([]byte, length)
+
+	// 为每个位置随机选择一个字符
+	for i := 0; i < length; i++ {
+		result[i] = charset[r.Intn(len(charset))]
+	}
+
+	return string(result)
 }

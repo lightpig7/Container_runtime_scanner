@@ -3,10 +3,10 @@ package docker
 import (
 	"Container_runtime_scanner/internal/data"
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
 	"io"
 	"log"
 	"os"
@@ -39,11 +39,6 @@ func (s *Container) ShExecStep(step string) string {
 }
 
 func (s *Container) CopyFileToContainer(localFilePath, containerPath string) error {
-	// 创建 Docker 客户端
-	cli, err := client.NewClientWithOpts(client.FromEnv)
-	if err != nil {
-		return err
-	}
 
 	// 打开源文件
 	srcFile, err := os.Open("./internal/data/auxiliary/" + localFilePath)
@@ -67,6 +62,29 @@ func (s *Container) CopyFileToContainer(localFilePath, containerPath string) err
 		AllowOverwriteDirWithFile: true,
 		CopyUIDGID:                true,
 	})
+}
+func (s *Container) CopyFileToContainerBase64(localFilePath, containerPath string) error {
+	// 读取文件内容
+	fileContent, err := os.ReadFile("./internal/data/auxiliary/" + localFilePath)
+	if err != nil {
+		return err
+	}
+
+	// Base64 编码
+	encoded := base64.StdEncoding.EncodeToString(fileContent)
+
+	// 确保目标目录存在
+	//dirPath := filepath.Dir(containerPath)
+	//s.ShExecStep(fmt.Sprintf("mkdir -p %s", dirPath))
+
+	// 在容器中创建文件
+	cmd := fmt.Sprintf("echo '%s' | base64 -d > %s", encoded, containerPath)
+	s.ShExecStep(cmd)
+
+	// 设置可执行权限（如果需要）
+	s.ShExecStep(fmt.Sprintf("chmod +x %s", containerPath))
+
+	return nil
 }
 
 // 从输出中提取最大数字（例如 sda3 → 3）

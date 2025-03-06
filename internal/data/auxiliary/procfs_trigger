@@ -1,11 +1,8 @@
 #!/bin/sh
 
-trigger_segfault_with_kill() {\
+trigger_segfault_with_kill() {
 
-    kill -SIGSEGV $$
+    kill -11 $$
 
 }
 trigger_segfault_with_kill
-
-
-

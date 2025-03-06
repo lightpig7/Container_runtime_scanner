@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_exp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/auxiliary/procfs_exp" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_exp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/auxiliary/procfs_trigger" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/exp/docker_procfs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
