@@ -14,7 +14,7 @@ type Poc struct {
 	AffectedVersions  []string `json:"versions_affected"`
 	Severity          string   `json:"severity"`
 	CvssScore         float64  `json:"cvss_score"`
-	TestCmd           string   `json:"test_command"`
+	TestCmd           []string `json:"test_command"`
 	ExpectedOutput    string   `json:"expected_output"`
 	ExploitationSteps []string `json:"steps_to_exploit"`
 	VerifySteps       []string `json:"steps_to_verify"`

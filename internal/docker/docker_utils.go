@@ -22,7 +22,7 @@ func (s *Container) IsDocker() bool {
 	}
 }
 
-func (s *Container) ExecStep(steps []string) string {
+func (s *Container) ExecSteps(steps []string) string {
 	var response string
 	for _, step := range steps {
 

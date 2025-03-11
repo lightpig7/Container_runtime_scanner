@@ -9,8 +9,11 @@ import (
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"github.com/docker/go-connections/nat"
+	"golang.org/x/crypto/ssh"
 	"io"
 	"log"
+	"net"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -18,14 +21,82 @@ import (
 
 // 全局 Docker 客户端对象
 var cli *client.Client
+var SSHClient *ssh.Client
 
 // init 初始化 Docker 客户端
 func init() {
-	var err error
-	cli, err = client.NewClientWithOpts(client.WithVersion("1.42"), client.WithAPIVersionNegotiation())
-	if err != nil {
-		log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
+	//var err error
+	//cli, err = client.NewClientWithOpts(client.WithVersion("1.42"), client.WithAPIVersionNegotiation())
+	//if err != nil {
+	//	log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
+	//}
+	sshInit()
+}
+func sshClose() {
+	if SSHClient != nil {
+		SSHClient.Close()
 	}
+}
+func sshInit() {
+	sshConfig := &ssh.ClientConfig{
+		User: "ubuntu",
+		Auth: []ssh.AuthMethod{
+			ssh.Password("ubuntu"), // 也可以使用密钥认证
+		},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // 生产环境请勿使用这个
+	}
+
+	// 建立 SSH 连接
+	var err error
+	SSHClient, err = ssh.Dial("tcp", "192.168.52.142:22", sshConfig)
+	if err != nil {
+		fmt.Printf("SSH 连接失败: %v\n", err)
+		return
+	}
+	fmt.Printf("SSH 连接成功\n")
+
+	// 创建一个通过 SSH 转发到 Docker socket 的代理
+	dialer := func(ctx context.Context, network, addr string) (net.Conn, error) {
+		session, err := SSHClient.NewSession()
+		if err != nil {
+			return nil, err
+		}
+
+		socketPath := "/var/run/docker.sock"
+		cmd := fmt.Sprintf("socat UNIX-LISTEN:%s,fork,mode=777 UNIX-CONNECT:%s", socketPath, socketPath)
+
+		if err := session.Start(cmd); err != nil {
+			return nil, err
+		}
+
+		return SSHClient.Dial("unix", socketPath)
+	}
+
+	// 创建自定义 HTTP 客户端
+	httpClient := &http.Client{
+		Transport: &http.Transport{
+			DialContext: dialer,
+		},
+	}
+
+	// 初始化 Docker 客户端
+	cli, err = client.NewClientWithOpts(
+		client.WithHTTPClient(httpClient),
+		client.WithHost("unix:///var/run/docker.sock"),
+		client.WithAPIVersionNegotiation(),
+	)
+	if err != nil {
+		fmt.Printf("Docker 客户端创建失败: %v\n", err)
+		return
+	}
+
+	_, err = cli.Info(context.Background())
+	if err != nil {
+		fmt.Printf("Docker 信息获取失败: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Docker连接成功! \n")
 }
 
 // Container 结构体，封装了容器的相关操作

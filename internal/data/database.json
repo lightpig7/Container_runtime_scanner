@@ -10,7 +10,7 @@
       ],
       "severity": "Critical",
       "cvss_score": 0,
-      "test_command": "cat /proc/self/status | grep Cap",
+      "test_command": ["cat /proc/self/status | grep Cap"],
       "expected_output": "\\s+CapEff:\\s+00000[0-9a-f]ffffffffff\\s+",
       "steps_to_exploit": [
         "mkdir /test1",
@@ -42,7 +42,7 @@
       ],
       "severity": "Critical",
       "cvss_score": 0,
-      "test_command": "ls /var/run/ | grep -qi docker.sock && echo \"Docker Socket is mounted.\" || echo \"Docker Socket is not mounted.\"",
+      "test_command": ["ls /var/run/ | grep -qi docker.sock && echo \"Docker Socket is mounted.\" || echo \"Docker Socket is not mounted.\""],
       "expected_output": "Docker Socket is mounted.",
       "steps_to_exploit": [
         "apt-get update",
@@ -75,7 +75,7 @@
       ],
       "severity": "Critical",
       "cvss_score": 0,
-      "test_command": "find / -name core_pattern 2>/dev/null | wc -l | grep -q 2 && echo \"Procfs is mounted.\" || echo \"Procfs is not mounted.\"",
+      "test_command": ["find / -name core_pattern 2>/dev/null | wc -l | grep -q 2 && echo \"Procfs is mounted.\" || echo \"Procfs is not mounted.\""],
       "expected_output": "Procfs is mounted.",
       "steps_to_exploit": [
       ],
@@ -100,7 +100,7 @@
       ],
       "severity": "Critical",
       "cvss_score": 8.6,
-      "test_command": "cat ../../../../../../tmp/Container_runtime_scanner",
+      "test_command": ["cat ../../../../../../tmp/Container_runtime_scanner"],
       "expected_output": "Container_runtime_scanner_123456",
       "steps_to_exploit": [
       ],
@@ -125,8 +125,10 @@
       ],
       "severity": "Critical",
       "cvss_score": 7.8,
-      "test_command": "cat ../../../../../../tmp/Container_runtime_scanner",
-      "expected_output": "Container_runtime_scanner_123456",
+      "test_command": [
+      "test_dir=/tmp/.cve-2022-0492-test\nmkdir -p $test_dir\nfor subsys in $(cat /proc/$$/cgroup | grep -Eo '[0-9]+:[^:]+' | grep -Eo '[^:]+$'); do\n  if unshare -UrmC --propagation=unchanged bash -c \"mount -t cgroup -o $subsys cgroup $test_dir 2>/dev/null && test -w $test_dir/release_agent\" 2>/dev/null; then\n    echo \"CVE-2022-0492 vulnerability exists\"\n    break\n  fi\ndone\nrm -rf $test_dire"
+      ],
+      "expected_output": "CVE-2022-0492 vulnerability exists",
       "steps_to_exploit": [
       ],
       "steps_to_verify": [

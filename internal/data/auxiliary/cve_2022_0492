@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir /tmp/testcgroup
+mount -t cgroup -o memory cgroup /tmp/testcgroup
+host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+echo 1 > /tmp/testcgroup/x/notify_on_release
+echo "$host_path/cmd" > /tmp/testcgroup/release_agent
