@@ -42,18 +42,18 @@ func Create() {
 		c.File("internal/web/static/index.html")
 	})
 
-	r.POST("/DockerGet", func(c *gin.Context) {
+	r.POST("/docker/containers", func(c *gin.Context) {
 		fmt.Println("docker.ListRunningContainers()")
 		containers := docker.ListRunningContainers()
 		success(c, containers)
 
 	})
 
-	r.POST("/Penetrate", func(c *gin.Context) {
+	r.POST("/docker/penetrate", func(c *gin.Context) {
 		fmt.Println("pentest.Run()")
 		pentest.Run()
 	})
-	r.POST("/PenetrateLog", func(c *gin.Context) {
+	r.POST("/docker/log", func(c *gin.Context) {
 		containerName := c.PostForm("container")
 		fmt.Println("Received container parameter:", containerName)
 		if containerName == "" {

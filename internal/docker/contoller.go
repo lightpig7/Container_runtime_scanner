@@ -101,12 +101,13 @@ func sshInit() {
 
 // Container 结构体，封装了容器的相关操作
 type Container struct {
-	Id     string
-	Name   string
-	Image  string
-	Status string
-	Ports  []types.Port
-	Mounts []types.MountPoint
+	Id      string
+	Name    string
+	Image   string
+	Status  string
+	Ports   []types.Port
+	Mounts  []types.MountPoint
+	Created string
 }
 
 // NewContainerWithLink 创建一个 Docker 容器，并挂载主机目录到容器
@@ -247,12 +248,13 @@ func ListRunningContainers() []*Container {
 			}
 		}
 		result = append(result, &Container{
-			Id:     detailedInfo.ID,
-			Name:   detailedInfo.Name,
-			Image:  detailedInfo.Config.Image,
-			Status: detailedInfo.State.Status,
-			Ports:  portList,
-			Mounts: detailedInfo.Mounts,
+			Id:      detailedInfo.ID,
+			Name:    strings.Trim(detailedInfo.Name, "\\"),
+			Image:   detailedInfo.Config.Image,
+			Status:  detailedInfo.State.Status,
+			Ports:   portList,
+			Mounts:  detailedInfo.Mounts,
+			Created: detailedInfo.Created,
 		})
 	}
 	fmt.Println(result)
