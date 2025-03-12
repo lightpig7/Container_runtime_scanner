@@ -2,6 +2,7 @@ package docker
 
 import (
 	"Container_runtime_scanner/internal/data"
+	"bytes"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -81,10 +82,34 @@ func (s *Container) CopyFileToContainerBase64(localFilePath, containerPath strin
 	cmd := fmt.Sprintf("echo '%s' | base64 -d > %s", encoded, containerPath)
 	s.ShExecStep(cmd)
 
-	// 设置可执行权限（如果需要）
-	s.ShExecStep(fmt.Sprintf("chmod +x %s", containerPath))
-
 	return nil
+}
+
+func (s *Container) SSHCopyFileToContainerBase64(remoteFilePath, containerPath string) error {
+	// 读取文件内容
+	session, err := SSHClient.NewSession()
+	if err != nil {
+		return fmt.Errorf("failed to create SSH session: %w", err)
+	}
+
+	// 2. 读取远程文件内容并进行Base64编码
+	// 在SSH服务器上执行命令，将文件内容编码为base64
+	var stdout bytes.Buffer
+	session.Stdout = &stdout
+
+	catCmd := fmt.Sprintf("cat %s | base64", remoteFilePath)
+	if err := session.Run(catCmd); err != nil {
+		session.Close()
+		return fmt.Errorf("failed to read remote file: %w", err)
+	}
+
+	encoded := stdout.String()
+	cmd := fmt.Sprintf("echo '%s' | base64 -d > %s", encoded, containerPath)
+	s.ShExecStep(cmd)
+
+	session.Close()
+
+	return err
 }
 
 // 从输出中提取最大数字（例如 sda3 → 3）

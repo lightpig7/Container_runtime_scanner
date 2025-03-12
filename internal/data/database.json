@@ -84,7 +84,7 @@
       "verify_output":"No such file or directory",
       "last_step": [
       ],
-      "mitigation": "禁止特权模式启动Docker",
+      "mitigation": "禁止挂载procfs到docker中",
       "references": [
         "https://example.com/cve-2024-xxxx",
         "https://exploit-db.com/exploits/xxxx"
@@ -109,7 +109,7 @@
       "verify_output":"",
       "last_step": [
       ],
-      "mitigation": "禁止docker.socket挂载",
+      "mitigation": "升级docker版本",
       "references": [
         "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
         "https://github.com/V0WKeep3r/CVE-2024-21626-runcPOC"
@@ -136,7 +136,34 @@
       "verify_output":"",
       "last_step": [
       ],
-      "mitigation": "禁止docker.socket挂载",
+      "mitigation": "升级docker版本",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
+        "https://github.com/V0WKeep3r/CVE-2024-21626-runcPOC"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "CAP_SYS_MODULE逃逸",
+      "type": "Docker escape",
+      "description": "从 Linux 2.2 开始，Linux 将传统上与超级用户相关的权限划分为不同的单元，称为能力(capabilities)。 能力是每个线程的属性，可以独立启用或禁用。其中CAP_SYS_MODULE允许进程可以通过init_module()和delete_module()系统调用来加载和卸载内核模块。由于内核模块具有内核态命令执行权限，该能力是关键能力之一。",
+      "versions_affected": [
+        "~linux kernel 5.17-rc3"
+      ],
+      "severity": "Critical",
+      "cvss_score": 7.8,
+      "test_command": [
+        "[ $((0x$(grep CapEff /proc/self/status | awk '{print $2}') & (1<<16))) -ne 0 ] && echo \"Has CAP_SYS_MODULE\" || echo \"No CAP_SYS_MODULE\""
+      ],
+      "expected_output": "Has CAP_SYS_MODULE",
+      "steps_to_exploit": [
+      ],
+      "steps_to_verify": [
+      ],
+      "verify_output":"",
+      "last_step": [
+      ],
+      "mitigation": "禁止添加CAP_SYS_MODULE逃逸权限",
       "references": [
         "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
         "https://github.com/V0WKeep3r/CVE-2024-21626-runcPOC"

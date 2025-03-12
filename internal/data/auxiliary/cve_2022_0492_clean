@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# 清理cgroup
+if [ -d "/tmp/testcgroup" ]; then
+  # 移出所有进程
+  if [ -f "/tmp/testcgroup/x/cgroup.procs" ]; then
+    cat /tmp/testcgroup/x/cgroup.procs 2>/dev/null | while read pid; do
+      echo $pid > /sys/fs/cgroup/memory/cgroup.procs 2>/dev/null
+    done
+  fi
+
+  # 卸载cgroup并删除目录
+  umount /tmp/testcgroup 2>/dev/null
+  rm -rf /tmp/testcgroup
+fi
+
+umount /tmp/.cve-2022-0492-test
+rm -rf /tmp/.cve-2022-0492-test
+# 删除命令文件
+rm -f /cmd
+
+# 删除脚本和标记文件
+rm -f /tmp/cve_2022_0492
+
+echo "CVE-2022-0492测试痕迹已清除"
