@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-yqYSGXdA.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/docker/connect.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/docker/contoller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/contoller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/web/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-BsmsD73t.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-DMn9vC4M.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/web/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
