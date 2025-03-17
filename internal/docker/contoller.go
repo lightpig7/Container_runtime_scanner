@@ -249,7 +249,7 @@ func ListRunningContainers() []*Container {
 		}
 		result = append(result, &Container{
 			Id:      detailedInfo.ID,
-			Name:    strings.Trim(detailedInfo.Name, "\\"),
+			Name:    strings.Trim(detailedInfo.Name, "/"),
 			Image:   detailedInfo.Config.Image,
 			Status:  detailedInfo.State.Status,
 			Ports:   portList,
