@@ -168,6 +168,35 @@
         "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
         "https://github.com/V0WKeep3r/CVE-2024-21626-runcPOC"
       ]
+    },
+    {
+      "id": 7,
+      "name": "CVE-2019-5736",
+      "type": "Docker escape",
+      "description": "在Docker 18.09.2之前的版本中使用了的runc版本小于1.0-rc6，因此允许攻击者重写宿主机上的runc 二进制文件，攻击者可以在宿主机上以root身份执行命令。",
+      "versions_affected": [
+        "docker version <=18.09.2" ,
+        "RunC version <=1.0-rc6"
+      ],
+      "severity": "Critical",
+      "cvss_score": 7.8,
+      "test_command": [
+        "upload ./data/auxiliary /tmp/poc",
+        "sh /tmp/poc"
+      ],
+      "expected_output": "Has vul",
+      "steps_to_exploit": [
+      ],
+      "steps_to_verify": [
+      ],
+      "verify_output":"",
+      "last_step": [
+      ],
+      "mitigation": "升级docker版本",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/cve-2024-21626",
+        "https://github.com/Frichetten/CVE-2019-5736-PoC/tree/master"
+      ]
     }
   ]
 }

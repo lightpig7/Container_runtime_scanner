@@ -26,7 +26,7 @@ var SSHClient *ssh.Client
 // init 初始化 Docker 客户端
 func init() {
 	//var err error
-	//cli, err = client.NewClientWithOpts(client.WithVersion("1.42"), client.WithAPIVersionNegotiation())
+	//cli, err = client.NewClientWithOpts(client.WithAPIVersionNegotiation(), client.WithAPIVersionNegotiation())
 	//if err != nil {
 	//	log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
 	//}
@@ -108,6 +108,134 @@ type Container struct {
 	Ports   []types.Port
 	Mounts  []types.MountPoint
 	Created string
+}
+
+func GetVersion() {
+	version, err := cli.ServerVersion(context.Background())
+	if err != nil {
+		log.Fatalf("无法获取Docker版本: %v", err)
+	}
+
+	// 输出版本信息
+	fmt.Printf("Docker 版本: %s\n", version.Version)
+	fmt.Printf("API 版本: %s\n", version.APIVersion)
+	fmt.Printf("Go 版本: %s\n", version.GoVersion)
+	fmt.Printf("Git commit: %s\n", version.GitCommit)
+	fmt.Printf("操作系统: %s\n", version.Os)
+	fmt.Printf("架构: %s\n", version.Arch)
+}
+func GetInfo() {
+
+	info, err := cli.Info(context.Background())
+	if err != nil {
+		log.Fatalf("无法获取Docker信息: %v", err)
+	}
+
+	// 获取版本信息以进行漏洞匹配
+	version, err := cli.ServerVersion(context.Background())
+	if err != nil {
+		log.Fatalf("无法获取Docker版本: %v", err)
+	}
+
+	// 打印安全核查信息
+	fmt.Println("=== Docker 安全配置核查 ===")
+
+	// 1. 版本检查
+	fmt.Printf("Docker 引擎版本: %s\n", version.Version)
+	fmt.Printf("API 版本: %s\n", version.APIVersion)
+	fmt.Printf("containerd 版本: %s\n", info.ContainerdCommit.ID)
+	fmt.Printf("runc 版本: %s\n", info.RuncCommit.ID)
+	fmt.Printf("内核版本: %s\n", info.KernelVersion)
+
+	// 2. 安全选项检查
+	fmt.Println("\n--- 安全机制检查 ---")
+	seccompEnabled := false
+	appArmorEnabled := false
+	selinuxEnabled := false
+
+	for _, opt := range info.SecurityOptions {
+		if strings.Contains(opt, "seccomp") {
+			seccompEnabled = true
+			fmt.Printf("Seccomp: 已启用, 配置文件: %s\n",
+				strings.TrimPrefix(opt, "name=seccomp,profile="))
+		}
+		if strings.Contains(opt, "apparmor") {
+			appArmorEnabled = true
+			fmt.Printf("AppArmor: 已启用\n")
+		}
+		if strings.Contains(opt, "selinux") {
+			selinuxEnabled = true
+			fmt.Printf("SELinux: 已启用\n")
+		}
+	}
+
+	if !seccompEnabled {
+		fmt.Println("⚠️ 警告: Seccomp 未启用，这可能增加容器逃逸风险")
+	}
+	if !appArmorEnabled && !selinuxEnabled {
+		fmt.Println("⚠️ 警告: 既未检测到 AppArmor 也未检测到 SELinux，这可能增加安全风险")
+	}
+
+	// 3. 检查特权容器
+	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	if err != nil {
+		log.Printf("无法列出容器: %v", err)
+	} else {
+		privilegedContainers := []string{}
+
+		for _, container := range containers {
+			inspect, err := cli.ContainerInspect(context.Background(), container.ID)
+			if err != nil {
+				continue
+			}
+
+			if inspect.HostConfig.Privileged {
+				privilegedContainers = append(privilegedContainers, container.Names[0])
+			}
+		}
+
+		if len(privilegedContainers) > 0 {
+			fmt.Println("\n⚠️ 警告: 发现特权容器:")
+			for _, name := range privilegedContainers {
+				fmt.Printf("  - %s\n", name)
+			}
+			fmt.Println("特权容器可以访问主机的所有设备，存在重大安全风险")
+		} else {
+			fmt.Println("\n✅ 未发现特权容器")
+		}
+	}
+
+	// 4. 检查存储驱动
+	fmt.Printf("\n--- 存储配置检查 ---\n")
+	fmt.Printf("存储驱动: %s\n", info.Driver)
+
+	// 5. 检查Cgroup配置
+	fmt.Printf("\n--- Cgroup配置检查 ---\n")
+	fmt.Printf("Cgroup 驱动: %s\n", info.CgroupDriver)
+	fmt.Printf("Cgroup 版本: %d\n", info.CgroupVersion)
+
+	// 6. 检查网络配置
+	fmt.Printf("\n--- 网络配置检查 ---\n")
+	fmt.Printf("网络插件: %s\n", strings.Join(info.Plugins.Network, ", "))
+
+	if info.HTTPProxy != "" || info.HTTPSProxy != "" {
+		fmt.Println("⚠️ 已配置网络代理:")
+		if info.HTTPProxy != "" {
+			fmt.Printf("  HTTP 代理: %s\n", info.HTTPProxy)
+		}
+		if info.HTTPSProxy != "" {
+			fmt.Printf("  HTTPS 代理: %s\n", info.HTTPSProxy)
+		}
+	}
+
+	// 7. 检查Docker根目录权限
+	fmt.Printf("\n--- 文件系统配置 ---\n")
+	fmt.Printf("Docker 根目录: %s\n", info.DockerRootDir)
+
+	// 8. 检查Debug模式
+	if info.Debug {
+		fmt.Println("\n⚠️ 警告: Docker 以调试模式运行，这可能暴露敏感信息")
+	}
 }
 
 // NewContainerWithLink 创建一个 Docker 容器，并挂载主机目录到容器
