@@ -1,7 +1,6 @@
 package docker
 
 import (
-	"bufio"
 	"context"
 	"fmt"
 	"github.com/docker/docker/api/types"
@@ -13,15 +12,35 @@ import (
 	"io"
 	"log"
 	"net"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // 全局 Docker 客户端对象
 var cli *client.Client
 var SSHClient *ssh.Client
+
+type Container struct {
+	Id      string
+	Name    string
+	Image   string
+	Status  string
+	Ports   []types.Port
+	Mounts  []types.MountPoint
+	Created string
+}
+type DockerInformation struct {
+	DockerVersion    string
+	RuncVersion      string
+	APIVersion       string
+	ContainerVersion string
+	KernelVersion    string
+	GoVersion        string
+	GitVersion       string
+	OSVersion        string
+}
 
 // init 初始化 Docker 客户端
 func init() {
@@ -37,6 +56,7 @@ func sshClose() {
 		SSHClient.Close()
 	}
 }
+
 func sshInit() {
 	sshConfig := &ssh.ClientConfig{
 		User: "ubuntu",
@@ -44,6 +64,7 @@ func sshInit() {
 			ssh.Password("ubuntu"), // 也可以使用密钥认证
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // 生产环境请勿使用这个
+		Timeout:         30 * time.Second,
 	}
 
 	// 建立 SSH 连接
@@ -55,34 +76,55 @@ func sshInit() {
 	}
 	fmt.Printf("SSH 连接成功\n")
 
-	// 创建一个通过 SSH 转发到 Docker socket 的代理
-	dialer := func(ctx context.Context, network, addr string) (net.Conn, error) {
-		session, err := SSHClient.NewSession()
-		if err != nil {
-			return nil, err
-		}
-
-		socketPath := "/var/run/docker.sock"
-		cmd := fmt.Sprintf("socat UNIX-LISTEN:%s,fork,mode=777 UNIX-CONNECT:%s", socketPath, socketPath)
-
-		if err := session.Start(cmd); err != nil {
-			return nil, err
-		}
-
-		return SSHClient.Dial("unix", socketPath)
+	// 建立一个通过SSH转发的TCP连接来访问远程Docker socket
+	// 首先创建一个本地随机端口的监听器
+	localListener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		fmt.Printf("创建本地监听器失败: %v\n", err)
+		return
 	}
+	localAddr := localListener.Addr().String()
 
-	// 创建自定义 HTTP 客户端
-	httpClient := &http.Client{
-		Transport: &http.Transport{
-			DialContext: dialer,
-		},
-	}
+	// 启动一个goroutine来处理SSH端口转发
+	go func() {
+		for {
+			// 接受本地连接
+			localConn, err := localListener.Accept()
+			if err != nil {
+				fmt.Printf("接受本地连接失败: %v\n", err)
+				return
+			}
 
-	// 初始化 Docker 客户端
+			// 通过SSH连接到远程Docker socket
+			remoteConn, err := SSHClient.Dial("unix", "/var/run/docker.sock")
+			if err != nil {
+				fmt.Printf("连接远程Docker socket失败: %v\n", err)
+				localConn.Close()
+				continue
+			}
+
+			// 启动goroutine双向转发数据
+			go func() {
+				defer localConn.Close()
+				defer remoteConn.Close()
+				io.Copy(localConn, remoteConn)
+			}()
+
+			go func() {
+				defer localConn.Close()
+				defer remoteConn.Close()
+				io.Copy(remoteConn, localConn)
+			}()
+		}
+	}()
+
+	// 等待端口转发准备就绪
+	time.Sleep(1 * time.Second)
+
+	// 使用标准Docker客户端连接到本地转发的端口
+	dockerHost := fmt.Sprintf("tcp://%s", localAddr)
 	cli, err = client.NewClientWithOpts(
-		client.WithHTTPClient(httpClient),
-		client.WithHost("unix:///var/run/docker.sock"),
+		client.WithHost(dockerHost),
 		client.WithAPIVersionNegotiation(),
 	)
 	if err != nil {
@@ -90,9 +132,13 @@ func sshInit() {
 		return
 	}
 
-	_, err = cli.Info(context.Background())
+	// 测试连接
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	_, err = cli.Ping(ctx)
 	if err != nil {
-		fmt.Printf("Docker 信息获取失败: %v\n", err)
+		fmt.Printf("Docker 连接测试失败: %v\n", err)
 		return
 	}
 
@@ -100,32 +146,8 @@ func sshInit() {
 }
 
 // Container 结构体，封装了容器的相关操作
-type Container struct {
-	Id      string
-	Name    string
-	Image   string
-	Status  string
-	Ports   []types.Port
-	Mounts  []types.MountPoint
-	Created string
-}
-
-func GetVersion() {
-	version, err := cli.ServerVersion(context.Background())
-	if err != nil {
-		log.Fatalf("无法获取Docker版本: %v", err)
-	}
-
-	// 输出版本信息
-	fmt.Printf("Docker 版本: %s\n", version.Version)
-	fmt.Printf("API 版本: %s\n", version.APIVersion)
-	fmt.Printf("Go 版本: %s\n", version.GoVersion)
-	fmt.Printf("Git commit: %s\n", version.GitCommit)
-	fmt.Printf("操作系统: %s\n", version.Os)
-	fmt.Printf("架构: %s\n", version.Arch)
-}
-func GetInfo() {
-
+func GetInfo() DockerInformation {
+	var information DockerInformation
 	info, err := cli.Info(context.Background())
 	if err != nil {
 		log.Fatalf("无法获取Docker信息: %v", err)
@@ -136,16 +158,14 @@ func GetInfo() {
 	if err != nil {
 		log.Fatalf("无法获取Docker版本: %v", err)
 	}
-
-	// 打印安全核查信息
-	fmt.Println("=== Docker 安全配置核查 ===")
-
-	// 1. 版本检查
-	fmt.Printf("Docker 引擎版本: %s\n", version.Version)
-	fmt.Printf("API 版本: %s\n", version.APIVersion)
-	fmt.Printf("containerd 版本: %s\n", info.ContainerdCommit.ID)
-	fmt.Printf("runc 版本: %s\n", info.RuncCommit.ID)
-	fmt.Printf("内核版本: %s\n", info.KernelVersion)
+	information.DockerVersion = version.Version
+	information.APIVersion = version.APIVersion
+	information.GoVersion = version.GoVersion
+	information.GitVersion = version.GitCommit
+	information.OSVersion = version.Os
+	information.ContainerVersion = info.ContainerdCommit.ID
+	information.RuncVersion = info.RuncCommit.ID
+	information.KernelVersion = info.KernelVersion
 
 	// 2. 安全选项检查
 	fmt.Println("\n--- 安全机制检查 ---")
@@ -205,10 +225,6 @@ func GetInfo() {
 		}
 	}
 
-	// 4. 检查存储驱动
-	fmt.Printf("\n--- 存储配置检查 ---\n")
-	fmt.Printf("存储驱动: %s\n", info.Driver)
-
 	// 5. 检查Cgroup配置
 	fmt.Printf("\n--- Cgroup配置检查 ---\n")
 	fmt.Printf("Cgroup 驱动: %s\n", info.CgroupDriver)
@@ -236,6 +252,7 @@ func GetInfo() {
 	if info.Debug {
 		fmt.Println("\n⚠️ 警告: Docker 以调试模式运行，这可能暴露敏感信息")
 	}
+	return information
 }
 
 // NewContainerWithLink 创建一个 Docker 容器，并挂载主机目录到容器
@@ -388,65 +405,26 @@ func ListRunningContainers() []*Container {
 	fmt.Println(result)
 	return result
 }
+func CheckDockerRootSimple() (bool, error) {
+	if cli == nil {
+		return false, fmt.Errorf("Docker客户端未初始化")
+	}
 
-func main() {
-	// 1. 创建容器，并挂载主机目录到容器
-	cont, err := NewContainerWithLink("my_container", "/docker/path", "/host/path")
+	// 获取Docker信息
+	info, err := cli.Info(context.Background())
 	if err != nil {
-		log.Fatalf("创建容器失败: %v", err)
+		return false, fmt.Errorf("获取Docker信息失败: %v", err)
 	}
-	fmt.Println("容器创建成功，ID:", cont.Id)
 
-	// 2. 运行容器
-	if err := cont.Run(); err != nil {
-		log.Fatalf("运行容器失败: %v", err)
-	}
-	fmt.Println("容器正在运行...")
-
-	//var str string
-	////fmt.Scan(&str)
-	////if str == "0" {
-	////	break
-	////}
-	//fmt.Println(str)
-	//// 3. 在容器中执行 ls 命令
-	//output, err := cont.Exec("sh", "-c", "cat /proc/self/status |grep Cap") //"cat /proc/self/status |grep Cap"
-	//if err != nil {
-	//	log.Fatalf("执行命令失败: %v", err)
-	//}
-	//fmt.Println("执行结果:\n", output)
-
-	reader := bufio.NewReader(os.Stdin)
-	for {
-		fmt.Print("输入命令: ")
-		str, err := reader.ReadString('\n')
-		if err != nil {
-			log.Fatalf("读取输入失败: %v", err)
-		}
-
-		str = strings.TrimSpace(str) // 移除换行符和多余空格
-		if str == "0" {
+	// 大多数情况下，Docker默认以root用户运行
+	// 如果使用rootless模式，会在Info中有所体现
+	isRoot := false
+	for _, SecurityOption := range info.SecurityOptions {
+		if !strings.Contains(strings.ToLower(SecurityOption), "rootless") {
+			isRoot = true
 			break
 		}
-
-		fmt.Println("执行命令:", str)
-
-		output := cont.Exec("sh", "-c", str)
-
-		fmt.Println("执行结果:\n", output)
 	}
 
-	fmt.Println(ListRunningContainers())
-	// 4. 停止容器
-	if err := cont.Stop(); err != nil {
-		log.Printf("停止容器失败: %v", err)
-	} else {
-		fmt.Println("容器已停止")
-	}
-	// 5. 删除容器
-	if err := cont.Close(); err != nil {
-		log.Printf("删除容器失败: %v", err)
-	} else {
-		fmt.Println("容器已删除")
-	}
+	return isRoot, nil
 }

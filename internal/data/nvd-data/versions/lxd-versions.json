@@ -1,0 +1,34 @@
+[
+  {
+    "cveId": "CVE-2024-6156",
+    "technology": "lxd",
+    "version": "5.21.2",
+    "vulnerable": false,
+    "cpeUri": "",
+    "description": "Mark Laing discovered that LXD's PKI mode, until version 5.21.2, could be bypassed if the client's certificate was present in the trust store.",
+    "publishedDate": "2024-12-06T00:15Z",
+    "matchingSource": "description"
+  },
+  {
+    "cveId": "CVE-2024-6219",
+    "technology": "lxd",
+    "version": "5.21.1",
+    "vulnerable": false,
+    "cpeUri": "",
+    "description": "Mark Laing discovered in LXD's PKI mode, until version 5.21.1, that a restricted certificate could be added to the trust store with its restrictions not honoured.",
+    "publishedDate": "2024-12-06T00:15Z",
+    "matchingSource": "description"
+  },
+  {
+    "cveId": "CVE-2021-40494",
+    "technology": "lxd",
+    "version": "*",
+    "vulnerable": true,
+    "cpeUri": "cpe:2.3:a:adaptivescale:lxdui:*:*:*:*:*:*:*:*",
+    "description": "A Hardcoded JWT Secret Key in metadata.py in AdaptiveScale LXDUI through 2.1.3 allows attackers to gain admin access to the host system.",
+    "publishedDate": "2021-09-03T02:15Z",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "matchingSource": "cpe"
+  }
+]
