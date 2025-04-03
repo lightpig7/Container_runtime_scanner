@@ -20,6 +20,7 @@ import (
 
 // 全局 Docker 客户端对象
 var cli *client.Client
+var Cli *client.Client
 var SSHClient *ssh.Client
 
 type Container struct {
@@ -50,6 +51,7 @@ func init() {
 	//	log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
 	//}
 	sshInit()
+	Cli = cli
 }
 func sshClose() {
 	if SSHClient != nil {
@@ -69,7 +71,7 @@ func sshInit() {
 
 	// 建立 SSH 连接
 	var err error
-	SSHClient, err = ssh.Dial("tcp", "192.168.52.142:22", sshConfig)
+	SSHClient, err = ssh.Dial("tcp", "192.168.52.146:22", sshConfig)
 	if err != nil {
 		fmt.Printf("SSH 连接失败: %v\n", err)
 		return
@@ -167,91 +169,6 @@ func GetInfo() DockerInformation {
 	information.RuncVersion = info.RuncCommit.ID
 	information.KernelVersion = info.KernelVersion
 
-	// 2. 安全选项检查
-	fmt.Println("\n--- 安全机制检查 ---")
-	seccompEnabled := false
-	appArmorEnabled := false
-	selinuxEnabled := false
-
-	for _, opt := range info.SecurityOptions {
-		if strings.Contains(opt, "seccomp") {
-			seccompEnabled = true
-			fmt.Printf("Seccomp: 已启用, 配置文件: %s\n",
-				strings.TrimPrefix(opt, "name=seccomp,profile="))
-		}
-		if strings.Contains(opt, "apparmor") {
-			appArmorEnabled = true
-			fmt.Printf("AppArmor: 已启用\n")
-		}
-		if strings.Contains(opt, "selinux") {
-			selinuxEnabled = true
-			fmt.Printf("SELinux: 已启用\n")
-		}
-	}
-
-	if !seccompEnabled {
-		fmt.Println("⚠️ 警告: Seccomp 未启用，这可能增加容器逃逸风险")
-	}
-	if !appArmorEnabled && !selinuxEnabled {
-		fmt.Println("⚠️ 警告: 既未检测到 AppArmor 也未检测到 SELinux，这可能增加安全风险")
-	}
-
-	// 3. 检查特权容器
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
-	if err != nil {
-		log.Printf("无法列出容器: %v", err)
-	} else {
-		privilegedContainers := []string{}
-
-		for _, container := range containers {
-			inspect, err := cli.ContainerInspect(context.Background(), container.ID)
-			if err != nil {
-				continue
-			}
-
-			if inspect.HostConfig.Privileged {
-				privilegedContainers = append(privilegedContainers, container.Names[0])
-			}
-		}
-
-		if len(privilegedContainers) > 0 {
-			fmt.Println("\n⚠️ 警告: 发现特权容器:")
-			for _, name := range privilegedContainers {
-				fmt.Printf("  - %s\n", name)
-			}
-			fmt.Println("特权容器可以访问主机的所有设备，存在重大安全风险")
-		} else {
-			fmt.Println("\n✅ 未发现特权容器")
-		}
-	}
-
-	// 5. 检查Cgroup配置
-	fmt.Printf("\n--- Cgroup配置检查 ---\n")
-	fmt.Printf("Cgroup 驱动: %s\n", info.CgroupDriver)
-	fmt.Printf("Cgroup 版本: %d\n", info.CgroupVersion)
-
-	// 6. 检查网络配置
-	fmt.Printf("\n--- 网络配置检查 ---\n")
-	fmt.Printf("网络插件: %s\n", strings.Join(info.Plugins.Network, ", "))
-
-	if info.HTTPProxy != "" || info.HTTPSProxy != "" {
-		fmt.Println("⚠️ 已配置网络代理:")
-		if info.HTTPProxy != "" {
-			fmt.Printf("  HTTP 代理: %s\n", info.HTTPProxy)
-		}
-		if info.HTTPSProxy != "" {
-			fmt.Printf("  HTTPS 代理: %s\n", info.HTTPSProxy)
-		}
-	}
-
-	// 7. 检查Docker根目录权限
-	fmt.Printf("\n--- 文件系统配置 ---\n")
-	fmt.Printf("Docker 根目录: %s\n", info.DockerRootDir)
-
-	// 8. 检查Debug模式
-	if info.Debug {
-		fmt.Println("\n⚠️ 警告: Docker 以调试模式运行，这可能暴露敏感信息")
-	}
 	return information
 }
 

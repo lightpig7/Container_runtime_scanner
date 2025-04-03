@@ -1,19 +1,11 @@
 package main
 
-import (
-	"Container_runtime_scanner/internal/audit"
-	"Container_runtime_scanner/internal/docker"
-	"fmt"
-)
+import "Container_runtime_scanner/internal/web"
 
 func main() {
-	audit.VersionMatch()
-	simple, err := docker.CheckDockerRootSimple()
-	if err != nil {
-		return
-	}
-	fmt.Println(simple)
-	//web.Create()
+	//audit.VersionMatch()
+	//audit.Audit_start()
+	web.Create()
 	//data.ExtractContainerVersions()
 	// 设置 SSH 连接配置
 	//docker.Test()

@@ -203,8 +203,6 @@ func isVersionMatched(version string, cve CVE) bool {
 
 // 检查版本是否在范围内
 func isVersionInRange(version string, vRange *VersionRange) bool {
-	// 这里应该实现完整的语义化版本比较
-	// 简化实现，仅作示例
 
 	// 如果没有范围信息，无法确定
 	if vRange.StartIncluding == "" && vRange.StartExcluding == "" &&

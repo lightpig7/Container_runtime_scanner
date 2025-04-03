@@ -1,6 +1,7 @@
 package web
 
 import (
+	"Container_runtime_scanner/internal/audit"
 	"Container_runtime_scanner/internal/data"
 	"Container_runtime_scanner/internal/docker"
 	"Container_runtime_scanner/internal/pentest"
@@ -52,6 +53,10 @@ func Create() {
 	r.POST("/docker/penetrate", func(c *gin.Context) {
 		fmt.Println("pentest.Run()")
 		pentest.Run()
+	})
+	r.POST("/docker/audit", func(c *gin.Context) {
+		fmt.Println("audit.Audit_start()")
+		audit.Audit_start()
 	})
 	r.POST("/docker/log", func(c *gin.Context) {
 		containerName := c.PostForm("container")
