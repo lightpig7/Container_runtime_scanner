@@ -42,7 +42,7 @@ type MatchResult struct {
 	MatchedCVEs []CVE
 }
 
-func VersionMatch() []MatchResult {
+func VersionMatch(logger *log.Logger) []MatchResult {
 	// 获取Docker信息
 	versionInfo := docker.GetInfo()
 

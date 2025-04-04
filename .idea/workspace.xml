@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/audit/is_private_contrainer.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/audit/main_part.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/data/log/audit.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DJL2CMkK.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/web/static/assets/index-DJrnJTl4.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/audit/tsl_remote.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/audit/tsl_remote.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/audit/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/audit/main_part.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/audit/version_audit.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/audit/version_audit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/docker/contoller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/contoller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/data/data_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/data/data_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/web/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-BkuXH9Zm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/assets/index-CcGMP7vW.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/web/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/internal/web/static/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

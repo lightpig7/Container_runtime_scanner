@@ -17,8 +17,14 @@ func RegexGetBool(expected_output string, output string) bool {
 	found := re.MatchString(output)
 	return found
 }
-func ReadLog(containerName string) (string, error) {
-	logFilePath := fmt.Sprintf("./internal/data/log/%s_scan.log", containerName)
+func ReadLog(containerName string, mode string) (string, error) {
+	var logFilePath string
+	if mode == "container" {
+		logFilePath = fmt.Sprintf("./internal/data/log/%s_scan.log", containerName)
+	}
+	if mode == "audit" {
+		logFilePath = fmt.Sprintf("./internal/data/log/audit.log")
+	}
 
 	// 读取日志文件内容
 	data, err := os.ReadFile(logFilePath)
@@ -32,7 +38,6 @@ func ReadLog(containerName string) (string, error) {
 func ReadAuxFile(containerName string) (string, error) {
 	logFilePath := fmt.Sprintf("./internal/data/auxiliary/%s", containerName)
 
-	// 读取日志文件内容
 	data, err := os.ReadFile(logFilePath)
 	if err != nil {
 		return "", fmt.Errorf("无法读取日志文件: %v", err)

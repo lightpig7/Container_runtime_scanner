@@ -57,7 +57,19 @@ func Create() {
 	r.POST("/docker/audit", func(c *gin.Context) {
 		fmt.Println("audit.Audit_start()")
 		audit.Audit_start()
+		success(c, "success")
 	})
+	r.POST("/docker/audit/log", func(c *gin.Context) {
+
+		logContent, err := data.ReadLog("", "audit")
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"log": logContent})
+	})
+
 	r.POST("/docker/log", func(c *gin.Context) {
 		containerName := c.PostForm("container")
 		fmt.Println("Received container parameter:", containerName)
@@ -66,8 +78,7 @@ func Create() {
 			return
 		}
 
-		// 读取日志
-		logContent, err := data.ReadLog(containerName)
+		logContent, err := data.ReadLog(containerName, "container")
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
