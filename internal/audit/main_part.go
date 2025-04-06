@@ -40,4 +40,16 @@ func Audit_start() {
 		fmt.Println(container)
 	}
 	VersionMatch(logger)
+	rootContainers := CheckContainerUserIsRoot()
+	if len(rootContainers) == 0 {
+		fmt.Println("全部容器以非 root 用户运行")
+		logger.Println("全部容器以非 root 用户运行")
+
+	} else {
+		fmt.Println("以下容器以 root 用户运行：")
+		logger.Println("以下容器以 root 用户运行：")
+		for _, name := range rootContainers {
+			fmt.Printf("- %s\n", name)
+		}
+	}
 }

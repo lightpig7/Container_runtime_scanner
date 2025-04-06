@@ -71,7 +71,7 @@ func sshInit() {
 
 	// 建立 SSH 连接
 	var err error
-	SSHClient, err = ssh.Dial("tcp", "192.168.52.146:22", sshConfig)
+	SSHClient, err = ssh.Dial("tcp", "192.168.52.147:22", sshConfig)
 	if err != nil {
 		fmt.Printf("SSH 连接失败: %v\n", err)
 		return
@@ -319,7 +319,6 @@ func ListRunningContainers() []*Container {
 			Created: detailedInfo.Created,
 		})
 	}
-	fmt.Println(result)
 	return result
 }
 func CheckDockerRootSimple() (bool, error) {
@@ -333,8 +332,6 @@ func CheckDockerRootSimple() (bool, error) {
 		return false, fmt.Errorf("获取Docker信息失败: %v", err)
 	}
 
-	// 大多数情况下，Docker默认以root用户运行
-	// 如果使用rootless模式，会在Info中有所体现
 	isRoot := false
 	for _, SecurityOption := range info.SecurityOptions {
 		if !strings.Contains(strings.ToLower(SecurityOption), "rootless") {

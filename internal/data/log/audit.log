@@ -1,4 +1,5 @@
-2025/04/03 16:29:00 Docker守护进程以root启动
-2025/04/03 16:29:00 Docker未开启TCP端口
-2025/04/03 16:29:00 特权容器有: 
-2025/04/03 16:29:00 /k8s_kube-proxy_kube-proxy-p926f_kube-system_9758680c-b55b-481e-bbfa-cca8df95d775_1
+2025/04/07 00:01:44 Docker守护进程以root启动
+2025/04/07 00:01:44 Docker未开启TCP端口
+2025/04/07 00:01:44 特权容器有: 
+2025/04/07 00:01:44 /k8s_kube-proxy_kube-proxy-p926f_kube-system_9758680c-b55b-481e-bbfa-cca8df95d775_1
+2025/04/07 00:01:46 以下容器以 root 用户运行：

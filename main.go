@@ -1,11 +1,11 @@
 package main
 
-import "Container_runtime_scanner/internal/web"
+import "Container_runtime_scanner/internal/audit"
 
 func main() {
-	//audit.VersionMatch()
+	audit.CheckSensitiveMounts()
 	//audit.Audit_start()
-	web.Create()
+	//web.Create()
 	//data.ExtractContainerVersions()
 	// 设置 SSH 连接配置
 	//docker.Test()
