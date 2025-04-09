@@ -3,11 +3,11 @@ package docker
 import (
 	"context"
 	"fmt"
+	"github.com/docker/docker/client"
 	"net"
 	"net/http"
 	"sync"
 
-	"github.com/docker/docker/client"
 	"golang.org/x/crypto/ssh"
 )
 

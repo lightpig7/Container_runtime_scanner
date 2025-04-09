@@ -1,0 +1,14 @@
+digraph CriticalPaths {
+  rankdir=LR;
+  node [shape=box, style=filled];
+  subgraph cluster_0 {
+    label="关键路径 #1 (风险值: 17.10)";
+    style=filled;
+    color=lightgrey;
+    "pod-frontend_0" [label="pod/default/frontend\nnginx\n漏洞: Nginx配置错误\n风险评分: 6.0", fillcolor="orange"];
+    "node-worker1_0" [label="node/worker1\nkubelet\n漏洞: 容器逃逸漏洞\n风险评分: 7.5", fillcolor="red"];
+    "kube-apiserver_0" [label="node/master\nkube-apiserver\n漏洞: RBAC权限过大\n风险评分: 8.0", fillcolor="red"];
+    "pod-frontend_0" -> "node-worker1_0" [label="步骤 1: 容器逃逸攻击\n难度: 0.6", penwidth=2.2];
+    "node-worker1_0" -> "kube-apiserver_0" [label="步骤 2: 凭据窃取并提权\n难度: 0.7", penwidth=1.9];
+  }
+}
