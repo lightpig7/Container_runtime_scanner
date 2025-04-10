@@ -3,13 +3,13 @@ package audit
 import (
 	"Container_runtime_scanner/internal/docker"
 	"context"
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"log"
 )
 
 func IsPrivate() []string {
 	cli := docker.Cli
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
 
 	privilegedContainers := []string{}
 	if err != nil {

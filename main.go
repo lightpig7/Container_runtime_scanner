@@ -1,13 +1,15 @@
 package main
 
-import "Container_runtime_scanner/internal/containerd"
+import "Container_runtime_scanner/internal/audit"
 
 func main() {
 	//audit.CheckSensitiveMounts()
-	//audit.Audit_start()
+	audit.Audit_start()
 	//cluster.Test()
+	//data.FetchContainerVulnerabilities()
+	//docker.ListRunningContainers()
 	//web.Create()
-	containerd.TestMain()
+	//containerd.TestMain()
 	//data.ExtractContainerVersions()
 	// 设置 SSH 连接配置
 	//docker.Test()

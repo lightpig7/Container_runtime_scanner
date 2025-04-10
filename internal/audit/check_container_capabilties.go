@@ -3,14 +3,14 @@ package audit
 import (
 	"Container_runtime_scanner/internal/docker"
 	"context"
-	"fmt"
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"log"
 )
 
-func CheckContainerCapabilities() {
+func CheckContainerCapabilities(logger *log.Logger) {
 	cli := docker.Cli
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{})
 	if err != nil {
 		panic(err)
 	}
@@ -18,7 +18,7 @@ func CheckContainerCapabilities() {
 	for _, container := range containers {
 		info, err := cli.ContainerInspect(context.Background(), container.ID)
 		if err != nil {
-			fmt.Println("Error inspecting container:", container.ID)
+			logger.Println("Error inspecting container:", container.ID)
 			continue
 		}
 		hasCapAdd := len(info.HostConfig.CapAdd) > 0
@@ -28,11 +28,11 @@ func CheckContainerCapabilities() {
 		}
 
 		if hasCapAdd && hasCapDrop != "all" {
-			fmt.Println("⚠️ 注意：容器可能具有过多权限")
-			fmt.Printf("容器：%s\n", container.Names[0])
-			fmt.Printf("添加的Capabilities: %v\n", info.HostConfig.CapAdd)
-			fmt.Printf("移除的Capabilities: %v\n", info.HostConfig.CapDrop)
-			fmt.Println()
+			logger.Println("⚠️ 注意：容器可能具有过多权限")
+			logger.Printf("容器：%s\n", container.Names[0])
+			logger.Printf("添加的Capabilities: %v\n", info.HostConfig.CapAdd)
+			logger.Printf("移除的Capabilities: %v\n", info.HostConfig.CapDrop)
+			logger.Println()
 		}
 
 	}

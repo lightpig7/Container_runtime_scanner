@@ -1,0 +1,430 @@
+[
+  {
+    "cveId": "CVE-2025-25294",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.2.7"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2025-27403",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.2.3"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2024-26147",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.14.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2024-42480",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 9.9,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2024-5154",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.30.0"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2024-5154",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.29.4"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2024-5154",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.28.6"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2023-1174",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.26.0"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-1174",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.26.1"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-1174",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.27.0"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-1174",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.27.1"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-1174",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.28.0"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-1260",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2023-22479",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.6.3"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2023-22480",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.16.3"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2023-2878",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.3.3"
+    ],
+    "cvssScore": 5.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2023-3893",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "2.0.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-1708",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.24.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-23524",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.10.3"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-23525",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.10.3"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-23526",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.10.3"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-23652",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.2.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-24829",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.12.39"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2022-29171",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "3.38.0"
+    ],
+    "cvssScore": 7.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-2995",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.25.0"
+    ],
+    "cvssScore": 7.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-3172",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.25.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-35930",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.2.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-39272",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.35.0"
+    ],
+    "cvssScore": 4.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2022-4318",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 7.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-25737",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.21.0"
+    ],
+    "cvssScore": 4.8,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2021-25740",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 3.1,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2021-25742",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 7.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-36782",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "2.5.16",
+      "2.6.7"
+    ],
+    "cvssScore": 9.9,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2020-1753",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "2.7.17",
+      "2.8.11",
+      "2.9.7"
+    ],
+    "cvssScore": 5.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-7010",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.1.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2020-7922",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.2.4",
+      "1.3.1",
+      "1.4.4"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8552",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.9"
+    ],
+    "cvssScore": 4.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8555",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.12"
+    ],
+    "cvssScore": 6.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8555",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.18.0"
+    ],
+    "cvssScore": 6.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8559",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.13"
+    ],
+    "cvssScore": 6.8,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8561",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.20.11"
+    ],
+    "cvssScore": 4.1,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8561",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.21.5"
+    ],
+    "cvssScore": 4.1,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8561",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.22.2"
+    ],
+    "cvssScore": 4.1,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8562",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.21.0"
+    ],
+    "cvssScore": 3.1,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2020-8568",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.0.16"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8568",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.0.15"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-8570",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "9.0.1"
+    ],
+    "cvssScore": 9.1,
+    "severity": "CRITICAL"
+  }
+]

@@ -1,0 +1,184 @@
+[
+  {
+    "cveId": "CVE-2024-21626",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.1.11",
+      "1.1.12"
+    ],
+    "cvssScore": 8.6,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2024-45310",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.1.14",
+      "1.1.13"
+    ],
+    "cvssScore": 0,
+    "severity": ""
+  },
+  {
+    "cveId": "CVE-2023-28642",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.1.5"
+    ],
+    "cvssScore": 7.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-29162",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.1.2"
+    ],
+    "cvssScore": 7.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-30465",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.0"
+    ],
+    "cvssScore": 8.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2021-43784",
+    "technology": "runc",
+    "affectedVersions": [
+      "1.0.3"
+    ],
+    "cvssScore": 5,
+    "severity": "MEDIUM"
+  }
+]

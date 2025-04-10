@@ -1,0 +1,155 @@
+[
+  {
+    "cveId": "CVE-2023-0778",
+    "technology": "podman",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 6.8,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2022-2738",
+    "technology": "podman",
+    "affectedVersions": [
+      "1.6.4-32.el7_9"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-2739",
+    "technology": "podman",
+    "affectedVersions": [
+      "1.6.4-32.el7_9"
+    ],
+    "cvssScore": 5.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2022-4122",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.3.0"
+    ],
+    "cvssScore": 5.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.2.1"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.1.1"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.2.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.2.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.2.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.2.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.1.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.1.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.1.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2022-4123",
+    "technology": "podman",
+    "affectedVersions": [
+      "4.3.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2021-20199",
+    "technology": "podman",
+    "affectedVersions": [
+      "1.8.0"
+    ],
+    "cvssScore": 5.9,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-14370",
+    "technology": "podman",
+    "affectedVersions": [
+      "2.0.5"
+    ],
+    "cvssScore": 5.3,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2020-1702",
+    "technology": "podman",
+    "affectedVersions": [
+      "5.2.0"
+    ],
+    "cvssScore": 3.3,
+    "severity": "LOW"
+  }
+]

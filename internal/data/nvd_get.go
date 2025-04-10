@@ -15,614 +15,523 @@ import (
 )
 
 const (
-	// 这些是按年份分组的CVE数据
+	// NVD feeds base URL
 	nvdFeedsBaseURL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-%s.json.gz"
 
-	// 数据存储目录
+	// Data storage directory
 	dataDir = "./internal/data/nvd-data"
 
-	// 用户代理
+	// User agent
 	userAgent = "Mozilla/5.0 NVD Data Fetcher"
 )
 
-// CVE代表通用漏洞和暴露
-type CVE struct {
-	CVEDataType         string    `json:"dataType"`
-	CVEDataFormat       string    `json:"dataFormat"`
-	CVEDataVersion      string    `json:"dataVersion"`
-	CVEDataNumberOfCVEs string    `json:"numberOfCVEs"`
-	CVEDataTimestamp    string    `json:"timestamp"`
-	CVEItems            []CVEItem `json:"CVE_Items"`
-}
-
-// CVEItem代表NVD中的单个CVE条目
-type CVEItem struct {
-	CVE struct {
-		CVEDataMeta struct {
-			ID string `json:"ID"`
-		} `json:"CVE_data_meta"`
-		Description struct {
-			DescriptionData []struct {
-				Lang  string `json:"lang"`
-				Value string `json:"value"`
-			} `json:"description_data"`
-		} `json:"description"`
-	} `json:"cve"`
-	Configurations struct {
-		Nodes []struct {
-			Operator string `json:"operator"`
-			CpeMatch []struct {
-				Vulnerable bool   `json:"vulnerable"`
-				Cpe23Uri   string `json:"cpe23Uri"`
-			} `json:"cpe_match,omitempty"`
-			Children []struct {
-				Operator string `json:"operator"`
-				CpeMatch []struct {
-					Vulnerable bool   `json:"vulnerable"`
-					Cpe23Uri   string `json:"cpe23Uri"`
-				} `json:"cpe_match,omitempty"`
-			} `json:"children,omitempty"`
-		} `json:"nodes"`
-	} `json:"configurations"`
-	Impact struct {
-		BaseMetricV3 struct {
-			CVSSV3 struct {
-				Version               string  `json:"version"`
-				VectorString          string  `json:"vectorString"`
-				AttackVector          string  `json:"attackVector"`
-				AttackComplexity      string  `json:"attackComplexity"`
-				PrivilegesRequired    string  `json:"privilegesRequired"`
-				UserInteraction       string  `json:"userInteraction"`
-				Scope                 string  `json:"scope"`
-				ConfidentialityImpact string  `json:"confidentialityImpact"`
-				IntegrityImpact       string  `json:"integrityImpact"`
-				AvailabilityImpact    string  `json:"availabilityImpact"`
-				BaseScore             float64 `json:"baseScore"`
-				BaseSeverity          string  `json:"baseSeverity"`
-			} `json:"cvssV3"`
-			ExploitabilityScore float64 `json:"exploitabilityScore"`
-			ImpactScore         float64 `json:"impactScore"`
-		} `json:"baseMetricV3,omitempty"`
-		BaseMetricV2 struct {
-			CVSSV2 struct {
-				Version               string  `json:"version"`
-				VectorString          string  `json:"vectorString"`
-				AccessVector          string  `json:"accessVector"`
-				AccessComplexity      string  `json:"accessComplexity"`
-				Authentication        string  `json:"authentication"`
-				ConfidentialityImpact string  `json:"confidentialityImpact"`
-				IntegrityImpact       string  `json:"integrityImpact"`
-				AvailabilityImpact    string  `json:"availabilityImpact"`
-				BaseScore             float64 `json:"baseScore"`
-			} `json:"cvssV2"`
-			Severity                string  `json:"severity"`
-			ExploitabilityScore     float64 `json:"exploitabilityScore"`
-			ImpactScore             float64 `json:"impactScore"`
-			AcInsufInfo             bool    `json:"acInsufInfo,omitempty"`
-			ObtainAllPrivilege      bool    `json:"obtainAllPrivilege"`
-			ObtainUserPrivilege     bool    `json:"obtainUserPrivilege"`
-			ObtainOtherPrivilege    bool    `json:"obtainOtherPrivilege"`
-			UserInteractionRequired bool    `json:"userInteractionRequired,omitempty"`
-		} `json:"baseMetricV2,omitempty"`
-	} `json:"impact"`
-	PublishedDate    string `json:"publishedDate"`
-	LastModifiedDate string `json:"lastModifiedDate"`
-}
-
-// ContainerVersionInfo 存储容器技术的版本信息
-type ContainerVersionInfo struct {
-	CVEId          string        `json:"cveId"`
-	Technology     string        `json:"technology"`
-	Version        string        `json:"version"`
-	Vulnerable     bool          `json:"vulnerable"`
-	CpeUri         string        `json:"cpeUri"`
-	Description    string        `json:"description"`
-	PublishedDate  string        `json:"publishedDate"`
-	CVSSScore      float64       `json:"cvssScore,omitempty"`
-	Severity       string        `json:"severity,omitempty"`
-	MatchingSource string        `json:"matchingSource"`
-	VersionRange   *VersionRange `json:"versionRange,omitempty"`
-}
-
-// VersionRange 表示版本范围信息
-type VersionRange struct {
-	StartIncluding string `json:"startIncluding,omitempty"`
-	StartExcluding string `json:"startExcluding,omitempty"`
-	EndIncluding   string `json:"endIncluding,omitempty"`
-	EndExcluding   string `json:"endExcluding,omitempty"`
-}
-
-// UpdateContainerVersions 从NVD数据中提取容器技术版本信息
-func UpdateContainerVersions() {
-	// 创建数据目录
+// ExtractContainerVulnerabilities fetches and processes NVD data for container technologies
+func ExtractContainerVulnerabilities() {
+	// Create data directory
 	if err := os.MkdirAll(dataDir, 0755); err != nil {
-		log.Fatalf("无法创建数据目录: %v", err)
+		log.Fatalf("Failed to create data directory: %v", err)
 	}
 
-	fmt.Println("下载NVD Feeds获取容器相关版本信息...")
-	versionInfos := fetchContainerVersionsFromFeeds()
+	log.Println("Downloading NVD data for container-related vulnerabilities...")
+	vulnerabilities := fetchContainerVulnerabilitiesFromNVD()
 
-	// 保存提取的版本信息
-	saveVersionInfo(versionInfos)
+	// Save extracted vulnerability information
+	saveVulnerabilityData(vulnerabilities)
 }
 
-// 从NVD Feeds获取容器相关技术的版本信息
-func fetchContainerVersionsFromFeeds() []ContainerVersionInfo {
-	// 获取当前年份
+// Fetch container vulnerabilities from NVD feeds
+func fetchContainerVulnerabilitiesFromNVD() []ContainerVulnerability {
+	// Get current year
 	currentYear := time.Now().Year()
 
-	// 存储所有提取的版本信息
-	var allVersionInfos []ContainerVersionInfo
+	// Store all extracted vulnerabilities
+	var allVulnerabilities []ContainerVulnerability
 
-	// 设置关注的技术列表
-	targetTechnologies := []string{
-		"docker", "runc", "containerd", "kubernetes", "k8s",
-		"podman", "cri-o", "buildah", "skopeo", "moby",
-		"lxc", "lxd", "cri", "oci",
-	}
-
-	// 版本提取正则表达式
-	versionRegex := regexp.MustCompile(`(?i)(version|v)[:\s]*([0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?|\d+\.\d+|\d+)`)
-
-	// CPE版本提取正则表达式 - 匹配cpe:2.3:a:docker:docker:*
-	cpeProductVersionRegex := regexp.MustCompile(`cpe:2\.3:[^:]+:[^:]+:([^:]+):([^:]+)`)
-
+	// Process last 5 years of CVE data
 	for year := currentYear; year >= currentYear-5; year-- {
 		yearStr := fmt.Sprintf("%d", year)
 		feedURL := fmt.Sprintf(nvdFeedsBaseURL, yearStr)
 		outputFile := filepath.Join(dataDir, fmt.Sprintf("nvdcve-%s.json", yearStr))
 		gzOutputFile := outputFile + ".gz"
 
-		fmt.Printf("处理 %d 年的CVE数据...\n", year)
+		log.Printf("Processing CVE data for year %d...\n", year)
 
-		// 如果gzip文件不存在，下载它
-		if _, err := os.Stat(gzOutputFile); err != nil {
-			fmt.Printf("下载 %d 年的CVE数据...\n", year)
-			// 创建HTTP客户端
-			client := &http.Client{
-				Timeout: 180 * time.Second,
-			}
-
-			// 创建请求
-			req, err := http.NewRequest("GET", feedURL, nil)
-			if err != nil {
-				log.Printf("创建请求失败: %v", err)
+		// Download gzip file if it doesn't exist
+		if _, err := os.Stat(gzOutputFile); os.IsNotExist(err) {
+			log.Printf("Downloading CVE data for year %d...\n", year)
+			if err := downloadFile(feedURL, gzOutputFile); err != nil {
+				log.Printf("Error downloading CVE data: %v", err)
 				continue
 			}
-
-			// 设置请求头
-			req.Header.Set("User-Agent", userAgent)
-
-			// 发送请求
-			resp, err := client.Do(req)
-			if err != nil {
-				log.Printf("发送请求失败: %v", err)
-				continue
-			}
-
-			// 检查响应状态
-			if resp.StatusCode != http.StatusOK {
-				resp.Body.Close()
-				log.Printf("下载失败: %s", resp.Status)
-				continue
-			}
-
-			// 保存gzip文件
-			out, err := os.Create(gzOutputFile)
-			if err != nil {
-				resp.Body.Close()
-				log.Printf("创建文件失败: %v", err)
-				continue
-			}
-
-			_, err = io.Copy(out, resp.Body)
-			resp.Body.Close()
-			out.Close()
-			if err != nil {
-				log.Printf("保存文件失败: %v", err)
-				continue
-			}
-
-			fmt.Printf("成功下载 %d 年的CVE数据\n", year)
+			log.Printf("Successfully downloaded CVE data for year %d\n", year)
 		} else {
-			fmt.Printf("文件 %s 已存在，跳过下载\n", gzOutputFile)
+			log.Printf("File %s already exists, skipping download\n", gzOutputFile)
 		}
 
-		// 解压gzip文件
-		if _, err := os.Stat(outputFile); err != nil {
-			err := decompressGzFile(gzOutputFile, outputFile)
-			if err != nil {
-				log.Printf("解压文件失败: %v", err)
+		// Decompress gzip file
+		if _, err := os.Stat(outputFile); os.IsNotExist(err) {
+			if err := decompressGzFile(gzOutputFile, outputFile); err != nil {
+				log.Printf("Error decompressing file: %v", err)
 				continue
 			}
-			fmt.Printf("成功解压 %d 年的CVE数据\n", year)
+			log.Printf("Successfully decompressed CVE data for year %d\n", year)
 		} else {
-			fmt.Printf("文件 %s 已存在，跳过解压\n", outputFile)
+			log.Printf("File %s already exists, skipping decompression\n", outputFile)
 		}
 
-		// 读取解压后的文件
-		data, err := os.ReadFile(outputFile)
+		// Read and parse JSON file
+		cveData, err := parseCVEFile(outputFile)
 		if err != nil {
-			log.Printf("读取文件失败: %v", err)
+			log.Printf("Error parsing CVE data: %v", err)
 			continue
 		}
 
-		// 解析CVE数据
-		var cveData CVE
-		if err := json.Unmarshal(data, &cveData); err != nil {
-			log.Printf("解析JSON失败: %v", err)
-			continue
-		}
+		// Extract container vulnerabilities
+		log.Printf("Extracting container vulnerabilities from %d data...\n", year)
+		yearVulnerabilities := extractContainerVulnerabilities(cveData)
+		allVulnerabilities = append(allVulnerabilities, yearVulnerabilities...)
+		log.Printf("Extracted %d container vulnerabilities from %d data\n",
+			len(yearVulnerabilities), year)
 
-		fmt.Printf("开始从 %d 年数据中提取容器技术版本信息...\n", year)
-		yearVersions := 0
-
-		// 遍历CVE条目
-		for _, item := range cveData.CVEItems {
-			cveID := item.CVE.CVEDataMeta.ID
-
-			// 获取英文描述
-			var description string
-			for _, desc := range item.CVE.Description.DescriptionData {
-				if desc.Lang == "en" {
-					description = desc.Value
-					break
-				}
-			}
-
-			// 处理CVE基本信息
-			var cvssScore float64
-			var severity string
-			if item.Impact.BaseMetricV3.CVSSV3.BaseScore > 0 {
-				cvssScore = item.Impact.BaseMetricV3.CVSSV3.BaseScore
-				severity = item.Impact.BaseMetricV3.CVSSV3.BaseSeverity
-			} else if item.Impact.BaseMetricV2.CVSSV2.BaseScore > 0 {
-				cvssScore = item.Impact.BaseMetricV2.CVSSV2.BaseScore
-				severity = item.Impact.BaseMetricV2.Severity
-			}
-
-			// 从描述中查找技术和版本信息
-			for _, tech := range targetTechnologies {
-				// 在描述中查找技术名称
-				techRegex := regexp.MustCompile(fmt.Sprintf(`(?i)\b%s\b`, tech))
-				if techRegex.MatchString(description) {
-					// 查找版本号
-					matches := versionRegex.FindAllStringSubmatch(description, -1)
-					if len(matches) > 0 {
-						for _, match := range matches {
-							if len(match) > 2 {
-								versionInfo := ContainerVersionInfo{
-									CVEId:          cveID,
-									Technology:     tech,
-									Version:        match[2],
-									Description:    description,
-									PublishedDate:  item.PublishedDate,
-									CVSSScore:      cvssScore,
-									Severity:       severity,
-									MatchingSource: "description",
-								}
-								allVersionInfos = append(allVersionInfos, versionInfo)
-								yearVersions++
-							}
-						}
-					}
-				}
-			}
-
-			// 从CPE中查找技术和版本信息
-			for _, node := range item.Configurations.Nodes {
-				// 检查直接CPE匹配
-				for _, match := range node.CpeMatch {
-					cpeURI := match.Cpe23Uri
-
-					// 检查CPE是否包含目标技术
-					for _, tech := range targetTechnologies {
-						if strings.Contains(strings.ToLower(cpeURI), tech) {
-							// 从CPE中提取版本
-							cpeMatches := cpeProductVersionRegex.FindStringSubmatch(cpeURI)
-
-							if len(cpeMatches) > 2 {
-								// 处理版本信息
-								versionInfo := ContainerVersionInfo{
-									CVEId:          cveID,
-									Technology:     tech,
-									Version:        cpeMatches[2],
-									Vulnerable:     match.Vulnerable,
-									CpeUri:         cpeURI,
-									Description:    description,
-									PublishedDate:  item.PublishedDate,
-									CVSSScore:      cvssScore,
-									Severity:       severity,
-									MatchingSource: "cpe",
-								}
-
-								// 检查是否有版本范围信息
-								if strings.Contains(cpeURI, "*") || strings.Contains(cpeURI, "-") {
-									// 提取版本范围
-									versionRange := extractVersionRange(cpeURI)
-									if versionRange != nil {
-										versionInfo.VersionRange = versionRange
-									}
-								}
-
-								allVersionInfos = append(allVersionInfos, versionInfo)
-								yearVersions++
-							}
-						}
-					}
-				}
-
-				// 检查子节点的CPE匹配
-				for _, child := range node.Children {
-					for _, match := range child.CpeMatch {
-						cpeURI := match.Cpe23Uri
-
-						// 检查CPE是否包含目标技术
-						for _, tech := range targetTechnologies {
-							if strings.Contains(strings.ToLower(cpeURI), tech) {
-								// 从CPE中提取版本
-								cpeMatches := cpeProductVersionRegex.FindStringSubmatch(cpeURI)
-
-								if len(cpeMatches) > 2 {
-									// 处理版本信息
-									versionInfo := ContainerVersionInfo{
-										CVEId:          cveID,
-										Technology:     tech,
-										Version:        cpeMatches[2],
-										Vulnerable:     match.Vulnerable,
-										CpeUri:         cpeURI,
-										Description:    description,
-										PublishedDate:  item.PublishedDate,
-										CVSSScore:      cvssScore,
-										Severity:       severity,
-										MatchingSource: "cpe_child",
-									}
-
-									// 检查是否有版本范围信息
-									if strings.Contains(cpeURI, "*") || strings.Contains(cpeURI, "-") {
-										// 提取版本范围
-										versionRange := extractVersionRange(cpeURI)
-										if versionRange != nil {
-											versionInfo.VersionRange = versionRange
-										}
-									}
-
-									allVersionInfos = append(allVersionInfos, versionInfo)
-									yearVersions++
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		fmt.Printf("从 %d 年数据中提取了 %d 条容器技术版本信息\n", year, yearVersions)
-
-		// 如果不再需要，删除解压后的JSON文件以节省空间，保留gz文件
+		// Clean up extracted JSON file to save space
 		if err := os.Remove(outputFile); err != nil {
-			log.Printf("删除文件失败: %v", err)
+			log.Printf("Error removing file: %v", err)
 		}
 	}
 
-	fmt.Printf("共提取了 %d 条容器技术版本信息\n", len(allVersionInfos))
-	return allVersionInfos
+	log.Printf("Total container vulnerabilities extracted: %d\n", len(allVulnerabilities))
+	return allVulnerabilities
 }
 
-// 从CPE URI中提取版本范围信息
-func extractVersionRange(cpeURI string) *VersionRange {
-	// 匹配版本范围表达式
-	startIncludingRegex := regexp.MustCompile(`cpe:2\.3:[^:]+:[^:]+:[^:]+:([^:]+)`)
-	startExcludingRegex := regexp.MustCompile(`cpe:2\.3:[^:]+:[^:]+:[^:]+:([^:]+)`)
-	endIncludingRegex := regexp.MustCompile(`cpe:2\.3:[^:]+:[^:]+:[^:]+:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:([^:]+):`)
-	endExcludingRegex := regexp.MustCompile(`cpe:2\.3:[^:]+:[^:]+:[^:]+:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:([^:]+)`)
-
-	versionRange := &VersionRange{}
-	hasRange := false
-
-	if match := startIncludingRegex.FindStringSubmatch(cpeURI); len(match) > 1 && match[1] != "*" {
-		versionRange.StartIncluding = match[1]
-		hasRange = true
+// Download a file from URL
+func downloadFile(url, outputPath string) error {
+	// Create HTTP client
+	client := &http.Client{
+		Timeout: 180 * time.Second,
 	}
 
-	if match := startExcludingRegex.FindStringSubmatch(cpeURI); len(match) > 1 && match[1] != "*" {
-		versionRange.StartExcluding = match[1]
-		hasRange = true
+	// Create request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return fmt.Errorf("failed to create request: %v", err)
 	}
 
-	if match := endIncludingRegex.FindStringSubmatch(cpeURI); len(match) > 1 && match[1] != "*" {
-		versionRange.EndIncluding = match[1]
-		hasRange = true
+	// Set headers
+	req.Header.Set("User-Agent", userAgent)
+
+	// Send request
+	resp, err := client.Do(req)
+	if err != nil {
+		return fmt.Errorf("failed to send request: %v", err)
+	}
+	defer resp.Body.Close()
+
+	// Check response status
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("download failed: %s", resp.Status)
 	}
 
-	if match := endExcludingRegex.FindStringSubmatch(cpeURI); len(match) > 1 && match[1] != "*" {
-		versionRange.EndExcluding = match[1]
-		hasRange = true
+	// Create output file
+	out, err := os.Create(outputPath)
+	if err != nil {
+		return fmt.Errorf("failed to create file: %v", err)
+	}
+	defer out.Close()
+
+	// Copy data
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return fmt.Errorf("failed to save file: %v", err)
 	}
 
-	if hasRange {
-		return versionRange
-	}
 	return nil
 }
 
-// 保存版本信息到文件
-func saveVersionInfo(versionInfos []ContainerVersionInfo) {
-	if len(versionInfos) == 0 {
-		fmt.Println("没有找到容器技术版本信息")
-		return
-	}
-
-	// 创建输出目录
-	outputDir := filepath.Join(dataDir, "versions")
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		log.Fatalf("无法创建输出目录: %v", err)
-	}
-
-	// 按技术分组版本信息
-	techVersions := make(map[string][]ContainerVersionInfo)
-	for _, info := range versionInfos {
-		techVersions[info.Technology] = append(techVersions[info.Technology], info)
-	}
-
-	// 保存所有版本信息到一个文件
-	allVersionsFile := filepath.Join(outputDir, "all-container-versions.json")
-	allVersionsJSON, err := json.MarshalIndent(versionInfos, "", "  ")
+// Decompress gzip file
+func decompressGzFile(gzFilePath, outputFilePath string) error {
+	// Open gzip file
+	gzFile, err := os.Open(gzFilePath)
 	if err != nil {
-		log.Printf("序列化所有版本信息失败: %v", err)
-	} else {
-		if err := os.WriteFile(allVersionsFile, allVersionsJSON, 0644); err != nil {
-			log.Printf("保存所有版本信息失败: %v", err)
-		} else {
-			fmt.Printf("已保存 %d 条容器技术版本信息到 %s\n", len(versionInfos), allVersionsFile)
+		return fmt.Errorf("failed to open gzip file: %v", err)
+	}
+	defer gzFile.Close()
+
+	// Create gzip reader
+	gzReader, err := gzip.NewReader(gzFile)
+	if err != nil {
+		return fmt.Errorf("failed to create gzip reader: %v", err)
+	}
+	defer gzReader.Close()
+
+	// Create output file
+	outFile, err := os.Create(outputFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to create output file: %v", err)
+	}
+	defer outFile.Close()
+
+	// Copy decompressed data
+	_, err = io.Copy(outFile, gzReader)
+	if err != nil {
+		return fmt.Errorf("decompression failed: %v", err)
+	}
+
+	return nil
+}
+
+// Parse CVE JSON file
+func parseCVEFile(filePath string) (*CVE, error) {
+	// Read file
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file: %v", err)
+	}
+
+	// Parse JSON
+	var cveData CVE
+	if err := json.Unmarshal(data, &cveData); err != nil {
+		return nil, fmt.Errorf("failed to parse JSON: %v", err)
+	}
+
+	return &cveData, nil
+}
+
+// Extract container vulnerabilities from CVE data
+func extractContainerVulnerabilities(cveData *CVE) []ContainerVulnerability {
+	var vulnerabilities []ContainerVulnerability
+
+	// Process each CVE item
+	for _, item := range cveData.CVEItems {
+		cveID := item.CVE.CVEDataMeta.ID
+
+		// Get description
+		var description string
+		for _, desc := range item.CVE.Description.DescriptionData {
+			if desc.Lang == "en" {
+				description = desc.Value
+				break
+			}
+		}
+
+		// Get CVSS score and severity
+		var cvssScore float64
+		var severity string
+		if item.Impact.BaseMetricV3.CVSSV3.BaseScore > 0 {
+			cvssScore = item.Impact.BaseMetricV3.CVSSV3.BaseScore
+			severity = item.Impact.BaseMetricV3.CVSSV3.BaseSeverity
+		} else if item.Impact.BaseMetricV2.CVSSV2.BaseScore > 0 {
+			cvssScore = item.Impact.BaseMetricV2.CVSSV2.BaseScore
+			severity = item.Impact.BaseMetricV2.Severity
+		}
+
+		// Check if description mentions container technologies
+		descriptionVulns := extractVulnerabilitiesFromDescription(
+			cveID, description, cvssScore, severity)
+		vulnerabilities = append(vulnerabilities, descriptionVulns...)
+
+		// Check CPE data
+		cpeVulns := extractVulnerabilitiesFromCPE(
+			cveID, item.Configurations.Nodes, description, cvssScore, severity)
+		vulnerabilities = append(vulnerabilities, cpeVulns...)
+	}
+
+	return vulnerabilities
+}
+
+// Extract vulnerabilities from description text
+func extractVulnerabilitiesFromDescription(
+	cveID, description string, cvssScore float64, severity string) []ContainerVulnerability {
+
+	var vulnerabilities []ContainerVulnerability
+
+	// Check for each container technology
+	for tech, aliases := range containerTechnologies {
+		// Check if any alias is mentioned in the description
+		mentioned := false
+		for _, alias := range aliases {
+			// Look for word boundaries around the technology name
+			pattern := fmt.Sprintf(`(?i)\b%s\b`, regexp.QuoteMeta(alias))
+			if regexp.MustCompile(pattern).MatchString(description) {
+				mentioned = true
+				break
+			}
+		}
+
+		if mentioned {
+			// Extract version information
+			versions := extractVersionsFromDescription(description, tech)
+
+			if len(versions) > 0 {
+				vulnerability := ContainerVulnerability{
+					CVEId:            cveID,
+					Technology:       tech,
+					AffectedVersions: versions,
+					CVSSScore:        cvssScore,
+					Severity:         severity,
+				}
+				vulnerabilities = append(vulnerabilities, vulnerability)
+			}
 		}
 	}
 
-	// 为每个技术单独保存一个文件
-	for tech, versions := range techVersions {
-		techFile := filepath.Join(outputDir, fmt.Sprintf("%s-versions.json", tech))
-		techJSON, err := json.MarshalIndent(versions, "", "  ")
+	return vulnerabilities
+}
+
+// Extract versions from description based on technology
+func extractVersionsFromDescription(description, technology string) []string {
+	var versions []string
+	versionSet := make(map[string]bool) // To avoid duplicates
+
+	// Technology-specific version patterns
+	var patterns []string
+	switch technology {
+	case "docker":
+		patterns = []string{
+			`(?i)Docker[\s]+(Engine[\s]+)?v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+			`(?i)Docker[\s]+version[\s]+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+		}
+	case "kubernetes":
+		patterns = []string{
+			`(?i)Kubernetes[\s]+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+			`(?i)k8s[\s]+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+		}
+	default:
+		patterns = []string{
+			fmt.Sprintf(`(?i)%s[\s]+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`, technology),
+			fmt.Sprintf(`(?i)%s[\s]+version[\s]+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`, technology),
+		}
+	}
+
+	// Extract explicit versions
+	for _, pattern := range patterns {
+		re := regexp.MustCompile(pattern)
+		matches := re.FindAllStringSubmatch(description, -1)
+		for _, match := range matches {
+			if len(match) > 1 && isValidVersion(match[1]) {
+				versionSet[match[1]] = true
+			}
+		}
+	}
+
+	// Extract version ranges
+	rangePatterns := []string{
+		`(?i)versions?\s+(?:before|prior to|earlier than)\s+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+		`(?i)versions?\s+(?:up to|through)\s+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+		`(?i)versions?\s+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)\s+(?:and below|and earlier|or earlier|or below)`,
+		`(?i)affects\s+versions?\s+(?:before|prior to)\s+v?(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?)`,
+	}
+
+	for _, pattern := range rangePatterns {
+		re := regexp.MustCompile(pattern)
+		matches := re.FindAllStringSubmatch(description, -1)
+		for _, match := range matches {
+			if len(match) > 1 && isValidVersion(match[1]) {
+				versionSet[match[1]] = true
+			}
+		}
+	}
+
+	// Convert set to slice
+	for version := range versionSet {
+		versions = append(versions, version)
+	}
+
+	return versions
+}
+
+// Check if a string is a valid version
+func isValidVersion(version string) bool {
+	// Basic version validation
+	return regexp.MustCompile(`^\d+\.\d+(\.\d+)?`).MatchString(version)
+}
+
+// Extract vulnerabilities from CPE data
+func extractVulnerabilitiesFromCPE(
+	cveID string, nodes []struct {
+		Operator string `json:"operator"`
+		CpeMatch []struct {
+			Vulnerable bool   `json:"vulnerable"`
+			Cpe23Uri   string `json:"cpe23Uri"`
+		} `json:"cpe_match,omitempty"`
+		Children []struct {
+			Operator string `json:"operator"`
+			CpeMatch []struct {
+				Vulnerable bool   `json:"vulnerable"`
+				Cpe23Uri   string `json:"cpe23Uri"`
+			} `json:"cpe_match,omitempty"`
+		} `json:"children,omitempty"`
+	}, description string, cvssScore float64, severity string) []ContainerVulnerability {
+
+	var vulnerabilities []ContainerVulnerability
+
+	// Process each node
+	for _, node := range nodes {
+		// Process direct CPE matches
+		for _, match := range node.CpeMatch {
+			vuln := processCPEMatch(cveID, match.Cpe23Uri, match.Vulnerable,
+				cvssScore, severity)
+			if vuln != nil {
+				vulnerabilities = append(vulnerabilities, *vuln)
+			}
+		}
+
+		// Process child nodes
+		for _, child := range node.Children {
+			for _, match := range child.CpeMatch {
+				vuln := processCPEMatch(cveID, match.Cpe23Uri, match.Vulnerable,
+					cvssScore, severity)
+				if vuln != nil {
+					vulnerabilities = append(vulnerabilities, *vuln)
+				}
+			}
+		}
+	}
+
+	return vulnerabilities
+}
+
+// Process a CPE match
+func processCPEMatch(cveID, cpeURI string, vulnerable bool,
+	cvssScore float64, severity string) *ContainerVulnerability {
+
+	// Check if CPE is for a container technology
+	tech, version, found := matchContainerTechnologyInCPE(cpeURI)
+	if !found || version == "" {
+		return nil
+	}
+
+	// Create vulnerability info
+	return &ContainerVulnerability{
+		CVEId:            cveID,
+		Technology:       tech,
+		AffectedVersions: []string{version},
+		CVSSScore:        cvssScore,
+		Severity:         severity,
+	}
+}
+
+// Match container technology in CPE URI
+func matchContainerTechnologyInCPE(cpeURI string) (string, string, bool) {
+	// Parse CPE URI
+	// Format: cpe:2.3:part:vendor:product:version:update:edition:language:...
+	parts := strings.Split(cpeURI, ":")
+	if len(parts) < 5 {
+		return "", "", false
+	}
+
+	vendor := strings.ToLower(parts[3])
+	product := strings.ToLower(parts[4])
+	version := ""
+	if len(parts) > 5 {
+		version = parts[5]
+	}
+
+	// Skip wildcard versions
+	if version == "*" {
+		return "", "", false
+	}
+
+	// Check against container technologies
+	for tech, aliases := range containerTechnologies {
+		for _, alias := range aliases {
+			if vendor == alias || product == alias {
+				return tech, version, true
+			}
+		}
+	}
+
+	return "", "", false
+}
+
+// Save vulnerability data
+func saveVulnerabilityData(vulnerabilities []ContainerVulnerability) {
+	if len(vulnerabilities) == 0 {
+		log.Println("No container vulnerabilities found")
+		return
+	}
+
+	// Create output directory
+	outputDir := filepath.Join(dataDir, "vulnerabilities")
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		log.Fatalf("Failed to create output directory: %v", err)
+	}
+
+	// Group vulnerabilities by technology
+	techVulns := make(map[string][]ContainerVulnerability)
+	for _, vuln := range vulnerabilities {
+		techVulns[vuln.Technology] = append(techVulns[vuln.Technology], vuln)
+	}
+
+	// Save all vulnerabilities to one file
+	allVulnsFile := filepath.Join(outputDir, "all-container-vulnerabilities.json")
+	allVulnsJSON, err := json.MarshalIndent(vulnerabilities, "", "  ")
+	if err != nil {
+		log.Printf("Failed to serialize all vulnerabilities: %v", err)
+	} else {
+		if err := os.WriteFile(allVulnsFile, allVulnsJSON, 0644); err != nil {
+			log.Printf("Failed to save all vulnerabilities: %v", err)
+		} else {
+			log.Printf("Saved %d container vulnerabilities to %s\n",
+				len(vulnerabilities), allVulnsFile)
+		}
+	}
+
+	// Save vulnerabilities by technology
+	for tech, vulns := range techVulns {
+		techFile := filepath.Join(outputDir, fmt.Sprintf("%s-vulnerabilities.json", tech))
+		techJSON, err := json.MarshalIndent(vulns, "", "  ")
 		if err != nil {
-			log.Printf("序列化 %s 版本信息失败: %v", tech, err)
+			log.Printf("Failed to serialize %s vulnerabilities: %v", tech, err)
 			continue
 		}
 
 		if err := os.WriteFile(techFile, techJSON, 0644); err != nil {
-			log.Printf("保存 %s 版本信息失败: %v", tech, err)
+			log.Printf("Failed to save %s vulnerabilities: %v", tech, err)
 		} else {
-			fmt.Printf("已保存 %d 条 %s 版本信息到 %s\n", len(versions), tech, techFile)
+			log.Printf("Saved %d %s vulnerabilities to %s\n",
+				len(vulns), tech, techFile)
 		}
 	}
 
-	// 生成CSV版本摘要
-	generateVersionSummaryCSV(versionInfos, filepath.Join(outputDir, "container-versions-summary.csv"))
+	// Generate CSV summary
+	generateVulnerabilitySummaryCSV(vulnerabilities,
+		filepath.Join(outputDir, "container-vulnerabilities-summary.csv"))
 }
 
-// 生成版本摘要CSV
-func generateVersionSummaryCSV(versionInfos []ContainerVersionInfo, outputFile string) {
-	// 创建CSV文件
+// Generate CSV summary of vulnerabilities
+func generateVulnerabilitySummaryCSV(vulns []ContainerVulnerability, outputFile string) {
+	// Create CSV file
 	file, err := os.Create(outputFile)
 	if err != nil {
-		log.Printf("创建CSV文件失败: %v", err)
+		log.Printf("Failed to create CSV file: %v", err)
 		return
 	}
 	defer file.Close()
 
-	// 写入CSV头
-	_, err = file.WriteString("Technology,Version,CVE Count,Max CVSS Score,Latest CVE Date\n")
+	// Write CSV header
+	_, err = file.WriteString("Technology,Version,CVE ID,CVSS Score,Severity\n")
 	if err != nil {
-		log.Printf("写入CSV头失败: %v", err)
+		log.Printf("Failed to write CSV header: %v", err)
 		return
 	}
 
-	// 按技术和版本分组
-	versionStats := make(map[string]map[string]struct {
-		CVECount     int
-		MaxCVSSScore float64
-		LatestDate   string
-		CVEIds       map[string]bool
-	})
-
-	for _, info := range versionInfos {
-		tech := info.Technology
-		version := info.Version
-
-		// 初始化技术映射
-		if _, exists := versionStats[tech]; !exists {
-			versionStats[tech] = make(map[string]struct {
-				CVECount     int
-				MaxCVSSScore float64
-				LatestDate   string
-				CVEIds       map[string]bool
-			})
-		}
-
-		// 初始化版本统计
-		if _, exists := versionStats[tech][version]; !exists {
-			versionStats[tech][version] = struct {
-				CVECount     int
-				MaxCVSSScore float64
-				LatestDate   string
-				CVEIds       map[string]bool
-			}{
-				CVECount:     0,
-				MaxCVSSScore: 0,
-				LatestDate:   "",
-				CVEIds:       make(map[string]bool),
-			}
-		}
-
-		// 更新统计信息
-		stats := versionStats[tech][version]
-
-		// 只有当这个CVE ID还没被计数时才增加计数
-		if !stats.CVEIds[info.CVEId] {
-			stats.CVECount++
-			stats.CVEIds[info.CVEId] = true
-		}
-
-		// 更新最大CVSS分数
-		if info.CVSSScore > stats.MaxCVSSScore {
-			stats.MaxCVSSScore = info.CVSSScore
-		}
-
-		// 更新最新日期
-		if stats.LatestDate == "" || info.PublishedDate > stats.LatestDate {
-			stats.LatestDate = info.PublishedDate
-		}
-
-		versionStats[tech][version] = stats
-	}
-
-	// 写入CSV数据
-	for tech, versions := range versionStats {
-		for version, stats := range versions {
-			line := fmt.Sprintf("%s,%s,%d,%.1f,%s\n",
-				tech, version, stats.CVECount, stats.MaxCVSSScore, stats.LatestDate)
+	// Write data rows
+	for _, vuln := range vulns {
+		for _, version := range vuln.AffectedVersions {
+			line := fmt.Sprintf("%s,%s,%s,%.1f,%s\n",
+				vuln.Technology, version, vuln.CVEId, vuln.CVSSScore, vuln.Severity)
 			if _, err := file.WriteString(line); err != nil {
-				log.Printf("写入CSV数据失败: %v", err)
+				log.Printf("Failed to write CSV data: %v", err)
 			}
 		}
 	}
 
-	fmt.Printf("已生成版本摘要CSV: %s\n", outputFile)
+	log.Printf("Generated vulnerability summary CSV: %s\n", outputFile)
 }
 
-// 解压gzip文件
-func decompressGzFile(gzFilePath, outputFilePath string) error {
-	// 打开gzip文件
-	gzFile, err := os.Open(gzFilePath)
-	if err != nil {
-		return fmt.Errorf("打开gzip文件失败: %v", err)
-	}
-	defer gzFile.Close()
-
-	// 创建gzip读取器
-	gzReader, err := gzip.NewReader(gzFile)
-	if err != nil {
-		return fmt.Errorf("创建gzip读取器失败: %v", err)
-	}
-	defer gzReader.Close()
-
-	// 创建输出文件
-	outFile, err := os.Create(outputFilePath)
-	if err != nil {
-		return fmt.Errorf("创建输出文件失败: %v", err)
-	}
-	defer outFile.Close()
-
-	// 复制解压数据
-	_, err = io.Copy(outFile, gzReader)
-	if err != nil {
-		return fmt.Errorf("解压数据失败: %v", err)
-	}
-
-	return nil
-}
-
-// Main入口函数
-func ExtractContainerVersions() {
-	fmt.Println("开始提取容器技术版本信息...")
-	UpdateContainerVersions()
-	fmt.Println("容器技术版本信息提取完成。")
+// Main entry point
+func FetchContainerVulnerabilities() {
+	log.Println("Starting container vulnerability extraction...")
+	ExtractContainerVulnerabilities()
+	log.Println("Container vulnerability extraction complete.")
 }

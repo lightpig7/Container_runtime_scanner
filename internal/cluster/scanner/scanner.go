@@ -29,7 +29,7 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 		Deployments: make([]model.DeploymentInfo, 0), // 存储部署信息
 	}
 
-	// ==================== 节点扫描部分 ====================
+	// ==================== 节点扫描部分 ===0000000000=================
 	// 通过K8s API获取所有节点列表
 	nodes, err := clientset.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
 	if err != nil {

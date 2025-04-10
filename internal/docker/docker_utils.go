@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"io"
 	"log"
 	"os"
@@ -59,7 +59,7 @@ func (s *Container) CopyFileToContainer(localFilePath, containerPath string) err
 	ctx := context.Background()
 
 	// 复制到容器
-	return cli.CopyToContainer(ctx, s.Id, filepath.Dir(containerPath), io.NopCloser(srcFile), types.CopyToContainerOptions{
+	return cli.CopyToContainer(ctx, s.Id, filepath.Dir(containerPath), io.NopCloser(srcFile), container.CopyToContainerOptions{
 		AllowOverwriteDirWithFile: true,
 		CopyUIDGID:                true,
 	})

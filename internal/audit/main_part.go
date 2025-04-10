@@ -1,7 +1,6 @@
 package audit
 
 import (
-	"fmt"
 	"log"
 	"os"
 )
@@ -17,39 +16,33 @@ func Audit_start() {
 	Permissions := IsRootDockerDaemon()
 	if Permissions {
 		logger.Println("Docker守护进程以root启动")
-		fmt.Println("Docker守护进程以root启动")
 	}
 	a, b, err := CheckDockerTCPStatusViaSSH()
 	if a && b {
 		logger.Println("Docker开启TCP端口并开启TSL身份认证")
-		fmt.Println("Docker开启TCP端口并开启TSL身份认证")
 	} else if a && !b {
 		logger.Println("Docker开启TCP端口并未开启TSL身份认证,会造成Docker 远程 API 未授权访问逃逸")
-		fmt.Println("Docker开启TCP端口并未开启TSL身份认证,会造成Docker 远程 API 未授权访问逃逸")
 	} else {
 		logger.Println("Docker未开启TCP端口")
-		fmt.Println("Docker未开启TCP端口")
 	}
 	if err != nil {
 		return
 	}
 	logger.Println("特权容器有: ")
-	fmt.Println("特权容器有: ")
 	for _, container := range IsPrivate() {
 		logger.Println(container)
-		fmt.Println(container)
 	}
 	VersionMatch(logger)
 	rootContainers := CheckContainerUserIsRoot()
 	if len(rootContainers) == 0 {
-		fmt.Println("全部容器以非 root 用户运行")
 		logger.Println("全部容器以非 root 用户运行")
 
 	} else {
-		fmt.Println("以下容器以 root 用户运行：")
 		logger.Println("以下容器以 root 用户运行：")
 		for _, name := range rootContainers {
-			fmt.Printf("- %s\n", name)
+			logger.Printf("- %s\n", name)
 		}
 	}
+	CheckSensitiveMounts(logger)
+	CheckContainerCapabilities(logger)
 }

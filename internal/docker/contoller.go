@@ -215,20 +215,20 @@ func (s *Container) Stop() error {
 func (s *Container) Close() error {
 	err := s.Stop()
 	if err == nil {
-		err = cli.ContainerRemove(context.Background(), s.Id, types.ContainerRemoveOptions{})
+		err = cli.ContainerRemove(context.Background(), s.Id, container.RemoveOptions{})
 	}
 	return err
 }
 
 // Run 启动容器，并附加标准输出流
 func (s *Container) Run() error {
-	err := cli.ContainerStart(context.Background(), s.Id, types.ContainerStartOptions{})
+	err := cli.ContainerStart(context.Background(), s.Id, container.StartOptions{})
 	if err != nil {
 		return err
 	}
 
 	// 获取容器的标准输出流，并在主机上显示
-	hresp, err := cli.ContainerAttach(context.Background(), s.Id, types.ContainerAttachOptions{Stream: true, Stdout: true, Stderr: true})
+	hresp, err := cli.ContainerAttach(context.Background(), s.Id, container.AttachOptions{Stream: true, Stdout: true, Stderr: true})
 	if err != nil {
 		return err
 	}
@@ -252,7 +252,7 @@ func (s *Container) Exec(cmd string, args ...string) string {
 	execResp, err := cli.ContainerExecCreate(
 		context.Background(),
 		s.Id,
-		types.ExecConfig{
+		container.ExecOptions{
 			Tty:          false, // 关闭 TTY 以便解析输出
 			AttachStdout: true,
 			AttachStderr: true,
@@ -265,7 +265,7 @@ func (s *Container) Exec(cmd string, args ...string) string {
 	}
 
 	// 执行 exec 任务，并获取标准输出
-	resp, err := cli.ContainerExecAttach(context.Background(), execResp.ID, types.ExecStartCheck{})
+	resp, err := cli.ContainerExecAttach(context.Background(), execResp.ID, container.ExecStartOptions{})
 	if err != nil {
 		log.Fatalf("创建 Exec 失败: %v", err)
 		return ""
@@ -284,7 +284,7 @@ func (s *Container) Exec(cmd string, args ...string) string {
 
 // ListRunningContainers 获取所有正在运行的容器
 func ListRunningContainers() []*Container {
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: false})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: false})
 	if err != nil {
 		log.Fatalf("获取容器列表失败: %v", err)
 	}
