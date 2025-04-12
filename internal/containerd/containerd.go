@@ -83,6 +83,36 @@ func sshInit() {
 	}
 	//localAddr := localListener.Addr().String()
 
+	localAddr := localListener.Addr().String()
+
+	// 使用本地地址创建containerd客户端
+	client, err = containerd.New("unix://" + localAddr)
+	localConn, err := localListener.Accept()
+	if err != nil {
+		fmt.Printf("接受本地连接失败: %v\n", err)
+		return
+	}
+
+	// 通过SSH连接到远程containerd socket
+	// containerd 默认使用 /run/containerd/containerd.sock
+	remoteConn, err := SSHClient.Dial("unix", "/run/containerd/containerd.sock")
+	if err != nil {
+		fmt.Printf("连接远程containerd socket失败: %v\n", err)
+		localConn.Close()
+	}
+	fmt.Println(1111)
+	// 启动goroutine双向转发数据
+	go func() {
+		defer localConn.Close()
+		defer remoteConn.Close()
+		io.Copy(localConn, remoteConn)
+	}()
+
+	go func() {
+		defer localConn.Close()
+		defer remoteConn.Close()
+		io.Copy(remoteConn, localConn)
+	}()
 	// 启动一个goroutine来处理SSH端口转发
 	go func() {
 		for {
@@ -101,7 +131,7 @@ func sshInit() {
 				localConn.Close()
 				continue
 			}
-
+			fmt.Println(1111)
 			// 启动goroutine双向转发数据
 			go func() {
 				defer localConn.Close()
@@ -120,10 +150,6 @@ func sshInit() {
 	// 等待端口转发准备就绪
 	time.Sleep(1 * time.Second)
 
-	// 在k8s环境中，不能直接通过tcp连接到containerd
-	// 需要通过SSH执行命令来与containerd交互
-	// 这里创建一个containerd客户端
-	client, err = containerd.New("/run/containerd/containerd.sock")
 	if err != nil {
 		fmt.Printf("containerd 客户端创建失败: %v\n", err)
 		return

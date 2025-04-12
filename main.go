@@ -1,12 +1,13 @@
 package main
 
-import "Container_runtime_scanner/internal/containerd"
+import "Container_runtime_scanner/internal/cluster"
 
 func main() {
 	//audit.CheckSensitiveMounts()
 	//audit.Audit_start()
-	//cluster.Test()
-	containerd.TestMain()
+	cluster.TestA()
+	cluster.TestAB()
+	//containerd.TestMain()
 	//data.FetchContainerVulnerabilities()
 	//docker.ListRunningContainers()
 	//web.Create()
