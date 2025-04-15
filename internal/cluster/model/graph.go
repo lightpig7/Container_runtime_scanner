@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 // StateAttackGraph 表示状态攻击图
 // 该结构体是整个攻击图的核心，包含所有节点和边
 // 这种图结构用于模拟在Kubernetes集群中可能的攻击路径
@@ -41,24 +43,49 @@ func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
 	// 1. 处理集群中的节点（物理或虚拟机）信息
 	// 每个Kubernetes节点都被表示为攻击图中的一个节点
 	for _, node := range info.Nodes {
-		// 为每个Kubernetes节点创建一个对应的图节点
-		stateNode := &StateNode{
-			ID:      "node-" + node.Name,   // 使用前缀+名称作为唯一标识
-			Host:    "node/" + node.Name,   // 节点主机路径
-			Service: node.ContainerRuntime, // 使用容器运行时作为服务标识
-			Vulnerability: &Vulnerability{ // 节点相关的漏洞信息
-				ID:       "NODE-VULN-" + node.Name, // 漏洞ID
-				Name:     "cve",                    // 漏洞名称
-				Severity: 0.0,                      // 不考虑风险评分，设置为0
-			},
-			Context: map[string]interface{}{ // 节点上下文信息，用于提供额外属性
-				"role":           node.Role,           // 节点角色（主节点、工作节点等）
-				"kubeletVersion": node.KubeletVersion, // kubelet版本
-				"osImage":        node.OSImage,        // 操作系统镜像
-			},
-			RiskScore: 0.0, // 不考虑风险评分，设置为0
+		fmt.Println("node.Role", node.Role)
+		if node.Role == "master" {
+			continue
 		}
-		// 将创建的节点添加到图中
+		// 创建节点对应的图节点
+		stateNode := &StateNode{
+			ID:            "node-" + node.Name,
+			Host:          "node/" + node.Name,
+			Service:       node.ContainerRuntime,
+			Vulnerability: make([]*Vulnerability, 0),
+			Context: map[string]interface{}{
+				"role":           node.Role,
+				"kubeletVersion": node.KubeletVersion,
+				"osImage":        node.OSImage,
+			},
+			RiskScore: 0.0,
+		}
+
+		// 添加节点漏洞信息
+		highestScore := 0.0
+		for _, vuln := range node.Vulns {
+			// 创建图漏洞结构
+			graphVuln := &Vulnerability{
+				ID:          vuln.ID,
+				Name:        vuln.Name,
+				Severity:    vuln.Severity,
+				CvssScore:   vuln.CvssScore,
+				ContainerID: vuln.ContainerID,
+			}
+
+			// 添加到节点的漏洞列表
+			stateNode.Vulnerability = append(stateNode.Vulnerability, graphVuln)
+
+			// 更新最高分数
+			if vuln.CvssScore > highestScore {
+				highestScore = vuln.CvssScore
+			}
+		}
+
+		// 设置节点风险评分为最高漏洞评分
+		stateNode.RiskScore = highestScore
+
+		// 添加节点到图
 		g.AddNode(stateNode)
 	}
 
@@ -70,11 +97,6 @@ func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
 			ID:      "pod-" + pod.Namespace + "-" + pod.Name, // 使用命名空间+名称作为唯一标识
 			Host:    "pod/" + pod.Namespace + "/" + pod.Name, // Pod主机路径
 			Service: pod.ServiceAccount,                      // 使用服务账户作为服务标识
-			Vulnerability: &Vulnerability{ // Pod相关的漏洞信息
-				ID:       "POD-VULN-" + pod.Name, // 漏洞ID
-				Name:     "Podcve",               // 漏洞名称
-				Severity: 0.0,                    // 不考虑风险评分，设置为0
-			},
 			Context: map[string]interface{}{ // Pod上下文信息
 				"nodeName":    pod.NodeName,    // Pod所在节点
 				"privileged":  pod.Privileged,  // 是否是特权容器
@@ -117,11 +139,11 @@ func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
 			ID:      "svc-" + svc.Namespace + "-" + svc.Name,     // 使用命名空间+名称作为唯一标识
 			Host:    "service/" + svc.Namespace + "/" + svc.Name, // 服务主机路径
 			Service: svc.Type,                                    // 服务类型（ClusterIP, NodePort, LoadBalancer等）
-			Vulnerability: &Vulnerability{ // 服务相关的漏洞信息
-				ID:       "SVC-VULN-" + svc.Name, // 漏洞ID
-				Name:     "service cvce",         // 漏洞名称
-				Severity: 0.0,                    // 不考虑风险评分，设置为0
-			},
+			//Vulnerability: &Vulnerability{ // 服务相关的漏洞信息
+			//	ID:       "SVC-VULN-" + svc.Name, // 漏洞ID
+			//	Name:     "service cvce",         // 漏洞名称
+			//	Severity: 0.0,                    // 不考虑风险评分，设置为0
+			//},
 			Context: map[string]interface{}{ // 服务上下文信息
 				"externallyExposed": svc.IsExternallyExposed, // 是否对外暴露
 				"clusterIP":         svc.ClusterIP,           // 集群内部IP

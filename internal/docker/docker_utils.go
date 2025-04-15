@@ -27,9 +27,9 @@ func (s *Container) ExecSteps(steps []string) string {
 	var response string
 	for _, step := range steps {
 
-		fmt.Println("执行命令: ", step)
+		//fmt.Println("执行命令: ", step)
 		response = s.Exec("sh", "-c", step)
-		fmt.Println(response)
+		//fmt.Println(response)
 
 	}
 	return response

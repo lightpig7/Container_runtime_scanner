@@ -26,18 +26,19 @@ type StateNode struct {
 	ID            string                 // 节点唯一标识
 	Host          string                 // 容器或宿主节点标识
 	Service       string                 // 涉及的服务或进程
-	Vulnerability *Vulnerability         // 该状态下的漏洞
+	Vulnerability []*Vulnerability       // 该状态下的漏洞
 	Context       map[string]interface{} // 其他关键因素
 	RiskScore     float64                // 风险评分
 }
 
 // Vulnerability 表示安全漏洞信息
 type Vulnerability struct {
-	ID       string  // 漏洞ID
-	Name     string  // 漏洞名称
-	Type     string  // 类型
-	CVE      string  // CVE编号
-	Severity float64 // 严重性评分 (0-10)
+	ID          string // 漏洞ID
+	Name        string // 漏洞名称
+	Type        string // 类型
+	Severity    string
+	CvssScore   float64
+	ContainerID string
 }
 
 // AttackEdge 表示攻击行为(状态转移)

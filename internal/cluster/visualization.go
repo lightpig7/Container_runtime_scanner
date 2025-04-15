@@ -9,6 +9,7 @@ import (
 )
 
 // ExportToDOT 将攻击图导出为DOT格式
+// ExportToDOT 将攻击图导出为DOT格式
 func ExportToDOT(graph *model.StateAttackGraph, filePath string) error {
 	file, err := os.Create(filePath)
 	if err != nil {
@@ -35,24 +36,54 @@ func ExportToDOT(graph *model.StateAttackGraph, filePath string) error {
 
 		// 创建标签内容
 		label := fmt.Sprintf("%s\\n%s", node.Host, node.Service)
-		if node.Vulnerability != nil {
-			label += fmt.Sprintf("\\nVulnerability: %s", node.Vulnerability.Name)
+
+		// 处理漏洞切片，显示最多3个漏洞
+		if len(node.Vulnerability) > 0 {
+			label += "\\nVulnerabilities:"
+			maxVulns := 3
+			if len(node.Vulnerability) < maxVulns {
+				maxVulns = len(node.Vulnerability)
+			}
+
+			for i := 0; i < maxVulns; i++ {
+				vuln := node.Vulnerability[i]
+				label += fmt.Sprintf("\\n- %s", vuln.Name)
+			}
+
+			// 如果有更多漏洞，显示计数
+			if len(node.Vulnerability) > maxVulns {
+				label += fmt.Sprintf("\\n(+%d more...)", len(node.Vulnerability)-maxVulns)
+			}
 		}
-		//label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
 
 		// 写入节点定义
 		fmt.Fprintf(file, "  \"%s\" [label=\"%s\", fillcolor=\"%s\"];\n", id, label, color)
 	}
 
-	// 写入边
-	for _, edge := range graph.Edges {
-		// 根据难度确定线条粗细
-		penwidth := 1.0 + (1.0-edge.Difficulty)*3.0
-
-		// 写入边定义
-		fmt.Fprintf(file, "  \"%s\" -> \"%s\" [label=\"%s\\n难度: %.1f\", penwidth=%.1f];\n",
-			edge.From.ID, edge.To.ID, edge.Action, edge.Difficulty, penwidth)
-	}
+	//// 写入边
+	//for _, edge := range graph.Edges {
+	//	// 检查边的源节点和目标节点是否存在
+	//	if _, sourceExists := graph.Nodes[edge.Source]; !sourceExists {
+	//		continue // 跳过源节点不存在的边
+	//	}
+	//	if _, targetExists := graph.Nodes[edge.Target]; !targetExists {
+	//		continue // 跳过目标节点不存在的边
+	//	}
+	//
+	//	// 获取源节点和目标节点
+	//	sourceNode := graph.Nodes[edge.Source]
+	//	targetNode := graph.Nodes[edge.Target]
+	//
+	//	// 根据难度确定线条粗细，默认为1.0
+	//	penwidth := 1.0
+	//	if edge.Difficulty > 0 {
+	//		penwidth = 1.0 + (1.0-edge.Difficulty)*3.0
+	//	}
+	//
+	//	// 写入边定义
+	//	fmt.Fprintf(file, "  \"%s\" -> \"%s\" [label=\"%s\\n难度: %.1f\", penwidth=%.1f];\n",
+	//		edge.Source, edge.Target, edge.Type, edge.Difficulty, penwidth)
+	//}
 
 	// 写入DOT文件尾
 	fmt.Fprintln(file, "}")
@@ -124,17 +155,35 @@ func ExportCriticalPathsToDOT(results *model.AnalysisResults, filePath string) e
 			}
 
 			label := fmt.Sprintf("%s\\n%s", node.Host, node.Service)
-			if node.Vulnerability != nil {
-				label += fmt.Sprintf("\\nVulnerability: %s", node.Vulnerability.Name)
+
+			// 处理漏洞切片，显示最多2个漏洞
+			if len(node.Vulnerability) > 0 {
+				label += "\\nVulnerabilities:"
+				maxVulns := 2
+				if len(node.Vulnerability) < maxVulns {
+					maxVulns = len(node.Vulnerability)
+				}
+
+				for i := 0; i < maxVulns; i++ {
+					vuln := node.Vulnerability[i]
+					label += fmt.Sprintf("\\n- %s", vuln.Name)
+				}
+
+				// 如果有更多漏洞，显示计数
+				if len(node.Vulnerability) > maxVulns {
+					label += fmt.Sprintf("\\n(+%d more...)", len(node.Vulnerability)-maxVulns)
+				}
 			}
-			//label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
 
 			fmt.Fprintf(file, "    \"%s_%d\" [label=\"%s\", fillcolor=\"%s\"];\n", id, i, label, color)
 		}
 
 		// 写入边
 		for j, edge := range path.Edges {
-			penwidth := 1.0 + (1.0-edge.Difficulty)*3.0
+			penwidth := 1.0
+			if edge.Difficulty > 0 {
+				penwidth = 1.0 + (1.0-edge.Difficulty)*3.0
+			}
 
 			fmt.Fprintf(file, "    \"%s_%d\" -> \"%s_%d\" [label=\"步骤 %d: %s\\n难度: %.1f\", penwidth=%.1f];\n",
 				edge.From.ID, i, edge.To.ID, i, j+1, edge.Action, edge.Difficulty, penwidth)

@@ -6,20 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="422f5c82-1bd6-4613-aeaa-864f6db5fcf6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cluster/connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/controller/connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cluster/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/controller/controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cluster/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/main_part.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/cluster/model/graph.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/model/graph.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/cluster/model/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/model/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/cluster/output/attack_graph.dot" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/output/attack_graph.dot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/cluster/output/attack_graph.png" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/output/attack_graph.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/cluster/scanner/scanner.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/scanner/scanner.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/cluster/visualization.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cluster/visualization.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/docker/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/docker/docker_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/docker/docker_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/pentest/main_part.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pentest/main_part.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/attack_graph.dot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/attack_graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/critical_paths.dot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/critical_paths.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

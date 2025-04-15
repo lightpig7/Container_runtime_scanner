@@ -29,7 +29,7 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	log.Printf("开始扫描集群，时间: %s", startTime.Format("2006-01-02 15:04:05"))
 
 	options := &model.ScanOptions{
-		SkipNamespaces: []string{"kube-system", "kube-public"},
+		SkipNamespaces: []string{"kube-system", "kube-public", "kube-flannel"},
 		EnableVulnScan: true,
 	}
 
@@ -114,19 +114,20 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 		nodeInfo.Ready = isNodeReady(node.Status.Conditions)
 
 		// 如果启用了漏洞扫描
-		if options.EnableVulnScan {
+		if options.EnableVulnScan && nodeInfo.Role != "master" {
 			// 集成真实的漏洞扫描，这里应该与实际的漏洞扫描器集成
-			vulns, err := pentest.ScanNode(nodeInfo.IPAddress)
+			containerVulnsMap, err := pentest.ScanNode(nodeInfo.IPAddress)
 			if err != nil {
 				log.Printf("节点 %s 漏洞扫描失败: %v", node.Name, err)
 				// 添加模拟漏洞数据作为回退
 
 			} else {
-				modelVulns := make([]*model.Vulnerability, len(vulns))
-				for i, v := range vulns {
-					modelVulns[i] = convertVulnerability(v)
+				for containerName, vulns := range containerVulnsMap {
+					for _, v := range vulns {
+						modelVuln := convertVulnerability(containerName, v)
+						nodeInfo.Vulns = append(nodeInfo.Vulns, modelVuln)
+					}
 				}
-				nodeInfo.Vulns = modelVulns
 			}
 		}
 
@@ -227,19 +228,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 			// 将容器镜像添加到Pod镜像列表
 			podInfo.Images = append(podInfo.Images, container.Image)
 		}
-
-		// 如果启用了漏洞扫描
-		//if options.EnableVulnScan {
-		//	for _, image := range podInfo.Images {
-		//		// 针对每个镜像进行扫描
-		//		vulns, err := vulnscan.ScanImage(image)
-		//		if err != nil {
-		//			log.Printf("镜像 %s 漏洞扫描失败: %v", image, err)
-		//		} else {
-		//			podInfo.Vulns = append(podInfo.Vulns, vulns...)
-		//		}
-		//	}
-		//}
 
 		// 将当前Pod信息添加到集群信息中
 		clusterInfo.Pods = append(clusterInfo.Pods, podInfo)
@@ -517,14 +505,14 @@ func calculateVulnerabilityStats(clusterInfo *model.ClusterInfo) {
 	// 统计节点漏洞
 	for _, node := range clusterInfo.Nodes {
 		for _, vuln := range node.Vulns {
-			categorizeVulnerability(vuln.Severity, clusterInfo)
+			categorizeVulnerability(vuln.CvssScore, clusterInfo)
 		}
 	}
 
 	// 统计Pod漏洞
 	for _, pod := range clusterInfo.Pods {
 		for _, vuln := range pod.Vulns {
-			categorizeVulnerability(vuln.Severity, clusterInfo)
+			categorizeVulnerability(vuln.CvssScore, clusterInfo)
 
 		}
 	}
@@ -607,13 +595,12 @@ func min(a, b float64) float64 {
 	}
 	return b
 }
-func convertVulnerability(pentestVuln *pentest.Vulnerability) *model.Vulnerability {
+func convertVulnerability(containerName string, pentestVuln *pentest.Vulnerability) *model.Vulnerability {
 	return &model.Vulnerability{
 		ID:          pentestVuln.ID,
 		Name:        pentestVuln.Name,
-		Description: pentestVuln.Description,
-		CVE:         pentestVuln.CVE,
 		Severity:    pentestVuln.Severity,
-		// 添加其他字段...
+		CvssScore:   pentestVuln.CvssScore,
+		ContainerID: containerName,
 	}
 }
