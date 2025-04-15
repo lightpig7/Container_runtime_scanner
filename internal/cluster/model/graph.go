@@ -1,277 +1,198 @@
-// model/graph.go
-
 package model
 
-import (
-	"sort"
-)
-
 // StateAttackGraph 表示状态攻击图
+// 该结构体是整个攻击图的核心，包含所有节点和边
+// 这种图结构用于模拟在Kubernetes集群中可能的攻击路径
 type StateAttackGraph struct {
-	Nodes map[string]*StateNode // 节点集合，以ID为键
-	Edges []*AttackEdge         // 边集合
+	Nodes map[string]*StateNode // 节点集合，以ID为键，便于快速查找特定节点
+	Edges []*AttackEdge         // 边集合，表示从一个节点到另一个节点的攻击可能性
 }
 
 // NewStateAttackGraph 创建新的状态攻击图
+// 返回一个初始化好的空图结构，准备添加节点和边
 func NewStateAttackGraph() *StateAttackGraph {
 	return &StateAttackGraph{
-		Nodes: make(map[string]*StateNode),
-		Edges: make([]*AttackEdge, 0),
+		Nodes: make(map[string]*StateNode), // 初始化节点映射
+		Edges: make([]*AttackEdge, 0),      // 初始化空的边集合
 	}
 }
 
-// AddNode 添加状态节点
+// AddNode 添加状态节点到图中
+// 使用节点ID作为映射的键，便于后续通过ID快速查找节点
 func (g *StateAttackGraph) AddNode(node *StateNode) {
 	g.Nodes[node.ID] = node
 }
 
-// AddEdge 添加攻击边
+// AddEdge 添加攻击边到图中
+// 边表示从一个节点到另一个节点的攻击路径
 func (g *StateAttackGraph) AddEdge(edge *AttackEdge) {
 	g.Edges = append(g.Edges, edge)
 }
 
 // BuildFromClusterInfo 从集群信息构建攻击图
+// 此方法是整个攻击图构建的核心，它基于Kubernetes集群的扫描信息，
+// 创建相应的节点和边来表示集群中的安全风险和潜在攻击路径
+// 参数:
+//   - info: 包含集群扫描结果的ClusterInfo结构体
+//
+// 返回:
+//   - error: 构建过程中如有错误则返回
 func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
-	// 为演示目的，我们创建一些示例节点和边
-
-	// 1. 先创建节点 - 在实际应用中，这些会基于集群信息动态生成
-
-	// 示例: 暴露的Pod节点
-	exposedPod := &StateNode{
-		ID:      "pod-frontend",
-		Host:    "pod/default/frontend",
-		Service: "nginx",
-		Vulnerability: &Vulnerability{
-			ID:          "CVE-2021-12345",
-			Name:        "Nginx配置错误",
-			Description: "Nginx配置不当导致信息泄露",
-			CVE:         "CVE-2021-12345",
-			Severity:    5.5,
-		},
-		Context: map[string]interface{}{
-			"exposed": true,
-			"port":    80,
-		},
-		RiskScore: 6.0,
+	// 1. 处理集群中的节点（物理或虚拟机）信息
+	// 每个Kubernetes节点都被表示为攻击图中的一个节点
+	for _, node := range info.Nodes {
+		// 为每个Kubernetes节点创建一个对应的图节点
+		stateNode := &StateNode{
+			ID:      "node-" + node.Name,   // 使用前缀+名称作为唯一标识
+			Host:    "node/" + node.Name,   // 节点主机路径
+			Service: node.ContainerRuntime, // 使用容器运行时作为服务标识
+			Vulnerability: &Vulnerability{ // 节点相关的漏洞信息
+				ID:       "NODE-VULN-" + node.Name, // 漏洞ID
+				Name:     "cve",                    // 漏洞名称
+				Severity: 0.0,                      // 不考虑风险评分，设置为0
+			},
+			Context: map[string]interface{}{ // 节点上下文信息，用于提供额外属性
+				"role":           node.Role,           // 节点角色（主节点、工作节点等）
+				"kubeletVersion": node.KubeletVersion, // kubelet版本
+				"osImage":        node.OSImage,        // 操作系统镜像
+			},
+			RiskScore: 0.0, // 不考虑风险评分，设置为0
+		}
+		// 将创建的节点添加到图中
+		g.AddNode(stateNode)
 	}
-	g.AddNode(exposedPod)
 
-	// 宿主机节点
-	hostNode := &StateNode{
-		ID:      "node-worker1",
-		Host:    "node/worker1",
-		Service: "kubelet",
-		Vulnerability: &Vulnerability{
-			ID:          "CVE-2020-67890",
-			Name:        "容器逃逸漏洞",
-			Description: "特权容器可能导致宿主机逃逸",
-			CVE:         "CVE-2020-67890",
-			Severity:    8.0,
-		},
-		Context: map[string]interface{}{
-			"privileged_containers": true,
-		},
-		RiskScore: 7.5,
+	// 2. 处理Pod信息（容器组）
+	// 每个Pod都被表示为攻击图中的一个节点
+	for _, pod := range info.Pods {
+		// 为每个Pod创建一个对应的图节点
+		podNode := &StateNode{
+			ID:      "pod-" + pod.Namespace + "-" + pod.Name, // 使用命名空间+名称作为唯一标识
+			Host:    "pod/" + pod.Namespace + "/" + pod.Name, // Pod主机路径
+			Service: pod.ServiceAccount,                      // 使用服务账户作为服务标识
+			Vulnerability: &Vulnerability{ // Pod相关的漏洞信息
+				ID:       "POD-VULN-" + pod.Name, // 漏洞ID
+				Name:     "Podcve",               // 漏洞名称
+				Severity: 0.0,                    // 不考虑风险评分，设置为0
+			},
+			Context: map[string]interface{}{ // Pod上下文信息
+				"nodeName":    pod.NodeName,    // Pod所在节点
+				"privileged":  pod.Privileged,  // 是否是特权容器
+				"hostNetwork": pod.HostNetwork, // 是否使用主机网络
+				"hostPID":     pod.HostPID,     // 是否共享主机PID命名空间
+				"hostIPC":     pod.HostIPC,     // 是否共享主机IPC命名空间
+			},
+			RiskScore: 0.0, // 不考虑风险评分，设置为0
+		}
+		// 将创建的Pod节点添加到图中
+		g.AddNode(podNode)
+
+		// 特权容器检查：如果Pod是特权容器，创建从Pod到对应节点的攻击边
+		// 特权容器可能导致容器逃逸，攻击宿主节点
+		if pod.Privileged {
+			// 构造节点ID，用于查找Pod所在的宿主节点
+			nodeID := "node-" + pod.NodeName
+			// 检查宿主节点是否存在于图中
+			if nodeNode, exists := g.Nodes[nodeID]; exists {
+				// 创建一条从Pod到宿主节点的攻击边
+				edge := &AttackEdge{
+					ID:            "edge-" + podNode.ID + "-to-" + nodeID, // 边的唯一标识
+					From:          podNode,                                // 源节点（Pod）
+					To:            nodeNode,                               // 目标节点（宿主节点）
+					Action:        "Action",                               // 攻击行为描述
+					Difficulty:    0.0,                                    // 不考虑难度系数，设置为0
+					Prerequisites: []string{},                             // 无前置条件
+				}
+				// 将创建的攻击边添加到图中
+				g.AddEdge(edge)
+			}
+		}
 	}
-	g.AddNode(hostNode)
 
-	// API服务器节点
-	apiServer := &StateNode{
-		ID:      "kube-apiserver",
-		Host:    "node/master",
-		Service: "kube-apiserver",
-		Vulnerability: &Vulnerability{
-			ID:          "RBAC-MISCONFIGURATION",
-			Name:        "RBAC权限过大",
-			Description: "服务账户权限配置不当",
-			CVE:         "",
-			Severity:    7.0,
-		},
-		Context: map[string]interface{}{
-			"serviceaccount": "default",
-			"permissions":    "cluster-admin",
-		},
-		RiskScore: 8.0,
+	// 3. 处理服务信息（Service）
+	// 每个服务都被表示为攻击图中的一个节点
+	for _, svc := range info.Services {
+		// 为每个服务创建一个对应的图节点
+		svcNode := &StateNode{
+			ID:      "svc-" + svc.Namespace + "-" + svc.Name,     // 使用命名空间+名称作为唯一标识
+			Host:    "service/" + svc.Namespace + "/" + svc.Name, // 服务主机路径
+			Service: svc.Type,                                    // 服务类型（ClusterIP, NodePort, LoadBalancer等）
+			Vulnerability: &Vulnerability{ // 服务相关的漏洞信息
+				ID:       "SVC-VULN-" + svc.Name, // 漏洞ID
+				Name:     "service cvce",         // 漏洞名称
+				Severity: 0.0,                    // 不考虑风险评分，设置为0
+			},
+			Context: map[string]interface{}{ // 服务上下文信息
+				"externallyExposed": svc.IsExternallyExposed, // 是否对外暴露
+				"clusterIP":         svc.ClusterIP,           // 集群内部IP
+				"externalIPs":       svc.ExternalIPs,         // 外部IP列表
+			},
+			RiskScore: 0.0, // 不考虑风险评分，设置为0
+		}
+		// 将创建的服务节点添加到图中
+		g.AddNode(svcNode)
+
+		// 外部暴露检查：如果服务对外暴露（如NodePort或LoadBalancer类型），
+		// 则可能提供额外的攻击入口点
+		if svc.IsExternallyExposed {
+			// 遍历所有Pod，查找与该服务关联的Pod
+			for _, pod := range info.Pods {
+				// 判断Pod是否与服务匹配：
+				// 1. 在同一命名空间
+				// 2. Pod标签匹配服务选择器
+				if pod.Namespace == svc.Namespace && podMatchesService(pod.Labels, svc.Selector) {
+					// 构造Pod节点ID
+					podID := "pod-" + pod.Namespace + "-" + pod.Name
+					// 检查Pod节点是否存在于图中
+					if podNode, exists := g.Nodes[podID]; exists {
+						// 创建一条从服务到Pod的攻击边
+						edge := &AttackEdge{
+							ID:            "edge-" + svcNode.ID + "-to-" + podID, // 边的唯一标识
+							From:          svcNode,                               // 源节点（服务）
+							To:            podNode,                               // 目标节点（Pod）
+							Action:        "action",                              // 攻击行为描述
+							Difficulty:    0.0,                                   // 不考虑难度系数，设置为0
+							Prerequisites: []string{},                            // 无前置条件
+						}
+						// 将创建的攻击边添加到图中
+						g.AddEdge(edge)
+					}
+				}
+			}
+		}
 	}
-	g.AddNode(apiServer)
 
-	// 2. 创建攻击边
-
-	// Pod到宿主机的攻击路径
-	edgePodToHost := &AttackEdge{
-		ID:            "edge-pod-to-host",
-		From:          exposedPod,
-		To:            hostNode,
-		Action:        "容器逃逸攻击",
-		Difficulty:    0.6,
-		Prerequisites: []string{"privileged_containers"},
-	}
-	g.AddEdge(edgePodToHost)
-
-	// 宿主机到API服务器的攻击路径
-	edgeHostToAPI := &AttackEdge{
-		ID:            "edge-host-to-api",
-		From:          hostNode,
-		To:            apiServer,
-		Action:        "凭据窃取并提权",
-		Difficulty:    0.7,
-		Prerequisites: []string{"kubelet_credentials"},
-	}
-	g.AddEdge(edgeHostToAPI)
-
+	// 构建完成，返回nil表示无错误
 	return nil
 }
 
-// AnalyzePaths 分析攻击路径
-func (g *StateAttackGraph) AnalyzePaths() *AnalysisResults {
-	results := &AnalysisResults{
-		CriticalPaths: make([]*Path, 0),
-		CriticalNodes: make([]*StateNode, 0),
+// podMatchesService 判断Pod是否匹配服务选择器
+// 在Kubernetes中，服务通过标签选择器选择目标Pod，
+// 此函数检查Pod的标签是否满足服务的选择条件
+// 参数:
+//   - podLabels: Pod的标签映射
+//   - serviceSelector: 服务的标签选择器
+//
+// 返回:
+//   - bool: 如果Pod匹配服务选择器则返回true，否则返回false
+func podMatchesService(podLabels, serviceSelector map[string]string) bool {
+	// 如果选择器为空，则不匹配任何Pod
+	// 这是一个安全检查，实际上Kubernetes服务通常会有选择器
+	if len(serviceSelector) == 0 {
+		return false
 	}
 
-	// 简单起见，我们找出所有可能的路径
-	// 在真实系统中，这里需要使用图算法如DFS或BFS
-
-	// 找出所有入口点 (没有入边的节点)
-	entryPoints := g.findEntryPoints()
-
-	// 对于每个入口点，找出所有可能的路径
-	for _, entry := range entryPoints {
-		paths := g.findAllPathsFromNode(entry, nil, make(map[string]bool))
-		for _, path := range paths {
-			// 计算路径风险值
-			path.TotalRisk = g.calculatePathRisk(path)
-			results.CriticalPaths = append(results.CriticalPaths, path)
+	// 检查服务选择器中的每个键值对
+	// Pod必须包含选择器中所有的标签，且值相同才算匹配
+	for key, value := range serviceSelector {
+		// 从Pod标签中获取对应键的值
+		podValue, exists := podLabels[key]
+		// 如果键不存在或值不匹配，则Pod与服务不匹配
+		if !exists || podValue != value {
+			return false
 		}
 	}
 
-	// 按风险值排序路径
-	sort.Slice(results.CriticalPaths, func(i, j int) bool {
-		return results.CriticalPaths[i].TotalRisk > results.CriticalPaths[j].TotalRisk
-	})
-
-	// 只保留风险最高的5条路径
-	if len(results.CriticalPaths) > 5 {
-		results.CriticalPaths = results.CriticalPaths[:5]
-	}
-
-	// 找出关键节点 (风险评分最高的节点)
-	nodeSlice := make([]*StateNode, 0, len(g.Nodes))
-	for _, node := range g.Nodes {
-		nodeSlice = append(nodeSlice, node)
-	}
-
-	sort.Slice(nodeSlice, func(i, j int) bool {
-		return nodeSlice[i].RiskScore > nodeSlice[j].RiskScore
-	})
-
-	// 选取风险最高的几个节点
-	count := min(5, len(nodeSlice))
-	results.CriticalNodes = nodeSlice[:count]
-
-	return results
-}
-
-// findEntryPoints 查找图中的入口点
-func (g *StateAttackGraph) findEntryPoints() []*StateNode {
-	entryPoints := make([]*StateNode, 0)
-	incomingEdges := make(map[string]int)
-
-	// 计算每个节点的入边数量
-	for _, edge := range g.Edges {
-		incomingEdges[edge.To.ID]++
-	}
-
-	// 入边数为0的节点是入口点
-	for id, node := range g.Nodes {
-		if incomingEdges[id] == 0 {
-			entryPoints = append(entryPoints, node)
-		}
-	}
-
-	return entryPoints
-}
-
-// findAllPathsFromNode 使用DFS查找从给定节点出发的所有路径
-func (g *StateAttackGraph) findAllPathsFromNode(
-	node *StateNode,
-	currentPath *Path,
-	visited map[string]bool,
-) []*Path {
-	// 标记当前节点为已访问
-	visited[node.ID] = true
-
-	// 如果当前路径为空，创建一个新路径
-	if currentPath == nil {
-		currentPath = &Path{
-			Edges:     make([]*AttackEdge, 0),
-			TotalRisk: 0,
-		}
-	}
-
-	// 查找从当前节点出发的所有边
-	outEdges := make([]*AttackEdge, 0)
-	for _, edge := range g.Edges {
-		if edge.From.ID == node.ID && !visited[edge.To.ID] {
-			outEdges = append(outEdges, edge)
-		}
-	}
-
-	// 如果没有出边，说明是终点，返回当前路径
-	if len(outEdges) == 0 {
-		return []*Path{currentPath}
-	}
-
-	// 否则，继续DFS
-	allPaths := make([]*Path, 0)
-	for _, edge := range outEdges {
-		// 创建新路径以避免修改当前路径
-		newPath := &Path{
-			Edges: append(append([]*AttackEdge{}, currentPath.Edges...), edge),
-		}
-
-		// 递归查找从目标节点出发的所有路径
-		newVisited := make(map[string]bool)
-		for k, v := range visited {
-			newVisited[k] = v
-		}
-
-		subPaths := g.findAllPathsFromNode(edge.To, newPath, newVisited)
-		allPaths = append(allPaths, subPaths...)
-	}
-
-	return allPaths
-}
-
-// calculatePathRisk 计算路径的总风险值
-func (g *StateAttackGraph) calculatePathRisk(path *Path) float64 {
-	if len(path.Edges) == 0 {
-		return 0
-	}
-
-	// 初始风险值为起点的风险评分
-	risk := path.Edges[0].From.RiskScore
-
-	// 累加每一步的风险
-	for _, edge := range path.Edges {
-		// 风险增量基于目标节点风险和攻击难度的反比
-		// 难度越低，风险越高
-		riskIncrement := edge.To.RiskScore * (1 - edge.Difficulty)
-		risk += riskIncrement
-	}
-
-	// 考虑路径长度的调整因子
-	// 路径越短，风险越高
-	lengthFactor := 1.0 / float64(len(path.Edges))
-	risk *= (1 + lengthFactor)
-
-	return risk
-}
-
-// min returns the smaller of x or y.
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
+	// 所有选择器标签都匹配，返回true
+	return true
 }

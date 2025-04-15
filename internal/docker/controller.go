@@ -50,8 +50,7 @@ func init() {
 	//if err != nil {
 	//	log.Fatalln("初始化 Docker 客户端失败: " + err.Error())
 	//}
-	sshInit()
-	Cli = cli
+
 }
 func sshClose() {
 	if SSHClient != nil {
@@ -59,7 +58,7 @@ func sshClose() {
 	}
 }
 
-func sshInit() {
+func SSHInit(ip string) {
 	sshConfig := &ssh.ClientConfig{
 		User: "ubuntu",
 		Auth: []ssh.AuthMethod{
@@ -71,7 +70,7 @@ func sshInit() {
 
 	// 建立 SSH 连接
 	var err error
-	SSHClient, err = ssh.Dial("tcp", "192.168.52.147:22", sshConfig)
+	SSHClient, err = ssh.Dial("tcp", ip+":22", sshConfig)
 	if err != nil {
 		fmt.Printf("SSH 连接失败: %v\n", err)
 		return
@@ -118,6 +117,7 @@ func sshInit() {
 				io.Copy(remoteConn, localConn)
 			}()
 		}
+
 	}()
 
 	// 等待端口转发准备就绪
@@ -145,6 +145,7 @@ func sshInit() {
 	}
 
 	fmt.Printf("Docker连接成功! \n")
+	Cli = cli
 }
 
 // Container 结构体，封装了容器的相关操作

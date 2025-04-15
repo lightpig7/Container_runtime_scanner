@@ -5,8 +5,7 @@ import "Container_runtime_scanner/internal/cluster"
 func main() {
 	//audit.CheckSensitiveMounts()
 	//audit.Audit_start()
-	cluster.TestA()
-	cluster.TestAB()
+	cluster.Test()
 	//containerd.TestMain()
 	//data.FetchContainerVulnerabilities()
 	//docker.ListRunningContainers()

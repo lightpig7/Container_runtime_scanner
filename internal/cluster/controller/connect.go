@@ -1,4 +1,4 @@
-package cluster
+package controller
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 
 var K8sClient *kubernetes.Clientset
 
-func TestA() {
+func init() {
 	// SSH连接配置
 	sshHost := "192.168.52.150"
 	sshPort := "22"

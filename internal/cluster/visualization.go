@@ -36,9 +36,9 @@ func ExportToDOT(graph *model.StateAttackGraph, filePath string) error {
 		// 创建标签内容
 		label := fmt.Sprintf("%s\\n%s", node.Host, node.Service)
 		if node.Vulnerability != nil {
-			label += fmt.Sprintf("\\n漏洞: %s", node.Vulnerability.Name)
+			label += fmt.Sprintf("\\nVulnerability: %s", node.Vulnerability.Name)
 		}
-		label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
+		//label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
 
 		// 写入节点定义
 		fmt.Fprintf(file, "  \"%s\" [label=\"%s\", fillcolor=\"%s\"];\n", id, label, color)
@@ -125,9 +125,9 @@ func ExportCriticalPathsToDOT(results *model.AnalysisResults, filePath string) e
 
 			label := fmt.Sprintf("%s\\n%s", node.Host, node.Service)
 			if node.Vulnerability != nil {
-				label += fmt.Sprintf("\\n漏洞: %s", node.Vulnerability.Name)
+				label += fmt.Sprintf("\\nVulnerability: %s", node.Vulnerability.Name)
 			}
-			label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
+			//label += fmt.Sprintf("\\n风险评分: %.1f", node.RiskScore)
 
 			fmt.Fprintf(file, "    \"%s_%d\" [label=\"%s\", fillcolor=\"%s\"];\n", id, i, label, color)
 		}

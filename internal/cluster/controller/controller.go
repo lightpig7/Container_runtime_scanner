@@ -1,12 +1,10 @@
-package cluster
+package controller
 
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io"
 	"k8s.io/apimachinery/pkg/util/wait"
-	"log"
 	"time"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -197,91 +195,6 @@ func GetPodsBySelector(namespace string, selector map[string]string) (*corev1.Po
 		LabelSelector: labelSelector.String(),
 	}
 	return K8sClient.CoreV1().Pods(namespace).List(context.TODO(), listOptions)
-}
-func TestAB() {
-	// 假设K8sClient已经在cluster包中被初始化
-
-	fmt.Println("开始测试Kubernetes API接口...")
-
-	// 测试1: 获取所有命名空间
-	namespaces, err := GetNamespaceList()
-	if err != nil {
-		log.Fatalf("获取命名空间列表失败: %v", err)
-	}
-	fmt.Printf("集群中有 %d 个命名空间\n", len(namespaces.Items))
-
-	// 打印部分命名空间
-	fmt.Println("部分命名空间:")
-	for i, ns := range namespaces.Items {
-		if i < 5 { // 只显示前5个
-			fmt.Printf("  - %s (创建于: %s)\n", ns.Name, ns.CreationTimestamp.Format(time.RFC3339))
-		} else {
-			break
-		}
-	}
-
-	// 测试2: 获取default命名空间中的所有Pod
-	pods, err := ListPods("default", "")
-	if err != nil {
-		log.Fatalf("获取Pod列表失败: %v", err)
-	}
-	fmt.Printf("\ndefault命名空间中有 %d 个Pod\n", len(pods.Items))
-
-	// 打印部分Pod
-	if len(pods.Items) > 0 {
-		fmt.Println("部分Pod:")
-		limit := 3
-		if len(pods.Items) < limit {
-			limit = len(pods.Items)
-		}
-		for i := 0; i < limit; i++ {
-			pod := pods.Items[i]
-			fmt.Printf("  - %s (状态: %s, IP: %s)\n", pod.Name, pod.Status.Phase, pod.Status.PodIP)
-		}
-
-		// 如果存在Pod，获取第一个Pod的日志
-		if len(pods.Items) > 0 {
-			podName := pods.Items[0].Name
-			logs, err := GetPodLogs("default", podName, 10) // 获取最后10行日志
-			if err != nil {
-				fmt.Printf("获取Pod %s 的日志失败: %v\n", podName, err)
-			} else {
-				fmt.Printf("\nPod %s 的最后10行日志:\n%s\n", podName, logs)
-			}
-		}
-	} else {
-		fmt.Println("default命名空间中没有Pod")
-	}
-
-	// 测试3: 获取所有节点
-	nodes, err := GetNodeList()
-	if err != nil {
-		log.Fatalf("获取节点列表失败: %v", err)
-	}
-	fmt.Printf("\n集群中有 %d 个节点\n", len(nodes.Items))
-
-	// 打印所有节点信息
-	for _, node := range nodes.Items {
-		var status string
-		for _, condition := range node.Status.Conditions {
-			if condition.Type == corev1.NodeReady {
-				if condition.Status == corev1.ConditionTrue {
-					status = "就绪"
-				} else {
-					status = "未就绪"
-				}
-				break
-			}
-		}
-		fmt.Printf("  - %s (状态: %s, 内部IP: %s)\n", node.Name, status, getNodeInternalIP(node))
-	}
-
-	// 测试8: 清理资源（如果需要）
-	fmt.Println("\n是否清理测试资源? [已跳过]")
-	// 通常这里会提示用户是否清理资源，但为了简单起见，我们这里省略了交互
-	// cleanupResources(testNS)
-
-	fmt.Println("\nKubernetes API接口测试完成")
 }
 
 // 获取节点的内部IP
