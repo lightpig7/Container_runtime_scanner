@@ -3,8 +3,6 @@ package model
 import "fmt"
 
 // StateAttackGraph 表示状态攻击图
-// 该结构体是整个攻击图的核心，包含所有节点和边
-// 这种图结构用于模拟在Kubernetes集群中可能的攻击路径
 type StateAttackGraph struct {
 	Nodes map[string]*StateNode // 节点集合，以ID为键，便于快速查找特定节点
 	Edges []*AttackEdge         // 边集合，表示从一个节点到另一个节点的攻击可能性
@@ -108,27 +106,6 @@ func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
 		}
 		// 将创建的Pod节点添加到图中
 		g.AddNode(podNode)
-
-		// 特权容器检查：如果Pod是特权容器，创建从Pod到对应节点的攻击边
-		// 特权容器可能导致容器逃逸，攻击宿主节点
-		if pod.Privileged {
-			// 构造节点ID，用于查找Pod所在的宿主节点
-			nodeID := "node-" + pod.NodeName
-			// 检查宿主节点是否存在于图中
-			if nodeNode, exists := g.Nodes[nodeID]; exists {
-				// 创建一条从Pod到宿主节点的攻击边
-				edge := &AttackEdge{
-					ID:            "edge-" + podNode.ID + "-to-" + nodeID, // 边的唯一标识
-					From:          podNode,                                // 源节点（Pod）
-					To:            nodeNode,                               // 目标节点（宿主节点）
-					Action:        "Action",                               // 攻击行为描述
-					Difficulty:    0.0,                                    // 不考虑难度系数，设置为0
-					Prerequisites: []string{},                             // 无前置条件
-				}
-				// 将创建的攻击边添加到图中
-				g.AddEdge(edge)
-			}
-		}
 	}
 
 	// 3. 处理服务信息（Service）
@@ -153,37 +130,36 @@ func (g *StateAttackGraph) BuildFromClusterInfo(info *ClusterInfo) error {
 		}
 		// 将创建的服务节点添加到图中
 		g.AddNode(svcNode)
+	}
+	apiServerNode := &StateNode{
+		ID:      "api-server",           // API Server的唯一标识
+		Host:    "kubernetes-apiserver", // 主机名
+		Service: "apiserver",            // 服务类型为apiserver
+		Context: map[string]interface{}{ // API Server上下文信息
+			"externallyExposed": info.APIServer.ExternallyExposed,       // 是否对外暴露
+			"endpoint":          info.APIServer.Endpoint,                // API Server端点
+			"authModes":         info.APIServer.AuthModes,               // 认证模式
+			"insecurePort":      info.APIServer.InsecurePort,            // 是否开启不安全端口
+			"admissionPlugins":  info.APIServer.EnabledAdmissionPlugins, // 启用的准入控制插件
+			"version":           info.APIServer.Version,                 // Kubernetes版本
+		},
+		RiskScore: 0.0, // 初始风险评分设为0
+	}
+	// 将创建的API Server节点添加到图中
+	g.AddNode(apiServerNode)
 
-		// 外部暴露检查：如果服务对外暴露（如NodePort或LoadBalancer类型），
-		// 则可能提供额外的攻击入口点
-		if svc.IsExternallyExposed {
-			// 遍历所有Pod，查找与该服务关联的Pod
-			for _, pod := range info.Pods {
-				// 判断Pod是否与服务匹配：
-				// 1. 在同一命名空间
-				// 2. Pod标签匹配服务选择器
-				if pod.Namespace == svc.Namespace && podMatchesService(pod.Labels, svc.Selector) {
-					// 构造Pod节点ID
-					podID := "pod-" + pod.Namespace + "-" + pod.Name
-					// 检查Pod节点是否存在于图中
-					if podNode, exists := g.Nodes[podID]; exists {
-						// 创建一条从服务到Pod的攻击边
-						edge := &AttackEdge{
-							ID:            "edge-" + svcNode.ID + "-to-" + podID, // 边的唯一标识
-							From:          svcNode,                               // 源节点（服务）
-							To:            podNode,                               // 目标节点（Pod）
-							Action:        "action",                              // 攻击行为描述
-							Difficulty:    0.0,                                   // 不考虑难度系数，设置为0
-							Prerequisites: []string{},                            // 无前置条件
-						}
-						// 将创建的攻击边添加到图中
-						g.AddEdge(edge)
-					}
-				}
-			}
-		}
+	internetNode := &StateNode{
+		ID:      "internet",         // 互联网节点的唯一标识
+		Host:    "external-network", // 表示这是外部网络
+		Service: "internet",         // 服务类型为互联网
+		Context: map[string]interface{}{
+			"description":   "外部网络访问入口点",       // 节点描述
+			"attackSurface": "external-facing", // 攻击面类型
+		},
 	}
 
+	// 将互联网节点添加到图中，作为潜在攻击的起点
+	g.AddNode(internetNode)
 	// 构建完成，返回nil表示无错误
 	return nil
 }

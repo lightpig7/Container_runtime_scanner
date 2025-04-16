@@ -1,8 +1,14 @@
 digraph AttackGraph {
   rankdir=LR;
-  node [shape=box, style=filled];
+  node [shape=box, style=filled, fontname="SimSun"];
+  edge [fontname="SimSun"];
+  "api-server" [label="kubernetes-apiserver\napiserver", fillcolor="white"];
+  "internet" [label="external-network\ninternet", fillcolor="white"];
   "node-k8s-worker1" [label="node/k8s-worker1\ndocker://19.3.15\nVulnerabilities:\n- CAP_SYS_MODULE逃逸\n- CAP_SYS_MODULE逃逸", fillcolor="red"];
   "node-k8s-worker2" [label="node/k8s-worker2\ndocker://19.3.15\nVulnerabilities:\n- CAP_SYS_MODULE逃逸", fillcolor="red"];
   "pod-default-ubuntu-privileged-pod" [label="pod/default/ubuntu-privileged-pod\ndefault", fillcolor="white"];
   "svc-default-kubernetes" [label="service/default/kubernetes\nClusterIP", fillcolor="white"];
+  "pod-default-ubuntu-privileged-pod" -> "node-k8s-worker1" [label="利用特权容器逃逸到宿主节点\n前置条件:\n- 对特权容器的访问权限"];
+  "node-k8s-worker1" -> "node-k8s-worker2" [label="通过网络从一个节点攻击另一个节点\n前置条件:\n- 源节点的控制权\n- 节点间的网络连通性"];
+  "node-k8s-worker2" -> "node-k8s-worker1" [label="通过网络从一个节点攻击另一个节点\n前置条件:\n- 源节点的控制权\n- 节点间的网络连通性"];
 }

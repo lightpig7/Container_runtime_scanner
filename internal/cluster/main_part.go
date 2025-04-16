@@ -34,6 +34,12 @@ func Test() {
 		log.Fatalf("构建攻击图失败: %s", err.Error())
 	}
 
+	// 分析攻击图并建立攻击边
+	err = model.AnalyzeAttackGraph(attackGraph, clusterInfo)
+	if err != nil {
+		log.Fatalf("分析攻击图失败: %v", err)
+	}
+
 	//fmt.Println("分析潜在攻击路径...")
 	//results := attackGraph.AnalyzePaths()
 	//

@@ -47,7 +47,6 @@ type AttackEdge struct {
 	From          *StateNode // 源状态
 	To            *StateNode // 目标状态
 	Action        string     // 攻击行为描述
-	Difficulty    float64    // 难度系数 (0-1, 1最难)
 	Prerequisites []string   // 前置条件
 }
 
@@ -65,7 +64,7 @@ func (p *Path) Print() {
 
 	fmt.Printf("起点: %s (%s)\n", p.Edges[0].From.ID, p.Edges[0].From.Host)
 	for i, edge := range p.Edges {
-		fmt.Printf("  步骤 %d: %s (难度: %.2f)\n", i+1, edge.Action, edge.Difficulty)
+		fmt.Printf("  步骤 %d: %s (难度: %.2f)\n", i+1, edge.Action)
 		fmt.Printf("    → %s (%s)\n", edge.To.ID, edge.To.Host)
 	}
 	fmt.Printf("总风险值: %.2f\n", p.TotalRisk)
@@ -88,6 +87,27 @@ type ClusterInfo struct {
 	HighVulns        int
 	MediumVulns      int
 	LowVulns         int
+	APIServer        APIServerInfo
+}
+type APIServerInfo struct {
+	Endpoint                string
+	Version                 string
+	AuthModes               []string
+	InsecurePort            bool
+	EnabledAdmissionPlugins []string
+	ExternallyExposed       bool
+	ExternalProtocol        string
+	ExternalPort            int32
+	ControlPlaneComponents  []ControlPlaneComponentInfo
+	Vulnerabilities         []*Vulnerability
+}
+type ControlPlaneComponentInfo struct {
+	Name       string
+	Version    string
+	Running    bool
+	PodName    string
+	Port       int32
+	AuthMethod string
 }
 
 // SecurityIssue 存储安全问题信息
