@@ -1,0 +1,161 @@
+{
+  "nodes": [
+    {
+      "id": "node-k8s-worker1",
+      "label": "node/k8s-worker1",
+      "type": "node",
+      "riskScore": 7.8,
+      "service": "docker://19.3.15",
+      "host": "node/k8s-worker1",
+      "vulnerabilities": [
+        {
+          "id": "6",
+          "name": "CAP_SYS_MODULE逃逸",
+          "severity": "Critical",
+          "cvssScore": 7.8,
+          "containerId": "k8s_ubuntu_ubuntu-privileged-pod_default_43bd91ec-a843-4d46-bc5d-dbf548cf9c29_24"
+        },
+        {
+          "id": "6",
+          "name": "CAP_SYS_MODULE逃逸",
+          "severity": "Critical",
+          "cvssScore": 7.8,
+          "containerId": "k8s_kube-proxy_kube-proxy-hvpcp_kube-system_4654474a-b1b5-4b58-bd81-e5c570ebe9e4_2"
+        }
+      ],
+      "context": {
+        "kubeletVersion": "v1.20.15",
+        "osImage": "Ubuntu 20.04.5 LTS",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "node-k8s-worker2",
+      "label": "node/k8s-worker2",
+      "type": "node",
+      "riskScore": 7.8,
+      "service": "docker://19.3.15",
+      "host": "node/k8s-worker2",
+      "vulnerabilities": [
+        {
+          "id": "6",
+          "name": "CAP_SYS_MODULE逃逸",
+          "severity": "Critical",
+          "cvssScore": 7.8,
+          "containerId": "k8s_kube-proxy_kube-proxy-wxzxp_kube-system_5636500f-9593-4e60-b468-7d564ad0e87a_2"
+        }
+      ],
+      "context": {
+        "kubeletVersion": "v1.20.15",
+        "osImage": "Ubuntu 20.04.5 LTS",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "pod-default-ubuntu-privileged-pod",
+      "label": "pod/default/ubuntu-privileged-pod",
+      "type": "pod",
+      "riskScore": 0,
+      "service": "default",
+      "host": "pod/default/ubuntu-privileged-pod",
+      "context": {
+        "hostIPC": false,
+        "hostNetwork": false,
+        "hostPID": false,
+        "nodeName": "k8s-worker1",
+        "privileged": true
+      }
+    },
+    {
+      "id": "svc-default-kubernetes",
+      "label": "service/default/kubernetes",
+      "type": "service",
+      "riskScore": 0,
+      "service": "ClusterIP",
+      "host": "service/default/kubernetes",
+      "context": {
+        "clusterIP": "10.96.0.1",
+        "externalIPs": null,
+        "externallyExposed": false
+      }
+    },
+    {
+      "id": "api-server",
+      "label": "kubernetes-apiserver",
+      "type": "apiserver",
+      "riskScore": 0,
+      "service": "apiserver",
+      "host": "kubernetes-apiserver",
+      "context": {
+        "admissionPlugins": [
+          "NodeRestriction",
+          "PodSecurityPolicy",
+          "ServiceAccount",
+          "LimitRanger",
+          "ResourceQuota"
+        ],
+        "authModes": [
+          "X509",
+          "ServiceAccount",
+          "OIDC"
+        ],
+        "endpoint": "https://10.96.0.1:443",
+        "externallyExposed": true,
+        "insecurePort": false,
+        "version": "1.20"
+      }
+    },
+    {
+      "id": "internet",
+      "label": "external-network",
+      "type": "internet",
+      "riskScore": 0,
+      "service": "internet",
+      "host": "external-network",
+      "context": {
+        "description": "外部网络访问入口点"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "internet",
+      "target": "api-server",
+      "action": "通过互联网访问对外暴露的API Server",
+      "prerequisites": [
+        "发现API Server端点",
+        "有效的认证凭据或利用认证漏洞"
+      ]
+    },
+    {
+      "id": "e1",
+      "source": "pod-default-ubuntu-privileged-pod",
+      "target": "node-k8s-worker1",
+      "action": "利用特权容器逃逸到宿主节点",
+      "prerequisites": [
+        "对特权容器的访问权限"
+      ]
+    },
+    {
+      "id": "e2",
+      "source": "node-k8s-worker2",
+      "target": "node-k8s-worker1",
+      "action": "通过网络从一个节点攻击另一个节点",
+      "prerequisites": [
+        "源节点的控制权",
+        "节点间的网络连通性"
+      ]
+    },
+    {
+      "id": "e3",
+      "source": "node-k8s-worker1",
+      "target": "node-k8s-worker2",
+      "action": "通过网络从一个节点攻击另一个节点",
+      "prerequisites": [
+        "源节点的控制权",
+        "节点间的网络连通性"
+      ]
+    }
+  ]
+}

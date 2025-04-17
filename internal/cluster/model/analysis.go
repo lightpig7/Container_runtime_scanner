@@ -11,18 +11,6 @@ import (
 func AnalyzeAttackGraph(graph *StateAttackGraph, clusterInfo *ClusterInfo) error {
 	log.Println("开始分析攻击图并建立攻击路径...")
 
-	// 1. 创建互联网入口点节点（如果不存在）
-	internetNodeID := "internet"
-	if _, exists := graph.Nodes[internetNodeID]; !exists {
-		internetNode := &StateNode{
-			ID:        internetNodeID,
-			Host:      "external-network",
-			Service:   "internet",
-			RiskScore: 0.0,
-		}
-		graph.AddNode(internetNode)
-	}
-
 	// 2. 分析API Server的攻击路径
 	analyzeAPIServerAttackPaths(graph, clusterInfo)
 
@@ -97,15 +85,11 @@ func analyzeAPIServerAttackPaths(graph *StateAttackGraph, clusterInfo *ClusterIn
 		}
 	}
 
-	// 分析API Server与控制平面组件的关系
-	// 为简化示例，假设控制平面组件作为Pod存在
-	// 实际应用中可能需要更复杂的逻辑
 	for _, node := range graph.Nodes {
 		if strings.HasPrefix(node.ID, "pod-") &&
 			(strings.Contains(node.Host, "kube-system") ||
 				strings.Contains(node.Host, "control-plane")) {
 
-			// 检查是否为控制平面组件
 			isControlPlane := false
 			for _, container := range getPodContainers(node.ID, clusterInfo) {
 				if isControlPlaneComponent(container.Name) {
@@ -166,7 +150,6 @@ func analyzeExposedServicesAttackPaths(graph *StateAttackGraph, clusterInfo *Clu
 	}
 }
 
-// connectServiceToPods 连接服务到相关的Pod
 func connectServiceToPods(graph *StateAttackGraph, serviceNode *StateNode, clusterInfo *ClusterInfo) {
 	// 解析服务命名空间和名称
 	parts := strings.Split(serviceNode.ID, "-")

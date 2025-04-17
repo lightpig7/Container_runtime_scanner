@@ -7,19 +7,9 @@ import (
 
 // ScanOptions 定义扫描选项
 type ScanOptions struct {
-	SkipNamespaces []string      // 要跳过的命名空间
-	EnableVulnScan bool          // 是否启用漏洞扫描
-	ScanDepth      ScanDepth     // 扫描深度
-	Timeout        time.Duration // 扫描超时时间
+	SkipNamespaces []string // 要跳过的命名空间
+	EnableVulnScan bool     // 是否启用漏洞扫描
 }
-
-// ScanDepth 定义扫描深度类型
-type ScanDepth string
-
-const (
-	ScanDepthLight ScanDepth = "light" // 轻量扫描
-	ScanDepthFull  ScanDepth = "full"  // 完整扫描
-)
 
 // StateNode 表示攻击图中的状态节点
 type StateNode struct {
@@ -225,13 +215,6 @@ type ServiceAccountInfo struct {
 	CreationTime   time.Time
 	Secrets        []string
 	AutomountToken bool
-}
-
-// VolumeInfo 存储卷信息
-type VolumeInfo struct {
-	Name string
-	Type string
-	Path string
 }
 
 // Permission 表示权限项

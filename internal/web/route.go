@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
 type Response struct {
@@ -87,6 +88,18 @@ func Create() {
 		// 以 JSON 格式返回日志内容
 		c.JSON(http.StatusOK, gin.H{"log": logContent})
 	})
+
+	r.POST("/cluster/graph", func(c *gin.Context) {
+		GraphContent, err := os.ReadFile("internal/cluster/output/graph.json")
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		// 以 JSON 格式返回日志内容
+		c.JSON(http.StatusOK, gin.H{"graph": GraphContent})
+	})
+
 	err := r.Run("0.0.0.0:8080")
 	if err != nil {
 		return

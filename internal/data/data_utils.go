@@ -17,6 +17,7 @@ func RegexGetBool(expected_output string, output string) bool {
 	found := re.MatchString(output)
 	return found
 }
+
 func ReadLog(containerName string, mode string) (string, error) {
 	var logFilePath string
 	if mode == "container" {

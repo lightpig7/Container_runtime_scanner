@@ -16,15 +16,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-// ScanCluster 扫描Kubernetes集群并收集安全相关信息
-// 参数:
-//   - ctx: 上下文，用于控制API请求的生命周期
-//   - clientset: Kubernetes客户端集，用于与K8s API交互
-//   - options: 扫描选项，用于自定义扫描行为
-//
-// 返回:
-//   - *model.ClusterInfo: 包含集群扫描结果的结构体
-//   - error: 如有错误发生则返回
 func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.ClusterInfo, error) {
 	startTime := time.Now()
 	log.Printf("开始扫描集群，时间: %s", startTime.Format("2006-01-02 15:04:05"))
@@ -137,14 +128,12 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	}
 
 	// ==================== Pod扫描部分 ====================
-	// 获取所有命名空间中的Pod列表
 	pods, err := clientset.CoreV1().Pods("").List(ctx, metav1.ListOptions{})
 	if err != nil {
 		// 如果获取Pod列表失败，返回错误
 		return nil, fmt.Errorf("获取Pod列表失败: %w", err)
 	}
 	fmt.Println("------------------pods----------------------", len(pods.Items))
-	// 遍历每个Pod，收集Pod信息
 	for _, pod := range pods.Items {
 		// 跳过指定命名空间中的Pod
 		if shouldSkipNamespace(pod.Namespace, options.SkipNamespaces) {
@@ -184,9 +173,7 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 			podInfo.SecurityIssues = append(podInfo.SecurityIssues, "Pod使用主机网络")
 		}
 
-		// 收集Pod中所有容器信息
 		for _, container := range pod.Spec.Containers {
-			// 为当前容器创建信息结构体
 			containerInfo := model.ContainerInfo{
 				Name:            container.Name,
 				Image:           container.Image,
@@ -196,7 +183,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 				SecurityIssues:  make([]string, 0),
 			}
 
-			// 分析容器安全上下文
 			if container.SecurityContext != nil {
 				// 检查危险设置
 				if container.SecurityContext.Privileged != nil && *container.SecurityContext.Privileged {
@@ -235,7 +221,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	}
 
 	// ==================== 服务扫描部分 ====================
-	// 获取所有命名空间中的服务列表
 	services, err := clientset.CoreV1().Services("").List(ctx, metav1.ListOptions{})
 	if err != nil {
 		// 如果获取服务列表失败，返回错误
@@ -249,7 +234,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 			continue
 		}
 
-		// 为当前服务创建信息结构体
 		svcInfo := model.ServiceInfo{
 			Name:           svc.Name,
 			Namespace:      svc.Namespace,
@@ -263,7 +247,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 			ServicePorts:   make([]model.ServicePortInfo, 0),
 		}
 
-		// 收集服务暴露的所有端口，包含更详细信息
 		for _, port := range svc.Spec.Ports {
 			portInfo := model.ServicePortInfo{
 				Name:       port.Name,
@@ -275,7 +258,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 			svcInfo.ServicePorts = append(svcInfo.ServicePorts, portInfo)
 		}
 
-		// 安全分析逻辑
 		if svc.Spec.Type == "LoadBalancer" || svc.Spec.Type == "NodePort" {
 			svcInfo.IsExternallyExposed = true
 			// 检查是否有敏感端口暴露
@@ -292,7 +274,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	}
 
 	// ==================== 部署扫描部分 ====================
-	// 获取所有命名空间中的Deployment列表
 	deployments, err := clientset.AppsV1().Deployments("").List(ctx, metav1.ListOptions{})
 	if err != nil {
 		// 如果获取部署列表失败，返回错误
@@ -351,7 +332,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	}
 
 	// ==================== 网络策略扫描部分 ====================
-	// 获取所有命名空间中的NetworkPolicy列表
 	if networkPoliciesAvailable(clientset) {
 		networkPolicies, err := clientset.NetworkingV1().NetworkPolicies("").List(ctx, metav1.ListOptions{})
 		if err != nil {
@@ -379,7 +359,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	}
 
 	// ==================== 服务账户扫描部分 ====================
-	// 获取所有命名空间中的ServiceAccount列表
 	serviceAccounts, err := clientset.CoreV1().ServiceAccounts("").List(ctx, metav1.ListOptions{})
 	if err != nil {
 		log.Printf("警告: 获取服务账户列表失败: %v", err)
@@ -417,9 +396,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	// 计算漏洞统计数据
 	calculateVulnerabilityStats(clusterInfo)
 
-	// 计算整体风险评分
-	clusterInfo.OverallRiskScore = calculateOverallRiskScore(clusterInfo)
-
 	// 记录扫描耗时
 	scanDuration := time.Since(startTime)
 	clusterInfo.ScanDuration = scanDuration
@@ -430,7 +406,6 @@ func ScanCluster(ctx context.Context, clientset *kubernetes.Clientset) (*model.C
 	fmt.Printf("漏洞统计: 严重: %d, 高危: %d, 中危: %d, 低危: %d\n",
 		clusterInfo.CriticalVulns, clusterInfo.HighVulns, clusterInfo.MediumVulns, clusterInfo.LowVulns)
 	fmt.Printf("扫描耗时: %v\n", scanDuration)
-	fmt.Printf("整体风险评分: %.2f/10.0\n", clusterInfo.OverallRiskScore)
 
 	// ==================== API Server信息获取 ====================
 	if err := scanAPIServer(ctx, clientset, clusterInfo); err != nil {
@@ -535,63 +510,6 @@ func categorizeVulnerability(severity float64, clusterInfo *model.ClusterInfo) {
 	} else {
 		clusterInfo.LowVulns++
 	}
-}
-
-// calculateOverallRiskScore 计算整体风险评分
-func calculateOverallRiskScore(clusterInfo *model.ClusterInfo) float64 {
-	// 基础分数
-	score := 0.0
-
-	// 漏洞因素 (占总分的50%)
-	vulnScore := 0.0
-	vulnScore += float64(clusterInfo.CriticalVulns) * 10.0
-	vulnScore += float64(clusterInfo.HighVulns) * 5.0
-	vulnScore += float64(clusterInfo.MediumVulns) * 2.0
-	vulnScore += float64(clusterInfo.LowVulns) * 0.5
-
-	// 标准化漏洞分数，最高为5分
-	if vulnScore > 0 {
-		vulnScore = min(5.0, 5.0*vulnScore/100.0)
-	}
-	score += vulnScore
-
-	// 配置安全因素 (占总分的30%)
-	configScore := 0.0
-
-	// 统计特权容器
-	privilegedCount := 0
-	for _, pod := range clusterInfo.Pods {
-		if pod.Privileged {
-			privilegedCount++
-		}
-	}
-
-	// 如果存在特权容器，增加风险分数
-	if privilegedCount > 0 {
-		configScore += min(3.0, float64(privilegedCount)*0.5)
-	}
-
-	score += configScore
-
-	// 集群暴露因素 (占总分的20%)
-	exposureScore := 0.0
-
-	// 统计外部暴露的服务
-	exposedServices := 0
-	for _, svc := range clusterInfo.Services {
-		if svc.Type == "LoadBalancer" || svc.Type == "NodePort" {
-			exposedServices++
-		}
-	}
-
-	// 根据暴露服务的数量计算风险分数
-	if exposedServices > 0 {
-		exposureScore += min(2.0, float64(exposedServices)*0.2)
-	}
-
-	score += exposureScore
-
-	return score
 }
 
 // min 返回两个浮点数中的较小值
@@ -728,9 +646,17 @@ func scanAPIServer(ctx context.Context, clientset *kubernetes.Clientset, cluster
 			}
 		}
 	}
+	hasAnonymousAdmin, err := checkAnonymousAdminBinding(clientset, ctx)
+	if err != nil {
+		log.Printf("检查匿名用户权限失败: %v", err)
 
-	// 获取启用的准入控制器
-	// 实际中需要更复杂的逻辑来检测，这里只是模拟一些常见的准入控制器
+	}
+
+	if hasAnonymousAdmin {
+		apiServerInfo.ExternallyExposed = true
+		fmt.Println("严重安全风险: 匿名用户被授予了管理员权限，任何人无需认证即可完全控制集群")
+	}
+
 	apiServerInfo.EnabledAdmissionPlugins = []string{
 		"NodeRestriction",
 		"PodSecurityPolicy",
@@ -789,4 +715,43 @@ func checkAPIServerVulnerabilities(apiServerInfo *model.APIServerInfo) {
 			apiServerInfo.Vulnerabilities = append(apiServerInfo.Vulnerabilities, vulns...)
 		}
 	}
+}
+func checkAnonymousAdminBinding(clientset *kubernetes.Clientset, ctx context.Context) (bool, error) {
+	// 获取所有ClusterRoleBinding
+	clusterRoleBindings, err := clientset.RbacV1().ClusterRoleBindings().List(ctx, metav1.ListOptions{})
+
+	if err != nil {
+		return false, fmt.Errorf("获取ClusterRoleBindings失败: %v", err)
+	}
+
+	// 检查是否有绑定给匿名用户的高权限角色
+	dangerousBindingFound := false
+	var dangerousBindings []string
+
+	for _, binding := range clusterRoleBindings.Items {
+		// 检查是否绑定了cluster-admin或其他高权限角色
+		isHighPrivilegeRole := binding.RoleRef.Name == "cluster-admin" ||
+			strings.Contains(binding.RoleRef.Name, "admin") ||
+			strings.Contains(binding.RoleRef.Name, "edit")
+
+		if !isHighPrivilegeRole {
+			continue
+		}
+
+		// 检查subjects中是否包含匿名用户
+		for _, subject := range binding.Subjects {
+			if (subject.Kind == "User" && subject.Name == "system:anonymous") ||
+				(subject.Kind == "Group" && subject.Name == "system:unauthenticated") {
+				dangerousBindingFound = true
+				dangerousBindings = append(dangerousBindings,
+					fmt.Sprintf("发现危险的RBAC配置: %s 将 %s 角色绑定给了 %s:%s",
+						binding.Name, binding.RoleRef.Name, subject.Kind, subject.Name))
+			}
+		}
+	}
+
+	if dangerousBindingFound {
+		log.Printf("警告: %s", strings.Join(dangerousBindings, "\n"))
+	}
+	return dangerousBindingFound, nil
 }

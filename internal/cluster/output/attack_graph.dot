@@ -1,14 +1,51 @@
 digraph AttackGraph {
-  rankdir=LR;
-  node [shape=box, style=filled, fontname="SimSun"];
-  edge [fontname="SimSun"];
-  "api-server" [label="kubernetes-apiserver\napiserver", fillcolor="white"];
-  "internet" [label="external-network\ninternet", fillcolor="white"];
-  "node-k8s-worker1" [label="node/k8s-worker1\ndocker://19.3.15\nVulnerabilities:\n- CAP_SYS_MODULE逃逸\n- CAP_SYS_MODULE逃逸", fillcolor="red"];
-  "node-k8s-worker2" [label="node/k8s-worker2\ndocker://19.3.15\nVulnerabilities:\n- CAP_SYS_MODULE逃逸", fillcolor="red"];
-  "pod-default-ubuntu-privileged-pod" [label="pod/default/ubuntu-privileged-pod\ndefault", fillcolor="white"];
-  "svc-default-kubernetes" [label="service/default/kubernetes\nClusterIP", fillcolor="white"];
-  "pod-default-ubuntu-privileged-pod" -> "node-k8s-worker1" [label="利用特权容器逃逸到宿主节点\n前置条件:\n- 对特权容器的访问权限"];
-  "node-k8s-worker1" -> "node-k8s-worker2" [label="通过网络从一个节点攻击另一个节点\n前置条件:\n- 源节点的控制权\n- 节点间的网络连通性"];
-  "node-k8s-worker2" -> "node-k8s-worker1" [label="通过网络从一个节点攻击另一个节点\n前置条件:\n- 源节点的控制权\n- 节点间的网络连通性"];
+  graph [rankdir=LR, splines=ortho, nodesep=0.8, ranksep=1.2, fontname="SimSun", bgcolor="white", overlap=false, concentrate=true, compound=true];
+  node [shape=box, style="rounded,filled", fontname="SimSun", fontsize=12, margin="0.3,0.1", penwidth=1.5];
+  edge [fontname="SimSun", fontsize=10, penwidth=1.2, arrowsize=0.8, color="#444444"];
+  subgraph cluster____ {
+    label="互联网";
+    style=filled;
+    color=lightgrey;
+    fontname="SimSun";
+    fontsize=14;
+    "internet" [label=<<FONT POINT-SIZE="14"><B>external-network</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: internet</FONT><BR/><FONT POINT-SIZE="12">服务: internet</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10">description: 外部网络访问入口点</FONT>>, shape=doubleoctagon, fillcolor="#FFFFFF", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+  }
+  subgraph cluster_API___ {
+    label="API服务器";
+    style=filled;
+    color=lightgrey;
+    fontname="SimSun";
+    fontsize=14;
+    "api-server" [label=<<FONT POINT-SIZE="14"><B>kubernetes-apiserver</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: api-server</FONT><BR/><FONT POINT-SIZE="12">服务: apiserver</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10">admissionPlugins: [NodeRestriction PodSecurityPolicy ServiceAccount LimitRanger ResourceQuota]</FONT><BR/><FONT POINT-SIZE="10">authModes: [X509 ServiceAccount OIDC]</FONT><BR/><FONT POINT-SIZE="10">endpoint: https://10.96.0.1:443</FONT><BR/><FONT POINT-SIZE="10" COLOR="#008800">externallyExposed: true</FONT><BR/><FONT POINT-SIZE="10" COLOR="#888888">insecurePort: false</FONT><BR/><FONT POINT-SIZE="10">version: 1.20</FONT>>, shape=hexagon, fillcolor="#FFFFFF", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+  }
+  subgraph cluster___ {
+    label="节点";
+    style=filled;
+    color=lightgrey;
+    fontname="SimSun";
+    fontsize=14;
+    "node-k8s-worker1" [label=<<FONT POINT-SIZE="14"><B>node/k8s-worker1</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: node-k8s-worker1</FONT><BR/><FONT POINT-SIZE="12">服务: docker://19.3.15</FONT><BR/><FONT COLOR="#AA0000" POINT-SIZE="12">风险评分: 7.8</FONT><BR/><FONT POINT-SIZE="12"><B>漏洞:</B></FONT><BR/><FONT POINT-SIZE="10" COLOR="#FF3300">• CAP_SYS_MODULE逃逸 (ID:6, CVSS:7.8, 严重性:Critical, 容器:k8s_ubuntu_ubuntu-privileged-pod_default_43bd91ec-a843-4d46-bc5d-dbf548cf9c29_23)</FONT><BR/><FONT POINT-SIZE="10" COLOR="#FF3300">• CAP_SYS_MODULE逃逸 (ID:6, CVSS:7.8, 严重性:Critical, 容器:k8s_kube-proxy_kube-proxy-hvpcp_kube-system_4654474a-b1b5-4b58-bd81-e5c570ebe9e4_2)</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10">kubeletVersion: v1.20.15</FONT><BR/><FONT POINT-SIZE="10">osImage: Ubuntu 20.04.5 LTS</FONT><BR/><FONT POINT-SIZE="10">role: worker</FONT>>, shape=box3d, fillcolor="#FF4500", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+    "node-k8s-worker2" [label=<<FONT POINT-SIZE="14"><B>node/k8s-worker2</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: node-k8s-worker2</FONT><BR/><FONT POINT-SIZE="12">服务: docker://19.3.15</FONT><BR/><FONT COLOR="#AA0000" POINT-SIZE="12">风险评分: 7.8</FONT><BR/><FONT POINT-SIZE="12"><B>漏洞:</B></FONT><BR/><FONT POINT-SIZE="10" COLOR="#FF3300">• CAP_SYS_MODULE逃逸 (ID:6, CVSS:7.8, 严重性:Critical, 容器:k8s_kube-proxy_kube-proxy-wxzxp_kube-system_5636500f-9593-4e60-b468-7d564ad0e87a_2)</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10">kubeletVersion: v1.20.15</FONT><BR/><FONT POINT-SIZE="10">osImage: Ubuntu 20.04.5 LTS</FONT><BR/><FONT POINT-SIZE="10">role: worker</FONT>>, shape=box3d, fillcolor="#FF4500", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+  }
+  subgraph cluster_Pod {
+    label="Pod";
+    style=filled;
+    color=lightgrey;
+    fontname="SimSun";
+    fontsize=14;
+    "pod-default-ubuntu-privileged-pod" [label=<<FONT POINT-SIZE="14"><B>pod/default/ubuntu-privileged-pod</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: pod-default-ubuntu-privileged-pod</FONT><BR/><FONT POINT-SIZE="12">服务: default</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10" COLOR="#888888">hostIPC: false</FONT><BR/><FONT POINT-SIZE="10" COLOR="#888888">hostNetwork: false</FONT><BR/><FONT POINT-SIZE="10" COLOR="#888888">hostPID: false</FONT><BR/><FONT POINT-SIZE="10">nodeName: k8s-worker1</FONT><BR/><FONT POINT-SIZE="10" COLOR="#008800">privileged: true</FONT>>, shape=cylinder, fillcolor="#FFFFFF", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+  }
+  subgraph cluster___ {
+    label="服务";
+    style=filled;
+    color=lightgrey;
+    fontname="SimSun";
+    fontsize=14;
+    "svc-default-kubernetes" [label=<<FONT POINT-SIZE="14"><B>service/default/kubernetes</B></FONT><BR/><FONT POINT-SIZE="12" COLOR="#555555">ID: svc-default-kubernetes</FONT><BR/><FONT POINT-SIZE="12">服务: ClusterIP</FONT><BR/><FONT POINT-SIZE="12"><B>上下文信息:</B></FONT><BR/><FONT POINT-SIZE="10">clusterIP: 10.96.0.1</FONT><BR/><FONT POINT-SIZE="10">externalIPs: []</FONT><BR/><FONT POINT-SIZE="10" COLOR="#888888">externallyExposed: false</FONT>>, shape=ellipse, fillcolor="#FFFFFF", style="filled,rounded", width=0, height=0, margin="0.3,0.1"];
+  }
+  // Node和Pod关联约束
+  "internet" -> "api-server" [label=<<FONT POINT-SIZE="12"><B>通过互联网访问对外暴露的API Server</B></FONT><BR/><FONT POINT-SIZE="10"><I>前置条件:</I></FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">1. 发现API Server端点</FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">2. 有效的认证凭据或利用认证漏洞</FONT>>, style=solid, color="#FF0000", weight=1.0, penwidth=1.5];
+  "pod-default-ubuntu-privileged-pod" -> "node-k8s-worker1" [label=<<FONT POINT-SIZE="12"><B>利用特权容器逃逸到宿主节点</B></FONT><BR/><FONT POINT-SIZE="10"><I>前置条件:</I></FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">1. 对特权容器的访问权限</FONT>>, style=solid, color="#FF0000", weight=1.0, penwidth=1.5];
+  "node-k8s-worker1" -> "node-k8s-worker2" [label=<<FONT POINT-SIZE="12"><B>通过网络从一个节点攻击另一个节点</B></FONT><BR/><FONT POINT-SIZE="10"><I>前置条件:</I></FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">1. 源节点的控制权</FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">2. 节点间的网络连通性</FONT>>, style=solid, color="#FF0000", weight=1.0, penwidth=1.5];
+  "node-k8s-worker2" -> "node-k8s-worker1" [label=<<FONT POINT-SIZE="12"><B>通过网络从一个节点攻击另一个节点</B></FONT><BR/><FONT POINT-SIZE="10"><I>前置条件:</I></FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">1. 源节点的控制权</FONT><BR/><FONT POINT-SIZE="9" COLOR="#444444">2. 节点间的网络连通性</FONT>>, style=solid, color="#FF0000", weight=1.0, penwidth=1.5];
 }
