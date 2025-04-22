@@ -11,8 +11,9 @@ func CheckContainerCapabilities(logger *log.Logger) {
 	cli := docker.Cli
 
 	containers, err := cli.ContainerList(context.Background(), container.ListOptions{})
+
 	if err != nil {
-		panic(err)
+		logger.Println(err)
 	}
 
 	for _, container := range containers {

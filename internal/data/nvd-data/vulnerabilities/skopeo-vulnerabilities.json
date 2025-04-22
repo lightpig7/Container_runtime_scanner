@@ -1,0 +1,11 @@
+[
+  {
+    "cveId": "CVE-2019-10214",
+    "technology": "skopeo",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 5.9,
+    "severity": "MEDIUM"
+  }
+]

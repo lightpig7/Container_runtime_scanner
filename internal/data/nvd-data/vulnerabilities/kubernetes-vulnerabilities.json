@@ -39,15 +39,6 @@
     "cveId": "CVE-2024-5154",
     "technology": "kubernetes",
     "affectedVersions": [
-      "1.30.0"
-    ],
-    "cvssScore": 0,
-    "severity": ""
-  },
-  {
-    "cveId": "CVE-2024-5154",
-    "technology": "kubernetes",
-    "affectedVersions": [
       "1.29.4"
     ],
     "cvssScore": 0,
@@ -207,6 +198,15 @@
     "severity": "CRITICAL"
   },
   {
+    "cveId": "CVE-2022-27652",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 5.3,
+    "severity": "MEDIUM"
+  },
+  {
     "cveId": "CVE-2022-29171",
     "technology": "kubernetes",
     "affectedVersions": [
@@ -232,6 +232,15 @@
     ],
     "cvssScore": 8.2,
     "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2022-3466",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 5.3,
+    "severity": "MEDIUM"
   },
   {
     "cveId": "CVE-2022-35930",
@@ -426,5 +435,858 @@
     ],
     "cvssScore": 9.1,
     "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2019-1002100",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.11.8"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-1002101",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 5.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-10223",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.7.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-10223",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.7.1"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11243",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.12.0-v1.12.4"
+    ],
+    "cvssScore": 8.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11243",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11245",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.6"
+    ],
+    "cvssScore": 7.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11245",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.2"
+    ],
+    "cvssScore": 7.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11246",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.6",
+      "1.14.2",
+      "1.12.9"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11246",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.12.11"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11247",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.9",
+      "1.14.5",
+      "1.15.2"
+    ],
+    "cvssScore": 8.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11247",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.12.11"
+    ],
+    "cvssScore": 8.1,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.6"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.6"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.1"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.4"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.5"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.2"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.3"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.7"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.3"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.4"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.7"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.3"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.1"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.2"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.5"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.1"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.1"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.2"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.2"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.8"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.3"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.4"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11248",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.0"
+    ],
+    "cvssScore": 8.2,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11249",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.9",
+      "1.14.5",
+      "1.15.2"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11249",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.12.11"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.3"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.4"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11250",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.16.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11251",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.11"
+    ],
+    "cvssScore": 5.7,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11251",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.1-1.12"
+    ],
+    "cvssScore": 5.7,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11253",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.12",
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-11254",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.15.10"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-11255",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.3.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2019-3779",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.29.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-3780",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "0.28.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.11.9"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.13.6"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-9946",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-1002102",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 2.6,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2018-1002102",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 2.6,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2018-1002102",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.14.0"
+    ],
+    "cvssScore": 2.6,
+    "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2018-1002105",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.10.11"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2018-1002105",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.9.12"
+    ],
+    "cvssScore": 9.8,
+    "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2018-5543",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "1.0.0-1.5.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2016-7075",
+    "technology": "kubernetes",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 8.1,
+    "severity": "HIGH"
   }
 ]

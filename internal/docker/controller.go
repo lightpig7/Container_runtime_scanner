@@ -147,6 +147,55 @@ func SSHInit(ip string) {
 	fmt.Printf("Docker连接成功! \n")
 	Cli = cli
 }
+func GetTemp() string {
+	session, err := SSHClient.NewSession()
+	if err != nil {
+		log.Fatalf("Failed to create session: %s", err)
+	}
+	defer session.Close()
+	output, err := session.CombinedOutput("echo ${TMPDIR:-/tmp}")
+	if err != nil {
+		log.Fatalf("Failed to run command: %s", err)
+	}
+
+	// 输出结果
+	return string(output)
+}
+
+func CreatFile(filePath string, Content string) {
+	session, err := SSHClient.NewSession()
+	if err != nil {
+		log.Fatalf("Failed to create session: %s", err)
+	}
+	defer session.Close()
+	cmd := fmt.Sprintf("echo %s > %s", Content, filePath)
+	_, err = session.CombinedOutput(cmd)
+	if err != nil {
+		log.Println("Command failed:", err)
+	}
+}
+func DeleteFile(filePath string) {
+	session, err := SSHClient.NewSession()
+	if err != nil {
+		log.Fatalf("Failed to delete session: %s", err)
+	}
+	defer session.Close()
+	cmd := fmt.Sprintf("rm -rf %s", filePath)
+	_, err = session.CombinedOutput(cmd)
+	if err != nil {
+		log.Println("Command failed:", err)
+	}
+}
+
+func getComponent(components []types.ComponentVersion, component string) string {
+
+	for _, value := range components {
+		if value.Name == component {
+			return value.Version
+		}
+	}
+	return "nil"
+}
 
 // Container 结构体，封装了容器的相关操作
 func GetInfo() DockerInformation {
@@ -161,12 +210,13 @@ func GetInfo() DockerInformation {
 	if err != nil {
 		log.Fatalf("无法获取Docker版本: %v", err)
 	}
+
 	information.DockerVersion = version.Version
 	information.APIVersion = version.APIVersion
 	information.GoVersion = version.GoVersion
 	information.GitVersion = version.GitCommit
 	information.OSVersion = version.Os
-	information.ContainerVersion = info.ContainerdCommit.ID
+	information.ContainerVersion = getComponent(version.Components, "containerd")
 	information.RuncVersion = info.RuncCommit.ID
 	information.KernelVersion = info.KernelVersion
 

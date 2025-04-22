@@ -43,23 +43,4 @@ func Test() {
 	if err != nil {
 		return
 	}
-	//// 生成DOT文件并转换为图片
-	//outputDir := "internal/cluster/output"
-	//os.MkdirAll(outputDir, 0755)
-	//
-	//// 生成完整攻击图的DOT文件和图片
-	//dotFilePath := filepath.Join(outputDir, "attack_graph.dot")
-	//if err := ExportToDOT(attackGraph, dotFilePath); err != nil {
-	//	log.Printf("导出DOT文件失败: %s", err.Error())
-	//} else {
-	//	fmt.Printf("\n攻击图DOT文件已导出至: %s\n", dotFilePath)
-	//
-	//	imageFilePath := filepath.Join(outputDir, "attack_graph.png")
-	//
-	//	err := GenerateGraphImageWithGoGraphviz(dotFilePath, imageFilePath)
-	//	if err != nil {
-	//		log.Printf("生成关键路径图片失败: %s", err.Error())
-	//	}
-	//}
-
 }

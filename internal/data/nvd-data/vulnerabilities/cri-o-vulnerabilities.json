@@ -1,20 +1,11 @@
 [
   {
-    "cveId": "CVE-2022-27652",
+    "cveId": "CVE-2024-5154",
     "technology": "cri-o",
     "affectedVersions": [
-      "-"
+      "1.30.0"
     ],
-    "cvssScore": 5.3,
-    "severity": "MEDIUM"
-  },
-  {
-    "cveId": "CVE-2022-3466",
-    "technology": "cri-o",
-    "affectedVersions": [
-      "-"
-    ],
-    "cvssScore": 5.3,
-    "severity": "MEDIUM"
+    "cvssScore": 0,
+    "severity": ""
   }
 ]

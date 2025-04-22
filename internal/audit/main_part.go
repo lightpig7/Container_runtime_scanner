@@ -6,7 +6,7 @@ import (
 )
 
 func Audit_start() {
-	logFile, err := os.OpenFile("./internal/data/log/audit.log", os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err := os.OpenFile("./internal/data/log/audit.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 
 	if err != nil {
 		log.Fatalf("无法打开日志文件: %v", err)

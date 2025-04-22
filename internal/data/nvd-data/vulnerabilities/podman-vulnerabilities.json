@@ -151,5 +151,14 @@
     ],
     "cvssScore": 3.3,
     "severity": "LOW"
+  },
+  {
+    "cveId": "CVE-2019-25067",
+    "technology": "podman",
+    "affectedVersions": [
+      "1.5.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
   }
 ]

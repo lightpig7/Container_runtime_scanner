@@ -3,7 +3,6 @@ package containerd
 import (
 	"context"
 	"fmt"
-	"github.com/containerd/containerd/cio"
 	"io"
 	"log"
 	"net"
@@ -12,7 +11,6 @@ import (
 
 	"github.com/containerd/containerd"
 	"github.com/containerd/containerd/namespaces"
-	"github.com/containerd/containerd/oci"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -67,7 +65,7 @@ func sshInit() {
 
 	// 建立 SSH 连接
 	var err error
-	SSHClient, err = ssh.Dial("tcp", "192.168.52.147:22", sshConfig)
+	SSHClient, err = ssh.Dial("tcp", "192.168.52.150:22", sshConfig)
 	if err != nil {
 		fmt.Printf("SSH 连接失败: %v\n", err)
 		return
@@ -76,69 +74,35 @@ func sshInit() {
 
 	// 建立一个通过SSH转发的Unix socket连接来访问远程containerd socket
 	// 首先创建一个本地随机端口的监听器
+	// 1. 启动本地监听器
 	localListener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		fmt.Printf("创建本地监听器失败: %v\n", err)
 		return
 	}
-	//localAddr := localListener.Addr().String()
-
 	localAddr := localListener.Addr().String()
 
-	// 使用本地地址创建containerd客户端
-	client, err = containerd.New("unix://" + localAddr)
-	localConn, err := localListener.Accept()
-	if err != nil {
-		fmt.Printf("接受本地连接失败: %v\n", err)
-		return
-	}
-
-	// 通过SSH连接到远程containerd socket
-	// containerd 默认使用 /run/containerd/containerd.sock
-	remoteConn, err := SSHClient.Dial("unix", "/run/containerd/containerd.sock")
-	if err != nil {
-		fmt.Printf("连接远程containerd socket失败: %v\n", err)
-		localConn.Close()
-	}
-	fmt.Println(1111)
-	// 启动goroutine双向转发数据
-	go func() {
-		defer localConn.Close()
-		defer remoteConn.Close()
-		io.Copy(localConn, remoteConn)
-	}()
-
-	go func() {
-		defer localConn.Close()
-		defer remoteConn.Close()
-		io.Copy(remoteConn, localConn)
-	}()
-	// 启动一个goroutine来处理SSH端口转发
+	// 2. 启动 SSH 到远程 socket 的数据转发
 	go func() {
 		for {
-			// 接受本地连接
 			localConn, err := localListener.Accept()
 			if err != nil {
 				fmt.Printf("接受本地连接失败: %v\n", err)
 				return
 			}
 
-			// 通过SSH连接到远程containerd socket
-			// containerd 默认使用 /run/containerd/containerd.sock
 			remoteConn, err := SSHClient.Dial("unix", "/run/containerd/containerd.sock")
 			if err != nil {
 				fmt.Printf("连接远程containerd socket失败: %v\n", err)
 				localConn.Close()
 				continue
 			}
-			fmt.Println(1111)
-			// 启动goroutine双向转发数据
+
 			go func() {
 				defer localConn.Close()
 				defer remoteConn.Close()
 				io.Copy(localConn, remoteConn)
 			}()
-
 			go func() {
 				defer localConn.Close()
 				defer remoteConn.Close()
@@ -147,25 +111,16 @@ func sshInit() {
 		}
 	}()
 
-	// 等待端口转发准备就绪
+	// 3. 等待转发就绪
 	time.Sleep(1 * time.Second)
 
+	// 4. 正确创建 containerd 客户端
+	client, err = containerd.New("tcp://" + localAddr)
 	if err != nil {
 		fmt.Printf("containerd 客户端创建失败: %v\n", err)
 		return
 	}
 
-	// 测试连接
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	_, err = client.Version(ctx)
-	if err != nil {
-		fmt.Printf("containerd 连接测试失败: %v\n", err)
-		return
-	}
-
-	fmt.Printf("containerd连接成功! \n")
 }
 
 // GetInfo 获取containerd信息
@@ -333,41 +288,4 @@ func CheckPrivileged() (bool, error) {
 	}
 
 	return false, nil
-}
-
-// NewContainer 在远程主机上创建一个containerd容器 (示例)
-func NewContainer(name, image string) error {
-	ctx := namespaces.WithNamespace(context.Background(), "k8s.io")
-
-	// 拉取镜像
-	img, err := client.Pull(ctx, image, containerd.WithPullUnpack)
-	if err != nil {
-		return fmt.Errorf("拉取镜像失败: %v", err)
-	}
-
-	// 创建容器
-	container, err := client.NewContainer(
-		ctx,
-		name,
-		containerd.WithImage(img),
-		containerd.WithNewSnapshot(name+"-snapshot", img),
-		containerd.WithNewSpec(oci.WithImageConfig(img)),
-	)
-	if err != nil {
-		return fmt.Errorf("创建容器失败: %v", err)
-	}
-
-	// 创建任务
-	task, err := container.NewTask(ctx, cio.NewCreator(cio.WithStdio))
-	if err != nil {
-		return fmt.Errorf("创建任务失败: %v", err)
-	}
-
-	// 启动任务
-	err = task.Start(ctx)
-	if err != nil {
-		return fmt.Errorf("启动任务失败: %v", err)
-	}
-
-	return nil
 }

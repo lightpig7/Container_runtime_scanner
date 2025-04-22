@@ -16,5 +16,14 @@
     ],
     "cvssScore": 8.8,
     "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-10214",
+    "technology": "buildah",
+    "affectedVersions": [
+      "-"
+    ],
+    "cvssScore": 5.9,
+    "severity": "MEDIUM"
   }
 ]

@@ -76,8 +76,8 @@
     "cveId": "CVE-2021-32760",
     "technology": "containerd",
     "affectedVersions": [
-      "1.4.8",
-      "1.5.4"
+      "1.5.4",
+      "1.4.8"
     ],
     "cvssScore": 6.3,
     "severity": "MEDIUM"

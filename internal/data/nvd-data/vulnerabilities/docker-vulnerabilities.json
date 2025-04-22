@@ -450,5 +450,1868 @@
     ],
     "cvssScore": 9.8,
     "severity": "CRITICAL"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2019-13509",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-1277",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 6.5,
+    "severity": "MEDIUM"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.05.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.05.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.04.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.01.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.10.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.0.5"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.0.4"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.04.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.03.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.5"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.3"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.2"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.2"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.2"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.3"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.2"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.3"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.12.3"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.13.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.11.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.6"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.4.0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.2.14"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.2.12"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.1.42-1"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15514",
+    "technology": "docker",
+    "affectedVersions": [
+      "1.10.0.0-0"
+    ],
+    "cvssScore": 8.8,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.06.2-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.07.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.1-ce-"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.09.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.10.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.10.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.10.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.11.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "17.12.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.01.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.01.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.02.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.03.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.04.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.04.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.04.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.05.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.05.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.0-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
+  },
+  {
+    "cveId": "CVE-2018-15664",
+    "technology": "docker",
+    "affectedVersions": [
+      "18.06.1-ce"
+    ],
+    "cvssScore": 7.5,
+    "severity": "HIGH"
   }
 ]
